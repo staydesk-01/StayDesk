@@ -1,0 +1,427 @@
+.env.example
+  s_1b724daaafbcdb::t_1257987dd2cf7f 1-50
+AGENTS.md
+  s_1b724daaafbcdb::t_a440135c9b6fd9 1-9
+CLAUDE.md
+  s_1b724daaafbcdb::t_345aa789f2660a 1
+README.md
+  s_1b724daaafbcdb::t_0194cffecd319e 1-125
+app/(app)/business-knowledge/page.tsx
+  s_1b724daaafbcdb::t_477f3c438c3d6c 1-210
+app/(app)/call-routing/page.tsx
+  s_1b724daaafbcdb::t_5216dc63f0bea4 1-186
+app/(app)/calls/[id]/page.tsx
+  s_1b724daaafbcdb::t_42e2d5ef9136cf 1-278
+app/(app)/calls/page.tsx
+  s_1b724daaafbcdb::t_085d6071b4eb41 1-173
+app/(app)/follow-ups/page.tsx
+  s_1b724daaafbcdb::t_b6d04dad30b1dc 1-82
+app/(app)/layout.tsx
+  s_1b724daaafbcdb::t_a1bee40a69465b 1-13
+app/(app)/opportunities/page.tsx
+  s_1b724daaafbcdb::t_078308d688cc24 1-148
+app/(app)/overview/page.tsx
+  s_1b724daaafbcdb::t_78a05d13501c8b 1-165
+app/(app)/settings/page.tsx
+  s_1b724daaafbcdb::t_14a466936ef3e7 1-229
+app/(app)/test-agent/page.tsx
+  s_1b724daaafbcdb::t_8ad6e4b31bdd29 1-278
+app/(auth)/layout.tsx
+  s_1b724daaafbcdb::t_d9a2d53e68dbef 1-44
+app/(auth)/login/page.tsx
+  s_1b724daaafbcdb::t_d61c9fde562fd8 1-70
+app/(auth)/signup/page.tsx
+  s_1b724daaafbcdb::t_92796a81806d4a 1-72
+app/api/agent/business-info/route.ts
+  s_1b724daaafbcdb::t_535b3e236527ae 1-4
+app/api/agent/chat/route.ts
+  s_1b724daaafbcdb::t_a695f361539d3e 1-4
+app/api/agent/check-availability/route.ts
+  s_1b724daaafbcdb::t_a7704218eaf76a 1-4
+app/api/agent/create-lead/route.ts
+  s_1b724daaafbcdb::t_661bc92b2c9bf4 1-4
+app/api/agent/create-request/route.ts
+  s_1b724daaafbcdb::t_328d13902a180e 1-4
+app/api/agent/follow-up/route.ts
+  s_1b724daaafbcdb::t_46ae139e2fadee 1-4
+app/api/agent/lookup-customer/route.ts
+  s_1b724daaafbcdb::t_eacad9ce4da03d 1-4
+app/api/agent/owner-alert/route.ts
+  s_1b724daaafbcdb::t_913be5eb7ee3a7 1-4
+app/api/agent/save-summary/route.ts
+  s_1b724daaafbcdb::t_7dd37fbd22c16b 1-4
+app/api/agent/send-confirmation/route.ts
+  s_1b724daaafbcdb::t_448ff341d43e66 1-4
+app/api/agent/transfer/route.ts
+  s_1b724daaafbcdb::t_c0f62181ec36b8 1-4
+app/api/auth/login/route.ts
+  s_1b724daaafbcdb::t_3c8d53403b7cbd 1-4
+app/api/auth/logout/route.ts
+  s_1b724daaafbcdb::t_efb09573f37789 1-4
+app/api/auth/me/route.ts
+  s_1b724daaafbcdb::t_a9c0ae8ca75cf2 1-4
+app/api/auth/signup/route.ts
+  s_1b724daaafbcdb::t_63e2e510c69c23 1-4
+app/api/business/route.ts
+  s_1b724daaafbcdb::t_197ce19ddb046a 1-5
+app/api/calls/[id]/route.ts
+  s_1b724daaafbcdb::t_40712a459c1d9d 1-5
+app/api/calls/[id]/transcript/route.ts
+  s_1b724daaafbcdb::t_41ccc2a6ed61cd 1-4
+app/api/calls/route.ts
+  s_1b724daaafbcdb::t_d632e8b37661c2 1-4
+app/api/dashboard/route.ts
+  s_1b724daaafbcdb::t_8a330c171ab275 1-4
+app/api/follow-ups/[id]/route.ts
+  s_1b724daaafbcdb::t_81355fa6fba493 1-4
+app/api/follow-ups/route.ts
+  s_1b724daaafbcdb::t_711efeab260de4 1-5
+app/api/health/route.ts
+  s_1b724daaafbcdb::t_a5b0af3f1d66be 1-16
+app/api/knowledge/route.ts
+  s_1b724daaafbcdb::t_c41aea7eca2bfe 1-5
+app/api/notifications/[id]/read/route.ts
+  s_1b724daaafbcdb::t_af4c258590998f 1-4
+app/api/notifications/read-all/route.ts
+  s_1b724daaafbcdb::t_2402280a4edea0 1-4
+app/api/notifications/route.ts
+  s_1b724daaafbcdb::t_41b451254ac952 1-4
+app/api/opportunities/[id]/route.ts
+  s_1b724daaafbcdb::t_83e107477fac98 1-4
+app/api/opportunities/route.ts
+  s_1b724daaafbcdb::t_fe10e3e0a8b0dc 1-4
+app/api/routing/route.ts
+  s_1b724daaafbcdb::t_613afafdefaabf 1-5
+app/api/service-requests/[id]/route.ts
+  s_1b724daaafbcdb::t_f158802ee8fdc9 1-4
+app/api/service-requests/route.ts
+  s_1b724daaafbcdb::t_3fa040e6c7f54f 1-4
+app/api/team/[id]/route.ts
+  s_1b724daaafbcdb::t_17e195627126dc 1-4
+app/api/team/route.ts
+  s_1b724daaafbcdb::t_e8db25f17d61e6 1-5
+app/api/test-agent/sessions/[id]/end/route.ts
+  s_1b724daaafbcdb::t_73c2621daae477 1-4
+app/api/test-agent/sessions/[id]/message/route.ts
+  s_1b724daaafbcdb::t_889716fb43a325 1-4
+app/api/test-agent/sessions/route.ts
+  s_1b724daaafbcdb::t_ed7a0050941921 1-4
+app/api/test-agent/status/route.ts
+  s_1b724daaafbcdb::t_9a59a6bb86daf0 1-4
+app/api/twilio/dial-result/route.ts
+  s_1b724daaafbcdb::t_5807113be850ca 1-4
+app/api/twilio/gather/route.ts
+  s_1b724daaafbcdb::t_98afc7f28a14b0 1-4
+app/api/twilio/incoming/route.ts
+  s_1b724daaafbcdb::t_ced1c380f5bad7 1-4
+app/api/twilio/recording/route.ts
+  s_1b724daaafbcdb::t_8ec52dcdcd7a4a 1-4
+app/api/twilio/status/route.ts
+  s_1b724daaafbcdb::t_8e9943e6d50fdd 1-4
+app/api/twilio/transfer-result/route.ts
+  s_1b724daaafbcdb::t_8622f43a5f9305 1-4
+app/api/voice/[provider]/route.ts
+  s_1b724daaafbcdb::t_91675ba8d48396 1-4
+app/globals.css
+  s_1b724daaafbcdb::t_4a85ece38681d8 1-70
+app/layout.tsx
+  s_1b724daaafbcdb::t_b61f92e1aa035c 1-20
+app/onboarding/layout.tsx
+  s_1b724daaafbcdb::t_d618a54093880d 1-10
+app/onboarding/page.tsx
+  s_1b724daaafbcdb::t_75916df6156aa1 1-171
+components/common/badges.tsx
+  s_1b724daaafbcdb::t_050e4a554f248e 1-53
+components/common/copy-field.tsx
+  s_1b724daaafbcdb::t_97844983f9519a 1-28
+components/common/logo.tsx
+  s_1b724daaafbcdb::t_3359665c155010 1-25
+components/common/page-header.tsx
+  s_1b724daaafbcdb::t_02be0eee6c9c31 1-16
+components/common/stat-card.tsx
+  s_1b724daaafbcdb::t_7e9ed612be28f2 1-28
+components/common/states.tsx
+  s_1b724daaafbcdb::t_4689409315bea5 1-53
+components/follow-ups/follow-up-card.tsx
+  s_1b724daaafbcdb::t_691c5b2ff789a8 1-105
+components/follow-ups/new-follow-up-dialog.tsx
+  s_1b724daaafbcdb::t_7dff4e5657eb87 1-58
+components/knowledge/hours-editor.tsx
+  s_1b724daaafbcdb::t_0e54d176ad07b7 1-42
+components/knowledge/list-editors.tsx
+  s_1b724daaafbcdb::t_9f0c305e917e2f 1-84
+components/layout/app-shell.tsx
+  s_1b724daaafbcdb::t_c23a423f1084dd 1-71
+components/layout/backend-status.tsx
+  s_1b724daaafbcdb::t_fe12458aef0f39 1-35
+components/layout/notification-bell.tsx
+  s_1b724daaafbcdb::t_d1795301cd9c69 1-77
+components/layout/sidebar.tsx
+  s_1b724daaafbcdb::t_68773a1b3f5461 1-107
+components/overview/activity-chart.tsx
+  s_1b724daaafbcdb::t_ce1dc5bffb7433 1-31
+components/overview/recent-calls.tsx
+  s_1b724daaafbcdb::t_71cbc768d0b66b 1-47
+components/overview/voice-agent-card.tsx
+  s_1b724daaafbcdb::t_0fec9b50164057 1-50
+components/routing/forwarding-diagram.tsx
+  s_1b724daaafbcdb::t_822e0fea8cbb62 1-27
+components/routing/status-tiles.tsx
+  s_1b724daaafbcdb::t_678eea8786f0b7 1-29
+components/ui/badge.tsx
+  s_1b724daaafbcdb::t_08c9f2e3b3b466 1-23
+components/ui/button.tsx
+  s_1b724daaafbcdb::t_6d75c21a8330b0 1-45
+components/ui/card.tsx
+  s_1b724daaafbcdb::t_bc6b72ca067d2c 1-18
+components/ui/confirm-dialog.tsx
+  s_1b724daaafbcdb::t_41f8ef3943ec5e 1-48
+components/ui/dialog.tsx
+  s_1b724daaafbcdb::t_c5e4d05f533687 1-37
+components/ui/dropdown-menu.tsx
+  s_1b724daaafbcdb::t_3bb8e59e817c44 1-26
+components/ui/input.tsx
+  s_1b724daaafbcdb::t_a15b50f9791db0 1-13
+components/ui/label.tsx
+  s_1b724daaafbcdb::t_2047aaf56789f9 1-18
+components/ui/segmented.tsx
+  s_1b724daaafbcdb::t_8d3b66b0fdce78 1-20
+components/ui/select.tsx
+  s_1b724daaafbcdb::t_7cd4520a7ad24e 1-60
+components/ui/skeleton.tsx
+  s_1b724daaafbcdb::t_8548cbdf70aa65 1-5
+components/ui/switch.tsx
+  s_1b724daaafbcdb::t_ad9b6bff9755fc 1-31
+components/ui/tabs.tsx
+  s_1b724daaafbcdb::t_ea1f59ad632009 1-21
+components/ui/toast.tsx
+  s_1b724daaafbcdb::t_30091937796d20 1-37
+eslint.config.mjs
+  s_1b724daaafbcdb::t_e8432fece91c1e 1-19
+hooks/use-api.ts
+  s_1b724daaafbcdb::t_7cbe6b7dc25733 1-58
+hooks/use-session.tsx
+  s_1b724daaafbcdb::t_a10ae08bf4381d 1-76
+hooks/use-speech.ts
+  s_1b724daaafbcdb::t_c6c8c0134a0688 1-68
+instrumentation.ts
+  s_1b724daaafbcdb::t_b0238f9df2ca10 1-10
+lib/api.ts
+  s_1b724daaafbcdb::t_ccd6d92cf4f112 1-61
+lib/constants.ts
+  s_1b724daaafbcdb::t_d5361978d2eda1 1-35
+lib/format.ts
+  s_1b724daaafbcdb::t_8487bfac97c43f 1-101
+lib/mongodb.ts
+  s_1b724daaafbcdb::t_5ba8c422054d4b 1-43
+lib/utils.ts
+  s_1b724daaafbcdb::t_09899252c6b31d 1-6
+next-env.d.ts
+  s_1b724daaafbcdb::t_cf2dd504556523 1-7
+next.config.ts
+  s_1b724daaafbcdb::t_ac4778c059a18b 1-22
+package-lock.json
+  s_1b724daaafbcdb::t_95a3011da45296 1-10391
+package.json
+  s_1b724daaafbcdb::t_650bb779f0c03d 1-53
+postcss.config.mjs
+  s_1b724daaafbcdb::t_0dba9097f12a1f 1-7
+proxy.ts
+  s_1b724daaafbcdb::t_843cd3d9e627f1 1-27
+server/config/env.ts
+  s_1b724daaafbcdb::t_8089e7f676a1fd 1-85
+server/config/logger.ts
+  s_1b724daaafbcdb::t_a30452f247a25c 1-33
+server/controllers/agentToolController.ts
+  s_1b724daaafbcdb::t_49bad50392d45f 1-30
+server/controllers/authController.ts
+  s_1b724daaafbcdb::t_3e0f670da62191 1-62
+server/controllers/businessController.ts
+  s_1b724daaafbcdb::t_d402682579ca37 1-139
+server/controllers/callsController.ts
+  s_1b724daaafbcdb::t_b9fb0646b24255 1-95
+server/controllers/dashboardController.ts
+  s_1b724daaafbcdb::t_6e1133d9fcdd20 1-72
+server/controllers/followUpsController.ts
+  s_1b724daaafbcdb::t_87b4ead3639701 1-90
+server/controllers/notificationsController.ts
+  s_1b724daaafbcdb::t_0465fbef3d0375 1-26
+server/controllers/opportunitiesController.ts
+  s_1b724daaafbcdb::t_c7b5dfaf93cb46 1-79
+server/controllers/testAgentController.ts
+  s_1b724daaafbcdb::t_55345361c08984 1-123
+server/controllers/webhookController.ts
+  s_1b724daaafbcdb::t_fbf157fb82e0ae 1-110
+server/http.ts
+  s_1b724daaafbcdb::t_4ea4caabff816c 1-210
+server/middleware/agentAuth.ts
+  s_1b724daaafbcdb::t_ddc96b5f6c579d 1-29
+server/middleware/auth.ts
+  s_1b724daaafbcdb::t_2aaa2f11d27e89 1-62
+server/middleware/error.ts
+  s_1b724daaafbcdb::t_8a66e7dcc465f7 1-20
+server/middleware/twilioSignature.ts
+  s_1b724daaafbcdb::t_9469aa4b0cc0fa 1-26
+server/models/AuditLog.ts
+  s_1b724daaafbcdb::t_d8670650f2781b 1-22
+server/models/Business.ts
+  s_1b724daaafbcdb::t_d6a55f5c51fe4b 1-52
+server/models/BusinessKnowledge.ts
+  s_1b724daaafbcdb::t_52653c35fa380e 1-57
+server/models/Call.ts
+  s_1b724daaafbcdb::t_1e12dccd40c55a 1-83
+server/models/CallSummary.ts
+  s_1b724daaafbcdb::t_e47d25bb0c1f9d 1-21
+server/models/CallTranscript.ts
+  s_1b724daaafbcdb::t_e86991cad69d7f 1-22
+server/models/FollowUp.ts
+  s_1b724daaafbcdb::t_e3f0cc912ca0aa 1-35
+server/models/Notification.ts
+  s_1b724daaafbcdb::t_9553dd5e14a328 1-27
+server/models/Opportunity.ts
+  s_1b724daaafbcdb::t_8105d1c70e3f4c 1-30
+server/models/PhoneConfiguration.ts
+  s_1b724daaafbcdb::t_f2351a7cf7cfe8 1-37
+server/models/ServiceRequest.ts
+  s_1b724daaafbcdb::t_c6e04edf1587e8 1-25
+server/models/User.ts
+  s_1b724daaafbcdb::t_2521c6f7d90b3c 1-21
+server/models/_define.ts
+  s_1b724daaafbcdb::t_5624a3964f32ab 1-7
+server/models/enums.ts
+  s_1b724daaafbcdb::t_04c7c979364bad 1-92
+server/models/index.ts
+  s_1b724daaafbcdb::t_3961dbd22f8610 1-13
+server/seed/demoData.ts
+  s_1b724daaafbcdb::t_27683a0a8bc2b9 1-263
+server/seed/seed.ts
+  s_1b724daaafbcdb::t_a6780a11e04c69 1-17
+server/services/ai/agentEngine.ts
+  s_1b724daaafbcdb::t_d7ecccc29979d5 1-85
+server/services/ai/intent.ts
+  s_1b724daaafbcdb::t_8a81d407dc4a6d 1-77
+server/services/ai/knowledgeSearch.ts
+  s_1b724daaafbcdb::t_7578a4be3d6eca 1-45
+server/services/ai/openaiAgent.ts
+  s_1b724daaafbcdb::t_07ff262a33dd6b 1-90
+server/services/ai/openaiClient.ts
+  s_1b724daaafbcdb::t_f2ba139f36ae20 1-10
+server/services/ai/prompt.ts
+  s_1b724daaafbcdb::t_4c0125ec63db47 1-82
+server/services/ai/ruleAgent.ts
+  s_1b724daaafbcdb::t_b79b239c8a396c 1-286
+server/services/ai/types.ts
+  s_1b724daaafbcdb::t_f49c66be31744f 1-22
+server/services/ai/voice/index.ts
+  s_1b724daaafbcdb::t_42114f29cbb59c 1-7
+server/services/ai/voice/provider.ts
+  s_1b724daaafbcdb::t_59c594d741d29f 1-29
+server/services/ai/voice/retell.ts
+  s_1b724daaafbcdb::t_4a81f9617e4e63 1-29
+server/services/ai/voice/vapi.ts
+  s_1b724daaafbcdb::t_b984e40f99d75e 1-49
+server/services/auditService.ts
+  s_1b724daaafbcdb::t_1ea19c12243c2c 1-29
+server/services/business/businessService.ts
+  s_1b724daaafbcdb::t_54123754f9d49f 1-80
+server/services/calls/businessHours.ts
+  s_1b724daaafbcdb::t_fbdeab870bfc6e 1-129
+server/services/calls/callFlow.ts
+  s_1b724daaafbcdb::t_37561b3f6ff829 1-200
+server/services/calls/callService.ts
+  s_1b724daaafbcdb::t_f87771bdd39e13 1-214
+server/services/calls/routingService.ts
+  s_1b724daaafbcdb::t_06cb8d419c346f 1-57
+server/services/calls/summaryService.ts
+  s_1b724daaafbcdb::t_428ae1037a8581 1-114
+server/services/calls/transferService.ts
+  s_1b724daaafbcdb::t_9ecc8e5cf86728 1-100
+server/services/notifications/email.ts
+  s_1b724daaafbcdb::t_b617942508f68c 1-40
+server/services/notifications/notificationService.ts
+  s_1b724daaafbcdb::t_586c9d06de91e8 1-58
+server/services/realtime.ts
+  s_1b724daaafbcdb::t_d2928fc0f1a666 1-12
+server/services/retentionService.ts
+  s_1b724daaafbcdb::t_f6ef63dc3c41c8 1-27
+server/services/telephony/index.ts
+  s_1b724daaafbcdb::t_0c3621c92f916e 1-13
+server/services/telephony/provider.ts
+  s_1b724daaafbcdb::t_a6b5ef906acc73 1-18
+server/services/telephony/telnyx.ts
+  s_1b724daaafbcdb::t_3a1d4ebf8a062c 1-14
+server/services/telephony/twilio.ts
+  s_1b724daaafbcdb::t_7d0a808e0c2a53 1-82
+server/tools/checkAvailability.ts
+  s_1b724daaafbcdb::t_fffe46b6f8b9bf 1-32
+server/tools/createBookingOrLead.ts
+  s_1b724daaafbcdb::t_25c81c207efa1f 1-65
+server/tools/createServiceRequest.ts
+  s_1b724daaafbcdb::t_1b63282c66bd7a 1-37
+server/tools/getBusinessInfo.ts
+  s_1b724daaafbcdb::t_4601c19f222a68 1-31
+server/tools/lookupExistingCustomer.ts
+  s_1b724daaafbcdb::t_44986dadf0aef9 1-35
+server/tools/registry.ts
+  s_1b724daaafbcdb::t_5b3791633ccc77 1-117
+server/tools/requestHumanTransfer.ts
+  s_1b724daaafbcdb::t_8f8dec7e1f6052 1-31
+server/tools/saveCallSummary.ts
+  s_1b724daaafbcdb::t_3792457a486f82 1-32
+server/tools/sendConfirmation.ts
+  s_1b724daaafbcdb::t_e2fd3b045efd65 1-31
+server/tools/sendOwnerAlert.ts
+  s_1b724daaafbcdb::t_d0a1fc9397f62a 1-21
+server/tools/types.ts
+  s_1b724daaafbcdb::t_81a654c8e36ce8 1-35
+server/utils/errors.ts
+  s_1b724daaafbcdb::t_1eb737d71e651f 1-25
+server/utils/html.ts
+  s_1b724daaafbcdb::t_8d64678a092735 1-3
+server/utils/id.ts
+  s_1b724daaafbcdb::t_08d35f3ad17ead 1-7
+server/utils/phone.ts
+  s_1b724daaafbcdb::t_8267b4812017ec 1-21
+server/validators/api.ts
+  s_1b724daaafbcdb::t_352925233a9c8f 1-168
+server/validators/tools.ts
+  s_1b724daaafbcdb::t_786f43fb615e72 1-79
+tests/api.test.ts
+  s_1b724daaafbcdb::t_53f0a91f3a2ef6 1-255
+tests/client.ts
+  s_1b724daaafbcdb::t_7a0174fb5ef69a 1-116
+tests/helpers.ts
+  s_1b724daaafbcdb::t_0a337839fa7d35 1-85
+tests/setup.ts
+  s_1b724daaafbcdb::t_eba653d398622a 1-32
+tests/tools.test.ts
+  s_1b724daaafbcdb::t_45850edc09d2bb 1-205
+tests/transfer.test.ts
+  s_1b724daaafbcdb::t_e8f6a86b011f12 1-62
+tests/webhooks.test.ts
+  s_1b724daaafbcdb::t_44dd5ae8d8867a 1-205
+tsconfig.json
+  s_1b724daaafbcdb::t_63883361a363c4 1-34
+tsconfig.tsbuildinfo
+  s_1b724daaafbcdb::t_bb1f585bbe4c9a 1
+types/index.ts
+  s_1b724daaafbcdb::t_c75dcfee95423b 1-172
+vitest.config.mts
+  s_1b724daaafbcdb::t_2a7cbdfaaf1003 1-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "b147b0214bf9c998d44f088e395ab253f0f740fa",
+  "prompts": {},
+  "sessions": {
+    "s_1b724daaafbcdb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d292db3-7991-46b7-9b29-4b009acf842e",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Sai Karthik Gutha <saikarthikgutha@Guthas-MacBook-Air.local>"
+    }
+  }
+}
