@@ -1,0 +1,538 @@
+server/controllers/agentToolController.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 31-35
+README.md
+  s_1b724daaafbcdb::t_35ad728a64663c 122-130
+  s_1b724daaafbcdb::t_d8672298ae1555 163-168
+  s_1b724daaafbcdb::t_c55f342077f526 152-162,172-174
+  s_1b724daaafbcdb::t_c6a2851ac76ac4 37-38,111,131-151,177-180
+  s_1b724daaafbcdb::t_cbc16c625bf6d2 169-171
+server/tools/registry.ts
+  s_1b724daaafbcdb::t_36ffceb28c7be1 80-82
+  s_1b724daaafbcdb::t_1d78640a8514bc 17-18,32-36,126-137
+  s_1b724daaafbcdb::t_01f696f0406a29 86,94,96,101,106
+  s_1b724daaafbcdb::t_c0d91cdacac1b5 95
+server/eval/metrics.ts
+  s_1b724daaafbcdb::t_f72b4a00aa34b6 1-150
+server/services/booking/index.ts
+  s_1b724daaafbcdb::t_cc7b3fe6848b23 1-28
+server/models/ProcessedMessage.ts
+  s_1b724daaafbcdb::t_b33fe09bd2ac37 1-20
+.env.example
+  s_1b724daaafbcdb::t_cbc16c625bf6d2 69-78
+  s_1b724daaafbcdb::t_35ad728a64663c 15-20
+  s_1b724daaafbcdb::t_c55f342077f526 55-68
+server/eval/scenarios.ts
+  s_1b724daaafbcdb::t_4c89a85e8f46b0 1-453,455-535
+  s_1b724daaafbcdb::t_2865419202393c 454
+server/tools/reservations.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 1-73,75-104,108-222
+  s_1b724daaafbcdb::t_cf4e907d3ecc8a 74
+  s_1b724daaafbcdb::t_176a6ee5d3bd20 105-107
+server/services/telephony/core/numbers.ts
+  s_1b724daaafbcdb::t_c0c9d7d1e9f24b 1-81
+server/services/telephony/core/health.ts
+  s_1b724daaafbcdb::t_51dfd063b3f14d 1-79
+server/models/Call.ts
+  s_1b724daaafbcdb::t_01f696f0406a29 83-84
+  s_1b724daaafbcdb::t_c0d91cdacac1b5 59-60,86-94
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 75-82,85,95
+  s_1b724daaafbcdb::t_f22980fbbc0260 96-97
+app/(app)/settings/page.tsx
+  s_1b724daaafbcdb::t_ef12407db184f0 19,63
+server/controllers/telephonyController.ts
+  s_1b724daaafbcdb::t_38c8d66b2632c8 1-8,11-224,227-228
+  s_1b724daaafbcdb::t_bb3d6b326e0399 9
+  s_1b724daaafbcdb::t_a99df7b4d6df02 10,225-226
+app/api/telephony/connections/[kind]/test/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+app/api/customers/[id]/route.ts
+  s_1b724daaafbcdb::t_b4537fcf84ecec 1-4
+app/api/outbound/dispatch/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+components/telephony/outbound-panel.tsx
+  s_1b724daaafbcdb::t_87a9f178d91783 1-82
+server/services/ai/turnGuard.ts
+  s_1b724daaafbcdb::t_b33fe09bd2ac37 2-12,16,19,21-53
+  s_1b724daaafbcdb::t_553b3ebd106e56 1,13-15,17-18,20
+server/utils/secureEqual.ts
+  s_1b724daaafbcdb::t_38c8d66b2632c8 1-7
+server/services/ai/ruleAgent.ts
+  s_1b724daaafbcdb::t_672b5b961cf352 8-9,30-32,250-257
+  s_1b724daaafbcdb::t_293326ab2d3142 10,201-202,205-206,209-214,233,278,337-342
+  s_1b724daaafbcdb::t_669e17425252cc 318-322
+  s_1b724daaafbcdb::t_76e15aad471178 25-27,102-110,112-114,193,238-240,242-245
+  s_1b724daaafbcdb::t_1f88d185807cba 191-192,194-200,203-204,279
+  s_1b724daaafbcdb::t_49e091b9921296 62-71,208,336
+  s_1b724daaafbcdb::t_2b1cb62d4ea4bc 333-335,343-344
+  s_1b724daaafbcdb::t_c122eb9ba0658b 11-12
+  s_1b724daaafbcdb::t_e33615b949b6d2 6,215-221,223,225-227,230,234-237
+  s_1b724daaafbcdb::t_04b2ce7a5d872c 23-24,271-277,280-289
+  s_1b724daaafbcdb::t_b3b9de32deca60 7,228-229,231-232
+  s_1b724daaafbcdb::t_b73e26477c65bc 258,290
+components/layout/app-shell.tsx
+  s_1b724daaafbcdb::t_87a9f178d91783 18
+app/api/telephony/trunks/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+tests/client.ts
+  s_1b724daaafbcdb::t_f2a8fc6543d1f7 69
+server/services/telephony/twilio.ts
+  s_1b724daaafbcdb::t_da5a3d88138ad8 6-7,32-33,37,41,45
+  s_1b724daaafbcdb::t_cba176713fb878 35
+  s_1b724daaafbcdb::t_ac95163a136ee8 29
+  s_1b724daaafbcdb::t_6db4db12f86e4d 8
+app/api/payment-approvals/[id]/route.ts
+  s_1b724daaafbcdb::t_231d93206ead1a 1-5
+server/services/telephony/core/breaker.ts
+  s_1b724daaafbcdb::t_c71562a1e68b4e 1-99
+server/utils/secrets.ts
+  s_1b724daaafbcdb::t_f22980fbbc0260 1-31
+next.config.ts
+  s_1b724daaafbcdb::t_adc4543e85e3fe 1,4-17,19-22
+server/validators/telephony.ts
+  s_1b724daaafbcdb::t_77e974bf8eb705 1-58
+server/controllers/testAgentController.ts
+  s_1b724daaafbcdb::t_ff9a8d9d5d1dbd 39-41,73,79,82,101,112,123-135,137-138
+  s_1b724daaafbcdb::t_9ee8bb489b3932 136
+server/models/enums.ts
+  s_1b724daaafbcdb::t_cb70ccbfe53f02 93
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 56,88,95-103
+app/api/telephony/sip/events/route.ts
+  s_1b724daaafbcdb::t_37e7088148a8fc 1-5
+app/api/reservations/route.ts
+  s_1b724daaafbcdb::t_231d93206ead1a 1-4
+server/eval/stats.ts
+  s_1b724daaafbcdb::t_f72b4a00aa34b6 1-25
+app/(app)/follow-ups/page.tsx
+  s_1b724daaafbcdb::t_a33e417be8757d 6,50
+  s_1b724daaafbcdb::t_e918e8d79d8bcc 51
+server/services/telephony/core/types.ts
+  s_1b724daaafbcdb::t_fb72b7ab2d4b7e 1-83
+components/common/badges.tsx
+  s_1b724daaafbcdb::t_d48523cfa963a7 28
+evals/reports/latest.md
+  s_1b724daaafbcdb::t_9650d313350f5d 9,58
+  s_1b724daaafbcdb::t_2b1cb62d4ea4bc 18
+  s_1b724daaafbcdb::t_44fc98f79c010e 5,11-12,15,20,22,56
+  s_1b724daaafbcdb::t_0b72111ef7bd31 59
+  s_1b724daaafbcdb::t_49e091b9921296 10,17,57
+  s_1b724daaafbcdb::t_5956a29b784630 1-4,6-8,13,19,21,23-55
+  s_1b724daaafbcdb::t_dd53e68cc5ff0d 16
+  s_1b724daaafbcdb::t_d54a6b67cfdb03 14
+server/eval/report.ts
+  s_1b724daaafbcdb::t_5956a29b784630 1-180
+server/models/index.ts
+  s_1b724daaafbcdb::t_6c0779b22b3693 15
+  s_1b724daaafbcdb::t_b33fe09bd2ac37 19
+  s_1b724daaafbcdb::t_f22980fbbc0260 20
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 14,16-17
+  s_1b724daaafbcdb::t_91546619fc35f1 18
+server/services/payments/paymentService.ts
+  s_1b724daaafbcdb::t_d9a793941db208 27-31
+  s_1b724daaafbcdb::t_ed094cff328dcb 1-26,32-122
+app/globals.css
+  s_1b724daaafbcdb::t_ef12407db184f0 71-77
+app/api/telephony/connections/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+server/eval/run.ts
+  s_1b724daaafbcdb::t_5956a29b784630 1-43
+server/tools/requestPaymentApproval.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 1-31
+server/eval/harness.ts
+  s_1b724daaafbcdb::t_aefcc7572ca58c 1,3-39,41-45,47,60-78,80-83,85-100,102-164
+  s_1b724daaafbcdb::t_0e0c1e23c714a0 2,40,46,48-59,79,84,101
+eslint.config.mjs
+  s_1b724daaafbcdb::t_c71562a1e68b4e 16
+components/telephony/connections-panel.tsx
+  s_1b724daaafbcdb::t_744463ee07581e 1-80
+server/services/telephony/core/sessions.ts
+  s_1b724daaafbcdb::t_749eb10fdd54a9 1-127
+  s_1b724daaafbcdb::t_a99df7b4d6df02 128-143,145-147
+  s_1b724daaafbcdb::t_ced8828329b723 144
+server/services/calls/callService.ts
+  s_1b724daaafbcdb::t_787c1a23de64f2 19-22,255-262,264-275
+  s_1b724daaafbcdb::t_d48523cfa963a7 9-10,108,113,136,142-143,146,166-181,227
+  s_1b724daaafbcdb::t_ce605aa28cd351 17,65
+  s_1b724daaafbcdb::t_b33fe09bd2ac37 62,66-83
+  s_1b724daaafbcdb::t_c0d91cdacac1b5 87-88
+  s_1b724daaafbcdb::t_cc360ed0b33658 147
+  s_1b724daaafbcdb::t_01f696f0406a29 148
+server/models/CustomerProfile.ts
+  s_1b724daaafbcdb::t_91546619fc35f1 1-40
+server/tools/createFollowUp.ts
+  s_1b724daaafbcdb::t_d9a793941db208 33-36
+server/validators/tools.ts
+  s_1b724daaafbcdb::t_cf4e907d3ecc8a 26
+  s_1b724daaafbcdb::t_1d78640a8514bc 12-13,15,18-25,27-56
+tsconfig.json
+  s_1b724daaafbcdb::t_d78c26f25e4424 41-43
+  s_1b724daaafbcdb::t_f26d032866bad1 39-40
+  s_1b724daaafbcdb::t_313446d272a942 4-8,26-28,37-38,45,48
+  s_1b724daaafbcdb::t_fb72b7ab2d4b7e 46-47
+components/knowledge/rooms-editor.tsx
+  s_1b724daaafbcdb::t_10203ca1ee999e 1-5,8-12,14-20,36-72,83-85
+  s_1b724daaafbcdb::t_616945cd78b6b6 6-7,13,21-35,73-82
+server/controllers/dashboardController.ts
+  s_1b724daaafbcdb::t_d5df6f6f4c68cd 37
+  s_1b724daaafbcdb::t_976ba2730dc03d 21,45-53
+  s_1b724daaafbcdb::t_cc55bbc5ee02c4 3,19-20,25,28-35,38-44,54-55,99
+  s_1b724daaafbcdb::t_9a0326465d640b 36
+server/services/ai/agentEngine.ts
+  s_1b724daaafbcdb::t_cba176713fb878 3,53-55
+  s_1b724daaafbcdb::t_01f696f0406a29 8
+  s_1b724daaafbcdb::t_ff9a8d9d5d1dbd 10,136-137
+  s_1b724daaafbcdb::t_488026383f0b11 21-22,86-135,138-139
+  s_1b724daaafbcdb::t_ce605aa28cd351 12,14
+  s_1b724daaafbcdb::t_9dfffb3be2fc7a 9,11,60-67,69-72
+tests/eval.test.ts
+  s_1b724daaafbcdb::t_be7672a6f6dded 1-14,17-25
+  s_1b724daaafbcdb::t_339663b4cbb882 15-16
+lib/format.ts
+  s_1b724daaafbcdb::t_d48523cfa963a7 25
+app/api/telephony/numbers/[id]/verify/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+app/(app)/business-knowledge/page.tsx
+  s_1b724daaafbcdb::t_10203ca1ee999e 5,128,172-173
+  s_1b724daaafbcdb::t_ef12407db184f0 19,56
+  s_1b724daaafbcdb::t_9790706fc35ebd 26,34,143
+  s_1b724daaafbcdb::t_fa835ad95a1c52 174-175
+app/(app)/calls/[id]/page.tsx
+  s_1b724daaafbcdb::t_4080ae8ba3d0f3 7,181
+tests/scenario-helpers.ts
+  s_1b724daaafbcdb::t_84cd1ac89c1d0e 1-4
+server/services/outbound/policy.ts
+  s_1b724daaafbcdb::t_abc7393741e8cd 76
+  s_1b724daaafbcdb::t_16f2937b7bc471 1-75,77-108
+tests/dates.test.ts
+  s_1b724daaafbcdb::t_d042232dded967 1-57
+  s_1b724daaafbcdb::t_2e8b5079a3ea80 58-66
+app/api/agent/create-reservation/route.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 1-4
+server/services/telephony/provider.ts
+  s_1b724daaafbcdb::t_cba176713fb878 7
+  s_1b724daaafbcdb::t_da5a3d88138ad8 8
+app/api/inventory/route.ts
+  s_1b724daaafbcdb::t_231d93206ead1a 1-5
+server/services/calls/completion.ts
+  s_1b724daaafbcdb::t_787c1a23de64f2 1-60,63-77,79-92
+  s_1b724daaafbcdb::t_2aa53069c986ff 61-62,78
+server/services/ai/prompt.ts
+  s_1b724daaafbcdb::t_cba176713fb878 25,29-31
+  s_1b724daaafbcdb::t_ce605aa28cd351 28,64,74-78
+  s_1b724daaafbcdb::t_f440d3e31a226e 57-60,62
+server/controllers/webhookController.ts
+  s_1b724daaafbcdb::t_6b6d49e062f72e 10,58-66
+  s_1b724daaafbcdb::t_553b3ebd106e56 57
+tests/app-update.test.ts
+  s_1b724daaafbcdb::t_9e7ec9df9bf6b7 1-70
+tests/scenarios.test.ts
+  s_1b724daaafbcdb::t_c0e5325c9b94cf 154,178-179
+  s_1b724daaafbcdb::t_84cd1ac89c1d0e 1-80,82-153,155-177,180-314,316-352,354-373,375-385,387-434,436-478
+  s_1b724daaafbcdb::t_b3b9de32deca60 315,435
+  s_1b724daaafbcdb::t_0e0c1e23c714a0 353,374,386
+  s_1b724daaafbcdb::t_8462b3877bf49b 81
+app/(app)/overview/page.tsx
+  s_1b724daaafbcdb::t_976ba2730dc03d 170-172
+  s_1b724daaafbcdb::t_d5df6f6f4c68cd 152-169,173-183
+  s_1b724daaafbcdb::t_5db0cf9c14acf8 151
+server/controllers/customersController.ts
+  s_1b724daaafbcdb::t_b4537fcf84ecec 1-30
+server/models/BusinessKnowledge.ts
+  s_1b724daaafbcdb::t_2bde0d55c3e083 43-49
+server/seed/demoData.ts
+  s_1b724daaafbcdb::t_e5bd5da6255319 98-111
+  s_1b724daaafbcdb::t_8c793228205061 3,272-273
+components/test-agent/eval-summary.tsx
+  s_1b724daaafbcdb::t_6781a25540b874 1-6,8-29,31-35
+  s_1b724daaafbcdb::t_17c8e064ebdc73 7,30
+server/config/flags.ts
+  s_1b724daaafbcdb::t_91546619fc35f1 1-19,26-41
+  s_1b724daaafbcdb::t_f22980fbbc0260 20-25
+server/models/PaymentApproval.ts
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 1-38
+server/services/ai/knowledgeSearch.ts
+  s_1b724daaafbcdb::t_49e091b9921296 71,151
+  s_1b724daaafbcdb::t_b3b9de32deca60 68-69,72,76-94,154
+  s_1b724daaafbcdb::t_e7f2c771bcb60e 7-20,23-30,34-35,95-150,153
+  s_1b724daaafbcdb::t_ccd7c7569ac5f6 70,73-75,152
+app/api/telephony/numbers/[id]/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+app/(app)/telephony/page.tsx
+  s_1b724daaafbcdb::t_2457349b13dc48 19
+  s_1b724daaafbcdb::t_87a9f178d91783 1-18,20-56
+server/services/business/businessService.ts
+  s_1b724daaafbcdb::t_c0c9d7d1e9f24b 1-2,46-50
+hooks/use-update-guard.ts
+  s_1b724daaafbcdb::t_adc4543e85e3fe 1-15
+server/validators/api.ts
+  s_1b724daaafbcdb::t_ff9a8d9d5d1dbd 164-166,170
+  s_1b724daaafbcdb::t_231d93206ead1a 174-197
+  s_1b724daaafbcdb::t_da5a3d88138ad8 52
+  s_1b724daaafbcdb::t_2bde0d55c3e083 83
+server/services/telephony/core/adapters/sipGateway.ts
+  s_1b724daaafbcdb::t_c71562a1e68b4e 1-78
+server/services/ai/dates.ts
+  s_1b724daaafbcdb::t_d042232dded967 1-77,101-102,104-161,163-200
+  s_1b724daaafbcdb::t_ccd7c7569ac5f6 78-100,103,162
+server/http.ts
+  s_1b724daaafbcdb::t_37e7088148a8fc 26-27,141,145,166
+server/services/outbound/service.ts
+  s_1b724daaafbcdb::t_2222f50d300b52 39,47,56
+  s_1b724daaafbcdb::t_30f375a0797260 1-38,40-46,48-55,57-128,132-190
+  s_1b724daaafbcdb::t_41b4a399413099 129-131
+app/api/app-version/route.ts
+  s_1b724daaafbcdb::t_adc4543e85e3fe 1-12
+server/models/telephony.ts
+  s_1b724daaafbcdb::t_f22980fbbc0260 1-228
+server/tools/createBookingOrLead.ts
+  s_1b724daaafbcdb::t_d9a793941db208 17-19
+app/api/test-agent/sessions/[id]/route.ts
+  s_1b724daaafbcdb::t_ff9a8d9d5d1dbd 1-4
+server/services/calls/callFlow.ts
+  s_1b724daaafbcdb::t_da5a3d88138ad8 29-32,37-44,118,237,258,273
+  s_1b724daaafbcdb::t_553b3ebd106e56 14,192-199
+  s_1b724daaafbcdb::t_cba176713fb878 17-18,33-36,108-116
+  s_1b724daaafbcdb::t_6db4db12f86e4d 107
+  s_1b724daaafbcdb::t_6b6d49e062f72e 4,15,121-149,238-244,280-281,285,291,295
+  s_1b724daaafbcdb::t_eb48c88412a649 119,187-191,200-225
+  s_1b724daaafbcdb::t_637643349dc011 120
+server/services/ai/conversationState.ts
+  s_1b724daaafbcdb::t_ff9a8d9d5d1dbd 1-78
+app/api/outbound/suppression/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+server/config/logger.ts
+  s_1b724daaafbcdb::t_01f696f0406a29 21
+tsconfig.tsbuildinfo
+  s_1b724daaafbcdb::t_f6fdaa792101df 1
+components/telephony/shared.tsx
+  s_1b724daaafbcdb::t_744463ee07581e 1-33
+server/services/payments/provider.ts
+  s_1b724daaafbcdb::t_ed094cff328dcb 1-28
+server/controllers/operationsController.ts
+  s_1b724daaafbcdb::t_231d93206ead1a 1-79
+server/services/ai/guardrails.ts
+  s_1b724daaafbcdb::t_ce605aa28cd351 1-19,22-81
+  s_1b724daaafbcdb::t_2b1cb62d4ea4bc 20-21
+tests/telephony.test.ts
+  s_1b724daaafbcdb::t_a99df7b4d6df02 729-747
+  s_1b724daaafbcdb::t_917f8e6d8a5836 1,406,409,457,548,550
+  s_1b724daaafbcdb::t_81a95864bd6727 16
+  s_1b724daaafbcdb::t_6abfb9e2b71f6c 412-413,489,501
+  s_1b724daaafbcdb::t_f2a8fc6543d1f7 2-15,17-405,407-408,410-411,414-456,458-488,490-500,502-547,549,551-662
+  s_1b724daaafbcdb::t_d953cd73af8ce7 663-728
+server/services/memory/customerMemory.ts
+  s_1b724daaafbcdb::t_093bdbcd141a69 35,82-86,89-96
+  s_1b724daaafbcdb::t_91546619fc35f1 1-34,36-81,87-88,97
+app/api/telephony/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+server/tools/helpers.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 1-12,14-16,24-29
+  s_1b724daaafbcdb::t_44fc98f79c010e 13,17-23,30-36
+server/services/calls/summaryService.ts
+  s_1b724daaafbcdb::t_d48523cfa963a7 4,40,44-45,47,51,63-64
+server/models/CallTranscript.ts
+  s_1b724daaafbcdb::t_b33fe09bd2ac37 11-14
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 18-19
+server/services/booking/nativeProvider.ts
+  s_1b724daaafbcdb::t_cf4e907d3ecc8a 130
+  s_1b724daaafbcdb::t_cc7b3fe6848b23 1-2,4-44,76-110,116-117,121-129,131-146,150-173,184-197,199-201
+  s_1b724daaafbcdb::t_d9a793941db208 111-115
+  s_1b724daaafbcdb::t_6c0779b22b3693 3,45-75,118-120,147-149,174-183,198
+app/api/agent/request-payment-approval/route.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 1-4
+app/api/telephony/numbers/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+server/services/ai/extract.ts
+  s_1b724daaafbcdb::t_c122eb9ba0658b 1-3,5-18,20-28,34-52
+  s_1b724daaafbcdb::t_b8218229640377 29-33
+  s_1b724daaafbcdb::t_97ea7912b4fb22 4,58-72
+  s_1b724daaafbcdb::t_b3b9de32deca60 19,53-57
+components/layout/update-notifier.tsx
+  s_1b724daaafbcdb::t_ef12407db184f0 1-53,55-62,64-160
+  s_1b724daaafbcdb::t_7f35bf8483f483 54,63
+server/services/ai/workflows.ts
+  s_1b724daaafbcdb::t_690052e12c081a 158-204,206-209,211-222,224-236
+  s_1b724daaafbcdb::t_0b72111ef7bd31 299
+  s_1b724daaafbcdb::t_48ca7a0b574d3f 253-256,258
+  s_1b724daaafbcdb::t_79c4a79a7bce00 416-418
+  s_1b724daaafbcdb::t_dc702a7e5a19c1 78,89,275,286-289,295-297,540-541
+  s_1b724daaafbcdb::t_9650d313350f5d 300
+  s_1b724daaafbcdb::t_f1e256a00f2a0d 456,458-459,474
+  s_1b724daaafbcdb::t_085cda6c07db61 10,31-32,85-88,153
+  s_1b724daaafbcdb::t_f6fdaa792101df 205
+  s_1b724daaafbcdb::t_9ce3748e04d7dd 301
+  s_1b724daaafbcdb::t_ccd7c7569ac5f6 46-47,388-393
+  s_1b724daaafbcdb::t_01f696f0406a29 2,93,95-110
+  s_1b724daaafbcdb::t_ed47b8ff8d0950 13,248-250
+  s_1b724daaafbcdb::t_da9eae43b3efef 257,316,318-319,352-357,454
+  s_1b724daaafbcdb::t_b3b9de32deca60 347-348,533-534
+  s_1b724daaafbcdb::t_d62ac3a4da95dc 656
+  s_1b724daaafbcdb::t_2b1cb62d4ea4bc 12,686,693
+  s_1b724daaafbcdb::t_84cd1ac89c1d0e 83-84,268-273,294
+  s_1b724daaafbcdb::t_669e17425252cc 298,302
+  s_1b724daaafbcdb::t_c0e5325c9b94cf 342,375
+  s_1b724daaafbcdb::t_672b5b961cf352 1,3-6,8-9,14-30,33-45,48-77,79-82,90-92,94,111-115,123-152,154-157,223,237-247,251-252,259-267,274,276-285,291-293,303-315,317,320-341,343-346,349-351,358,376-387,394-415,419-453,461-466,473,475-479,492-494,504-511,520-532,535-539,542-655,657-685,687-692,694-695
+  s_1b724daaafbcdb::t_2865419202393c 7
+  s_1b724daaafbcdb::t_13c25fc5e09ba6 210
+  s_1b724daaafbcdb::t_fdd1fb88f720f9 11,359-374,455,457,460,467-472,480-491,495-503,512-519
+  s_1b724daaafbcdb::t_49e091b9921296 116-122,290
+server/services/telephony/core/adapters/livekit.ts
+  s_1b724daaafbcdb::t_c71562a1e68b4e 1-15
+server/services/ai/intent.ts
+  s_1b724daaafbcdb::t_49e091b9921296 53-55
+  s_1b724daaafbcdb::t_672b5b961cf352 60-61
+  s_1b724daaafbcdb::t_dc702a7e5a19c1 63,66
+  s_1b724daaafbcdb::t_2cc9ab28a393ce 58,65
+  s_1b724daaafbcdb::t_2b1cb62d4ea4bc 50
+  s_1b724daaafbcdb::t_7bdce376dc64f8 52
+package.json
+  s_1b724daaafbcdb::t_5956a29b784630 13-14
+server/services/voice/orchestrator.ts
+  s_1b724daaafbcdb::t_b75534de0c83eb 1-78
+docs/TELEPHONY.md
+  s_1b724daaafbcdb::t_cbc16c625bf6d2 1-99
+server/services/notifications/notificationService.ts
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 26-28
+app/api/agent/cancel-reservation/route.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 1-4
+app/api/customers/route.ts
+  s_1b724daaafbcdb::t_b4537fcf84ecec 1-4
+app/api/agent/lookup-reservation/route.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 1-4
+app/api/twilio/outbound/route.ts
+  s_1b724daaafbcdb::t_6b6d49e062f72e 1-4
+app/api/outbound/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-5
+app/api/payment-approvals/route.ts
+  s_1b724daaafbcdb::t_231d93206ead1a 1-4
+components/telephony/live-panel.tsx
+  s_1b724daaafbcdb::t_87a9f178d91783 1-48
+evals/reports/latest.json
+  s_1b724daaafbcdb::t_49e091b9921296 15,47,75,103,105,107-108,216,247,249,251-252,256,326,337
+  s_1b724daaafbcdb::t_0b72111ef7bd31 153,227,229,338
+  s_1b724daaafbcdb::t_dd53e68cc5ff0d 228,231-232
+  s_1b724daaafbcdb::t_8f00a30dd359e8 290
+  s_1b724daaafbcdb::t_9650d313350f5d 82,84,86-87,91,332
+  s_1b724daaafbcdb::t_5956a29b784630 1,3-10,12-14,16-26,28-30,32-38,40-42,44-46,48-50,52-58,60-62,64-66,68-70,72-74,76-81,83,85,88-90,92-102,104,106,109-111,113-123,127,130-132,134-143,145,147,150-152,154-185,189,192-194,196-206,208,210,213-215,217-226,230,233-246,248,250,253-255,257-267,271,274-276,278-287,292-295,297-325,327-331,333-336,339-354,356
+  s_1b724daaafbcdb::t_44fc98f79c010e 2,51,124,126,128-129,144,146,148-149,207,209,211-212,289,291,296,355
+  s_1b724daaafbcdb::t_d54a6b67cfdb03 11,63,186,188,190-191,195
+  s_1b724daaafbcdb::t_2b1cb62d4ea4bc 27,31,39,43,59,67,71,112,125,133,187,268-270,272-273,277,288
+app/api/voice/turn/route.ts
+  s_1b724daaafbcdb::t_b75534de0c83eb 1-4
+app/api/outbound/consent/[id]/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+app/api/outbound/[id]/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+server/services/telephony/core/registry.ts
+  s_1b724daaafbcdb::t_c71562a1e68b4e 1-30
+app/api/outbound/consent/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+app/api/evaluation/route.ts
+  s_1b724daaafbcdb::t_231d93206ead1a 1-4
+server/services/booking/provider.ts
+  s_1b724daaafbcdb::t_cc7b3fe6848b23 1-37,39-76
+  s_1b724daaafbcdb::t_cf4e907d3ecc8a 38
+components/layout/notification-bell.tsx
+  s_1b724daaafbcdb::t_d48523cfa963a7 19
+components/payments/payment-approvals.tsx
+  s_1b724daaafbcdb::t_a33e417be8757d 1-81
+server/services/telephony/core/adapters/vapi.ts
+  s_1b724daaafbcdb::t_81a95864bd6727 1
+  s_1b724daaafbcdb::t_c71562a1e68b4e 2-49
+app/(app)/call-routing/page.tsx
+  s_1b724daaafbcdb::t_ef12407db184f0 20,51
+server/services/ai/questions.ts
+  s_1b724daaafbcdb::t_d54a6b67cfdb03 48-49
+  s_1b724daaafbcdb::t_176a6ee5d3bd20 16
+  s_1b724daaafbcdb::t_13c25fc5e09ba6 1-15,17-47,50-51
+server/controllers/businessController.ts
+  s_1b724daaafbcdb::t_cf4e907d3ecc8a 43,46
+types/index.ts
+  s_1b724daaafbcdb::t_bf7d14a0fc9a95 182-186,189
+  s_1b724daaafbcdb::t_976ba2730dc03d 187-188
+  s_1b724daaafbcdb::t_616945cd78b6b6 50
+  s_1b724daaafbcdb::t_9790706fc35ebd 29
+  s_1b724daaafbcdb::t_d48523cfa963a7 9,16
+  s_1b724daaafbcdb::t_4080ae8ba3d0f3 106,111-117
+  s_1b724daaafbcdb::t_03e86a737dc183 118-119
+server/services/telephony/core/adapters/twilio.ts
+  s_1b724daaafbcdb::t_c71562a1e68b4e 1-44
+server/models/RoomType.ts
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 1-22
+server/models/Business.ts
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 16-17
+  s_1b724daaafbcdb::t_16f2937b7bc471 37-48
+tests/phase1.test.ts
+  s_1b724daaafbcdb::t_84e4e86666d377 196
+  s_1b724daaafbcdb::t_594d6d0297f280 1-178,180-193,197-216
+  s_1b724daaafbcdb::t_46bd0dc090b07c 179,194-195
+server/controllers/voiceTurnController.ts
+  s_1b724daaafbcdb::t_b75534de0c83eb 1-36
+app/(app)/layout.tsx
+  s_1b724daaafbcdb::t_ef12407db184f0 2,11
+components/calls/completion-card.tsx
+  s_1b724daaafbcdb::t_4080ae8ba3d0f3 1-50
+app/api/agent/modify-reservation/route.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 1-4
+tests/conversation.test.ts
+  s_1b724daaafbcdb::t_733bafbd2c42c3 1,3-18,20-42,44-235,237-276,279-285
+  s_1b724daaafbcdb::t_36ffceb28c7be1 2,19,43,236,277-278
+.gitignore
+  s_1b724daaafbcdb::t_4dd5f785ef9397 11
+components/layout/sidebar.tsx
+  s_1b724daaafbcdb::t_87a9f178d91783 4,26
+server/eval/honesty.ts
+  s_1b724daaafbcdb::t_2865419202393c 17-18
+  s_1b724daaafbcdb::t_f72b4a00aa34b6 1-16,19-49
+server/tools/lookupExistingCustomer.ts
+  s_1b724daaafbcdb::t_da5a3d88138ad8 15-19
+app/api/outbound/settings/route.ts
+  s_1b724daaafbcdb::t_bb3d6b326e0399 1-4
+server/models/Reservation.ts
+  s_1b724daaafbcdb::t_d88c9e74b93c1e 1-12,14-35
+  s_1b724daaafbcdb::t_cf4e907d3ecc8a 13
+lib/app-update.ts
+  s_1b724daaafbcdb::t_adc4543e85e3fe 1-57
+app/(app)/test-agent/page.tsx
+  s_1b724daaafbcdb::t_3f423f6c08af74 33-38,60,66-69,74-75,82,101-102,122-123,129-140,142-146,149-150,191,233-234,236
+  s_1b724daaafbcdb::t_9ee8bb489b3932 141
+  s_1b724daaafbcdb::t_7cc263046ab57f 6,19
+server/tools/checkAvailability.ts
+  s_1b724daaafbcdb::t_1d78640a8514bc 2-4,8-9,14,16-39,43,50
+server/controllers/sipGatewayController.ts
+  s_1b724daaafbcdb::t_37e7088148a8fc 1-44
+tests/booking-quality.test.ts
+  s_1b724daaafbcdb::t_fd4d78db093060 129,134,203
+  s_1b724daaafbcdb::t_2a083b8506cfde 1-128,130-133,135-202,204-247
+server/services/safety/sensitive.ts
+  s_1b724daaafbcdb::t_ed094cff328dcb 1-7,9-11,27-31,33-42,44-46
+  s_1b724daaafbcdb::t_2b1cb62d4ea4bc 8,12-26,32,43
+server/models/RoomNight.ts
+  s_1b724daaafbcdb::t_6c0779b22b3693 1-21
+components/telephony/numbers-panel.tsx
+  s_1b724daaafbcdb::t_87a9f178d91783 1-89
+components/follow-ups/follow-up-card.tsx
+  s_1b724daaafbcdb::t_20cd0744c1eb5a 11,30
+components/follow-ups/new-follow-up-dialog.tsx
+  s_1b724daaafbcdb::t_82f3116b1a9365 9,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e487435222ee339b9ca8dd57969af06a59f6a6ef",
+  "prompts": {},
+  "humans": {
+    "h_4d31bb87ed0600": {
+      "author": "Sai Karthik Gutha <saikarthikgutha@Guthas-MacBook-Air.local>"
+    }
+  },
+  "sessions": {
+    "s_1b724daaafbcdb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d292db3-7991-46b7-9b29-4b009acf842e",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Sai Karthik Gutha <saikarthikgutha@Guthas-MacBook-Air.local>"
+    }
+  }
+}
