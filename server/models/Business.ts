@@ -13,6 +13,8 @@ const businessSchema = new Schema(
     escalationPhone: { type: String, trim: true, default: "" },
     ownerEmail: { type: String, trim: true, lowercase: true, default: "" },
     agentName: { type: String, default: "StayDesk assistant" },
+    /** BCP-47 language the voice agent listens for and speaks (speech recognition + voice). */
+    language: { type: String, enum: ["en-US", "es-US", "fr-FR", "de-DE", "pt-BR"], default: "en-US" },
     notificationPrefs: {
       inApp: { type: Boolean, default: true },
       email: { type: Boolean, default: true },
@@ -31,6 +33,18 @@ const businessSchema = new Schema(
       },
       /** Opportunities with an estimated value at or above this are "high value". */
       highValueThreshold: { type: Number, default: 500 },
+    },
+    /** Outbound calling is OFF until the business enables it and approves each purpose. */
+    outbound: {
+      enabled: { type: Boolean, default: false },
+      purposes: { type: [String], default: [] },
+      /** Local time at the RECIPIENT. Never wider than 08:00-21:00 (clamped when evaluated). */
+      windowStart: { type: String, default: "09:00" },
+      windowEnd: { type: String, default: "20:00" },
+      maxAttempts: { type: Number, default: 2, min: 1, max: 5 },
+      retryMinutes: { type: Number, default: 120, min: 15, max: 1440 },
+      /** Free text the owner records, e.g. "US - existing customers only; reviewed by counsel". Shown in audits. */
+      jurisdictionNote: { type: String, default: "" },
     },
     privacy: {
       /** Recording is OFF unless the business explicitly turns it on. */

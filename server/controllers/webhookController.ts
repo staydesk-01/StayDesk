@@ -7,6 +7,7 @@ import {
   TECH_DIFFICULTIES,
   handleDialResult,
   handleGather,
+  handleOutboundAnswer,
   handleIncoming,
   handleRecording,
   handleStatus,
@@ -53,7 +54,16 @@ export const incoming = callControl(async (req) => {
 
 export const gather = callControl(async (req) => {
   const callId = await assertSameCall(req);
-  return handleGather(callId, { speech: str(req.body?.SpeechResult) });
+  return handleGather(callId, { speech: str(req.body?.SpeechResult), idempotencyKey: str(req.header("I-Twilio-Idempotency-Token")).replace(/[^A-Za-z0-9_-]/g, "") || undefined });
+});
+
+export const outbound = callControl(async (req) => {
+  const callId = String(req.query.callId ?? "");
+  const requestId = String(req.query.requestId ?? "");
+  const call = await Call.findById(toObjectId(callId)).select("providerCallId");
+  // Same defence as the inbound hooks: the callId in our URL must belong to the CallSid Twilio reports.
+  if (!call || (req.body?.CallSid && call.providerCallId !== req.body.CallSid)) throw AppError.notFound("Unknown call");
+  return handleOutboundAnswer(callId, requestId);
 });
 
 export const dialResult = callControl(async (req) => {

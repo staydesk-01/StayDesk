@@ -1,6 +1,6 @@
 import type { Types } from "mongoose";
 import {
-  Business, BusinessKnowledge, Call, CallSummary, CallTranscript, FollowUp, Notification, Opportunity, PhoneConfiguration, ServiceRequest, User,
+  Business, BusinessKnowledge, Call, CallSummary, CallTranscript, CustomerProfile, FollowUp, TelephonyConnection, SipTrunk, BusinessPhoneNumber, CallSession, OutboundCallRequest, OutboundConsent, SuppressionEntry, CallRoutingRule, AgentProviderConfig, TelephonyHealthEvent, CallRecoveryTask, Notification, Opportunity, PaymentApproval, PhoneConfiguration, Reservation, RoomType, ServiceRequest, User,
 } from "../models";
 import type { Intent, Outcome, RoutingReason } from "../models";
 import { createBusinessWithOwner, hashPassword } from "../services/business/businessService";
@@ -94,6 +94,20 @@ export async function seedDemoBusiness() {
     { businessId: business._id },
     { $set: { mode: "new_twilio", twilioNumber: DEMO_STAYDESK_NUMBER, humanNumber: DEMO_HUMAN_NUMBER, humanFirst: true, ringSeconds: 20, forwardingConfigured: true, agentActive: true } },
   );
+
+  // Bookable inventory: lets the AI check live availability and book end to end for the demo hotel.
+  const rooms = await RoomType.insertMany([
+    { businessId: business._id, name: "Deluxe King Room", description: "King bed, courtyard view", nightlyRate: 189, capacity: 2, totalUnits: 10 },
+    { businessId: business._id, name: "Family Room", description: "Two queen beds", nightlyRate: 229, capacity: 4, totalUnits: 4 },
+    { businessId: business._id, name: "Ocean View Suite", description: "Separate lounge, private balcony", nightlyRate: 289, capacity: 3, totalUnits: 3 },
+  ]);
+  const ymd = (offset: number) => new Date(Date.now() + offset * 86_400_000).toISOString().slice(0, 10);
+  await Reservation.create({
+    businessId: business._id, confirmationCode: "SD-DM4X92", guestName: "Taylor Brooks", guestPhone: "+18055550166",
+    roomTypeId: rooms[0]._id, roomTypeName: rooms[0].name, checkIn: ymd(14), checkOut: ymd(16), nights: 2, guests: 2,
+    nightlyRate: 189, totalAmount: 378, source: "staff", isDemo: true,
+    history: [{ at: new Date(), action: "created", detail: "Sample reservation for testing change/cancel by phone" }],
+  });
 
   const calls: CallSeed[] = [
     // ---- the five headline scenarios ----------------------------------------
@@ -255,7 +269,8 @@ export async function seedDemoBusiness() {
 
 async function purgeBusiness(businessId: Types.ObjectId) {
   await Promise.all([
-    Call.deleteMany({ businessId }), CallTranscript.deleteMany({ businessId }), CallSummary.deleteMany({ businessId }),
+    Call.deleteMany({ businessId }), CallTranscript.deleteMany({ businessId }), Reservation.deleteMany({ businessId }), RoomType.deleteMany({ businessId }), PaymentApproval.deleteMany({ businessId }), CustomerProfile.deleteMany({ businessId }),
+    TelephonyConnection.deleteMany({ businessId }), SipTrunk.deleteMany({ businessId }), BusinessPhoneNumber.deleteMany({ businessId }), CallSession.deleteMany({ businessId }), OutboundCallRequest.deleteMany({ businessId }), OutboundConsent.deleteMany({ businessId }), SuppressionEntry.deleteMany({ businessId }), CallRoutingRule.deleteMany({ businessId }), AgentProviderConfig.deleteMany({ businessId }), TelephonyHealthEvent.deleteMany({ businessId }), CallRecoveryTask.deleteMany({ businessId }), CallSummary.deleteMany({ businessId }),
     FollowUp.deleteMany({ businessId }), Opportunity.deleteMany({ businessId }), ServiceRequest.deleteMany({ businessId }),
     Notification.deleteMany({ businessId }), BusinessKnowledge.deleteMany({ businessId }), PhoneConfiguration.deleteMany({ businessId }),
     User.deleteMany({ businessId }), Business.deleteOne({ _id: businessId }),

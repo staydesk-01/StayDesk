@@ -68,3 +68,10 @@ body {
   0%, 100% { transform: scaleY(0.35); }
   50% { transform: scaleY(1); }
 }
+
+@keyframes sd-update-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sd-update-in { animation: sd-update-in 0.3s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .sd-update-in { animation: none; } }

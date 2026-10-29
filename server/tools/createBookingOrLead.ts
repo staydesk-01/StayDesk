@@ -14,6 +14,9 @@ export const createBookingOrLead = defineTool({
   schema: createBookingOrLeadInput,
   async handler({ businessId, call, business }, input) {
     const phone = normalizePhone(input.customerPhone) || call.callerNumber;
+    // Idempotency: the same inquiry from the same call is recorded once, however many times the request is retried.
+    const dup = await Opportunity.findOne({ businessId, callId: call._id, type: TYPE_MAP[input.type], customerName: input.customerName, details: input.details });
+    if (dup) return { opportunityId: String(dup._id), status: dup.status, duplicate: true, note: "Already recorded for staff to confirm. Tell the caller the team will follow up; do not promise availability or a price." };
     const opportunity = await Opportunity.create({
       businessId,
       callId: call._id,

@@ -149,6 +149,39 @@ export default function OverviewPage() {
       </div>
 
       <Card className="mt-5">
+        <CardHeader>
+          <CardTitle>Autonomy &amp; reliability · live calls only</CardTitle>
+          <CardDescription>Real phone calls handled by the AI {rangeText[range]}. Test-console and demo calls are never counted.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {loading ? <Skeleton className="h-16 w-full" /> : !data?.reliability || data.reliability.liveCalls === 0 ? (
+            <p className="py-4 text-sm text-muted">No live AI-handled calls yet {rangeText[range]}. Figures appear here once real calls come in. Nothing is estimated or simulated.</p>
+          ) : (
+            <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-3 xl:grid-cols-6">
+              {[
+                ["Live AI calls", data.reliability.liveCalls],
+                ["Resolved without a human", data.reliability.resolvedByAi],
+                ["Reservations confirmed", data.reliability.reservationsConfirmed],
+                ["Human transfers", data.reliability.humanTransfers],
+                ["Tool success rate", data.reliability.toolSuccessRate == null ? "n/a" : `${data.reliability.toolSuccessRate}%`],
+                ["Failed / incomplete actions", `${data.reliability.failedActions} / ${data.reliability.incompleteActions}`],
+                ["Avg agent latency", data.reliability.avgAgentLatencyMs == null ? "n/a" : `${data.reliability.avgAgentLatencyMs} ms`],
+                ["Payment approvals pending", data.reliability.paymentApprovalsPending],
+                ["Completed / answered / need follow-up", `${data.reliability.completion.fulfilled} / ${data.reliability.completion.answered} / ${data.reliability.completion.needsFollowUp}`],
+                ["Avg server time per turn", data.reliability.avgWebhookMs == null ? "n/a" : `${data.reliability.avgWebhookMs} ms`],
+                ["Turn errors recovered", data.reliability.recoveredErrors],
+              ].map(([k, v]) => (
+                <div key={String(k)}>
+                  <dd className="text-xl leading-none font-bold">{v}</dd>
+                  <dt className="mt-1 text-xs font-semibold text-muted">{k}</dt>
+                </div>
+              ))}
+            </dl>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="mt-5">
         <CardHeader className="flex-row items-center justify-between">
           <div>
             <CardTitle>Recent calls</CardTitle>

@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "seed": "tsx server/seed/seed.ts"
+    "seed": "tsx server/seed/seed.ts",
+    "eval": "tsx server/eval/run.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.23",

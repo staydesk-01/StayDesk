@@ -13,7 +13,7 @@ const eslintConfig = defineConfig([
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
     },
   },
-  globalIgnores([".next/**", "out/**", "build/**", "dist/**", "next-env.d.ts"]),
+  globalIgnores(["staydesk-voice-agent/**", ".next-build/**", ".next/**", "out/**", "build/**", "dist/**", "next-env.d.ts"]),
 ]);
 
 export default eslintConfig;

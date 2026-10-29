@@ -2,6 +2,7 @@
 import * as React from "react";
 import { BookOpenCheck, CheckCircle2, Circle, Lock, Save, ShieldCheck } from "lucide-react";
 import { ContactsEditor, FaqEditor, ServicesEditor } from "@/components/knowledge/list-editors";
+import { RoomsEditor } from "@/components/knowledge/rooms-editor";
 import { HoursEditor } from "@/components/knowledge/hours-editor";
 import { PageHeader } from "@/components/common/page-header";
 import { ErrorState } from "@/components/common/states";
@@ -15,13 +16,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
 import { useApi } from "@/hooks/use-api";
 import { useSession } from "@/hooks/use-session";
+import { useUpdateGuard } from "@/hooks/use-update-guard";
 import { api, errorMessage } from "@/lib/api";
 import { timezoneOptions } from "@/lib/constants";
 import { businessTypeLabel } from "@/lib/format";
 import type { Business, BusinessType, Knowledge } from "@/types";
 
 interface Draft {
-  business: Pick<Business, "name" | "type" | "phone" | "address" | "timezone" | "agentName" | "escalationPhone">;
+  business: Pick<Business, "name" | "type" | "phone" | "address" | "timezone" | "language" | "agentName" | "escalationPhone">;
   knowledge: Pick<Knowledge, "description" | "hours" | "services" | "faqs" | "pricingInfo" | "policies" | "escalationContacts">;
 }
 
@@ -29,7 +31,7 @@ const pick = <T extends object, K extends keyof T>(o: T, keys: K[]) => Object.fr
 const typeOptions = Object.entries(businessTypeLabel).map(([value, label]) => ({ value, label }));
 
 const makeDraft = (business: Business, knowledge: Knowledge): Draft => ({
-  business: pick(business, ["name", "type", "phone", "address", "timezone", "agentName", "escalationPhone"]),
+  business: pick(business, ["name", "type", "phone", "address", "timezone", "language", "agentName", "escalationPhone"]),
   knowledge: pick(knowledge, ["description", "hours", "services", "faqs", "pricingInfo", "policies", "escalationContacts"]),
 });
 
@@ -51,6 +53,7 @@ function KnowledgeForm({ business, knowledge }: { business: Business; knowledge:
   const [saving, setSaving] = React.useState(false);
 
   const dirty = JSON.stringify(draft) !== saved;
+  useUpdateGuard("unsaved", dirty);
   const tzOptions = React.useMemo(() => timezoneOptions(draft.business.timezone), [draft.business.timezone]);
 
   async function save() {
@@ -122,6 +125,7 @@ function KnowledgeForm({ business, knowledge }: { business: Business; knowledge:
             <TabsTrigger value="business">Business</TabsTrigger>
             <TabsTrigger value="hours">Opening hours</TabsTrigger>
             <TabsTrigger value="services">Services & pricing</TabsTrigger>
+            <TabsTrigger value="rooms">Rooms &amp; availability</TabsTrigger>
             <TabsTrigger value="faqs">FAQs</TabsTrigger>
             <TabsTrigger value="policies">Policies</TabsTrigger>
             <TabsTrigger value="escalation">Escalation</TabsTrigger>
@@ -136,6 +140,7 @@ function KnowledgeForm({ business, knowledge }: { business: Business; knowledge:
                   <Field label="Business type"><Select value={b.type} onValueChange={(v) => setB({ type: v as BusinessType })} options={typeOptions} aria-label="Business type" /></Field>
                   <Field label="Business phone" htmlFor="k-phone"><Input id="k-phone" type="tel" value={b.phone} onChange={(e) => setB({ phone: e.target.value })} placeholder="+1 555 010 0100" /></Field>
                   <Field label="Time zone" hint="Used for opening hours and after-hours routing."><Select value={b.timezone} onValueChange={(v) => setB({ timezone: v })} options={tzOptions} aria-label="Time zone" /></Field>
+                  <Field label="Call language" hint="Non-English calls need the OpenAI agent (OPENAI_API_KEY); otherwise the built-in agent speaks English."><Select value={b.language ?? "en-US"} onValueChange={(v) => setB({ language: v as typeof b.language })} aria-label="Call language" options={[{ value: "en-US", label: "English" }, { value: "es-US", label: "Spanish" }, { value: "fr-FR", label: "French" }, { value: "de-DE", label: "German" }, { value: "pt-BR", label: "Portuguese" }]} /></Field>
                   <Field label="Address" htmlFor="k-address" className="sm:col-span-2"><Input id="k-address" value={b.address} onChange={(e) => setB({ address: e.target.value })} placeholder="218 Ocean Avenue, Santa Barbara, CA" /></Field>
                   <Field label="Agent name" htmlFor="k-agent" hint="How the AI introduces itself on calls."><Input id="k-agent" value={b.agentName} onChange={(e) => setB({ agentName: e.target.value })} /></Field>
                 </div>
@@ -162,6 +167,10 @@ function KnowledgeForm({ business, knowledge }: { business: Business; knowledge:
                 <CardContent><Textarea value={k.pricingInfo} onChange={(e) => setK({ pricingInfo: e.target.value })} className="min-h-28" aria-label="Pricing information" /></CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="rooms">
+            <RoomsEditor />
           </TabsContent>
 
           <TabsContent value="faqs">

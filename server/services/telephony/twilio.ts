@@ -3,7 +3,9 @@ import { env } from "../../config/env";
 import { logger } from "../../config/logger";
 import type { CallInstruction, TelephonyProvider } from "./provider";
 
-const VOICE = { voice: "Polly.Joanna", language: "en-US" } as const;
+// Speech recognition language + Amazon Polly voice per supported language.
+const VOICES: Record<string, string> = { "en-US": "Polly.Joanna", "es-US": "Polly.Lupe", "fr-FR": "Polly.Lea", "de-DE": "Polly.Vicki", "pt-BR": "Polly.Camila" };
+const voiceFor = (language = "en-US") => ({ voice: (VOICES[language] ?? VOICES["en-US"]) as "Polly.Joanna", language: (VOICES[language] ? language : "en-US") as "en-US" });
 
 export class TwilioProvider implements TelephonyProvider {
   readonly name: "twilio" | "telnyx" = "twilio";
@@ -24,22 +26,23 @@ export class TwilioProvider implements TelephonyProvider {
           input: ["speech"],
           action: instruction.actionUrl,
           method: "POST",
-          speechTimeout: "auto",
+          speechTimeout: String(instruction.speechTimeout ?? "auto"),
           speechModel: "phone_call",
           enhanced: true,
-          language: "en-US",
+          language: voiceFor(instruction.language).language,
+          ...(instruction.hints ? { hints: instruction.hints } : {}),
           actionOnEmptyResult: true,
-          timeout: 6,
+          timeout: instruction.noInputSeconds ?? 6,
         });
-        gather.say(VOICE, instruction.say);
+        gather.say(voiceFor(instruction.language), instruction.say);
         break;
       }
       case "say_hangup":
-        if (instruction.say) response.say(VOICE, instruction.say);
+        if (instruction.say) response.say(voiceFor(instruction.language), instruction.say);
         response.hangup();
         break;
       case "dial": {
-        if (instruction.say) response.say(VOICE, instruction.say);
+        if (instruction.say) response.say(voiceFor(), instruction.say);
         const dial = response.dial({
           timeout: instruction.ringSeconds,
           action: instruction.actionUrl,

@@ -53,6 +53,7 @@ export const OUTCOMES = [
   "service_request_created",
   "follow_up_created",
   "transferred",
+  "reservation_confirmed",
   "abandoned",
   "failed",
 ] as const;
@@ -84,9 +85,19 @@ export const NOTIFICATION_TYPES = [
   "callback_requested",
   "unresolved_request",
   "service_request",
+  "payment_approval",
   "info",
 ] as const;
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number];
 
-export const CALL_PROVIDERS = ["twilio", "telnyx", "retell", "vapi", "simulator"] as const;
+export const CALL_PROVIDERS = ["twilio", "telnyx", "retell", "vapi", "sip", "simulator"] as const;
 export type CallProvider = (typeof CALL_PROVIDERS)[number];
+
+export const RESERVATION_STATUSES = ["confirmed", "modified", "cancelled"] as const;
+export type ReservationStatus = (typeof RESERVATION_STATUSES)[number];
+
+export const PAYMENT_KINDS = ["charge", "refund", "adjustment"] as const;
+export type PaymentKind = (typeof PAYMENT_KINDS)[number];
+
+export const PAYMENT_STATUSES = ["pending", "approved", "rejected", "paid", "failed"] as const;
+export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];

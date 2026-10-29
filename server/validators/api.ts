@@ -49,6 +49,7 @@ export const businessPatch = z
     escalationPhone: str(32),
     ownerEmail: z.union([z.string().trim().toLowerCase().email().max(200), z.literal("")]),
     agentName: str(60).min(1),
+    language: z.enum(["en-US", "es-US", "fr-FR", "de-DE", "pt-BR"]),
     onboardingComplete: z.boolean(),
     notificationPrefs: z
       .object({
@@ -79,6 +80,7 @@ export const knowledgePatch = z
     pricingInfo: str(3000),
     policies: str(5000),
     escalationContacts: z.array(z.object({ name: str(120).min(1), phone: str(32).min(3), role: str(80).default("") })).max(20),
+    booking: z.object({ taxRatePercent: z.coerce.number().min(0).max(100).nullable(), depositPolicy: z.enum(["none", "after_booking", "to_confirm"]), depositPercent: z.coerce.number().min(0).max(100) }).partial(),
   })
   .partial();
 
@@ -159,10 +161,37 @@ export const testSessionBody = z.object({
   callerNumber: str(32).default("+15550100123"),
   routingReason: z.enum(["direct_ai", "busy", "no_answer", "overflow", "after_hours"]).default("no_answer"),
 });
-export const testMessageBody = z.object({ text: str(1000).min(1) });
+/** `messageId`: a unique id the client creates per message. Resending the same id never repeats the turn. */
+const messageId = z.string().trim().min(8).max(80).regex(/^[A-Za-z0-9_-]+$/);
+export const testMessageBody = z.object({ text: str(1000).min(1), messageId: messageId.optional() });
 
 export const agentChatBody = z.object({
   message: str(1000).min(1),
+  messageId: messageId.optional(),
   /** Continue an existing test conversation; omit to start a new one. */
   sessionId: objectId.optional(),
+});
+
+export const paymentDecisionBody = z.discriminatedUnion("action", [
+  z.object({ action: z.literal("approve"), note: str(500).optional() }),
+  z.object({ action: z.literal("reject"), note: str(500).optional() }),
+  z.object({ action: z.literal("mark_paid"), reference: str(120).min(1, "Enter the payment reference from your payment system") }),
+  z.object({ action: z.literal("mark_failed"), note: str(500).optional() }),
+]);
+
+export const paymentsQuery = z.object({ status: z.enum(["pending", "approved", "rejected", "paid", "failed", "open", "all"]).default("open"), limit: z.coerce.number().int().min(1).max(100).default(50) });
+
+export const inventoryBody = z.object({
+  roomTypes: z
+    .array(
+      z.object({
+        name: str(80).min(1),
+        description: str(300).default(""),
+        nightlyRate: z.coerce.number().min(0).max(100_000),
+        capacity: z.coerce.number().int().min(1).max(50),
+        totalUnits: z.coerce.number().int().min(0).max(5000),
+      }),
+    )
+    .max(50)
+    .refine((rooms) => new Set(rooms.map((r) => r.name.toLowerCase())).size === rooms.length, "Room type names must be unique"),
 });

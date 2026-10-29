@@ -9,10 +9,51 @@ export const getBusinessInfoInput = z.object({
   query: z.string().trim().max(300).optional().describe("The caller's question, used to pick the most relevant FAQs"),
 });
 
+const dateKey = z.string().trim().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
+
 export const checkAvailabilityInput = z.object({
-  date: z.string().trim().max(40).optional().describe("Requested date, ideally YYYY-MM-DD"),
+  date: z.string().trim().max(40).optional().describe("Requested date, ideally YYYY-MM-DD (used when no booking system is connected)"),
   partySize: z.coerce.number().int().min(1).max(500).optional(),
   service: z.string().trim().max(120).optional().describe("Room type, service or appointment type"),
+  checkIn: dateKey.optional().describe("Arrival date YYYY-MM-DD; with checkOut this checks LIVE availability"),
+  checkOut: dateKey.optional().describe("Departure date YYYY-MM-DD (the night before is the last night stayed)"),
+  guests: z.coerce.number().int().min(1).max(50).optional(),
+});
+
+export const createReservationInput = z.object({
+  guestName: text(120),
+  guestPhone: phone,
+  guestEmail: z.string().trim().toLowerCase().email().max(200).optional(),
+  roomType: text(120).describe("Room type name exactly as offered by check_availability"),
+  checkIn: dateKey,
+  checkOut: dateKey,
+  guests: z.coerce.number().int().min(1).max(50),
+});
+
+export const modifyReservationInput = z
+  .object({
+    confirmationCode: text(20),
+    guestLastName: z.string().trim().max(80).optional().describe("Caller's last name, used to verify identity"),
+    newCheckIn: dateKey.optional(),
+    newCheckOut: dateKey.optional(),
+    newRoomType: z.string().trim().max(120).optional(),
+    newGuests: z.coerce.number().int().min(1).max(50).optional(),
+  })
+  .refine((v) => v.newCheckIn || v.newCheckOut || v.newRoomType || v.newGuests, { message: "Provide at least one change" });
+
+export const cancelReservationInput = z.object({ confirmationCode: text(20), guestLastName: z.string().trim().max(80).optional() });
+export const lookupReservationInput = z.object({ confirmationCode: text(20), guestLastName: z.string().trim().max(80).optional() });
+
+/**
+ * Strict on purpose: any unexpected field (e.g. cardNumber, cvv) is rejected, so raw payment data can't be passed
+ * through this tool. The AI only PREPARES the request; a human approves it.
+ */
+export const requestPaymentApprovalInput = z.strictObject({
+  kind: z.enum(["charge", "refund", "adjustment"]),
+  amount: z.coerce.number().min(0).max(100_000).optional().describe("Dollar amount if known from a verified reservation; otherwise omit"),
+  description: text(500).describe("What the payment is for. Never include card numbers."),
+  reservationCode: z.string().trim().max(20).optional(),
+  customerName: z.string().trim().max(120).optional(),
 });
 
 export const createBookingOrLeadInput = z.object({

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Bot, CheckCircle2, CircleAlert, Phone, PhoneForwarded, ShieldAlert, Sparkles, Trash2, UserRound, Wrench } from "lucide-react";
 import { HandledByBadge, IntentBadge, OutcomeBadge, PriorityBadge, StatusBadge, TestBadge, TransferBadge, SampleBadge } from "@/components/common/badges";
+import { CompletionCard } from "@/components/calls/completion-card";
 import { ErrorState } from "@/components/common/states";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -177,6 +178,7 @@ export default function CallDetailPage({ params }: PageProps<"/calls/[id]">) {
         </div>
 
         <div className="space-y-5">
+          <CompletionCard completion={call.completion} />
           <Card>
             <CardHeader><CardTitle>Actions taken</CardTitle><CardDescription>Everything the agent did through StayDesk’s backend tools.</CardDescription></CardHeader>
             <CardContent>

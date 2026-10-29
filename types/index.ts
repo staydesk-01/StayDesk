@@ -6,14 +6,14 @@ export type HandledBy = "ai" | "human" | "ai_and_human";
 export type Intent =
   | "general_question" | "business_hours" | "pricing_question" | "booking_inquiry" | "appointment_request" | "sales_lead"
   | "service_request" | "existing_customer_question" | "human_request" | "complaint" | "urgent_request" | "unknown";
-export type Outcome = "in_progress" | "resolved" | "opportunity_captured" | "service_request_created" | "follow_up_created" | "transferred" | "abandoned" | "failed";
+export type Outcome = "in_progress" | "resolved" | "opportunity_captured" | "service_request_created" | "follow_up_created" | "transferred" | "reservation_confirmed" | "abandoned" | "failed";
 export type TransferStatus = "none" | "ringing" | "answered" | "no_answer" | "failed";
 export type Priority = "low" | "normal" | "high" | "urgent";
 export type FollowUpStatus = "open" | "in_progress" | "completed" | "cancelled";
 export type OpportunityType = "booking" | "appointment" | "sales_lead" | "service_inquiry";
 export type OpportunityStatus = "new" | "contacted" | "converted" | "lost";
 export type ServiceRequestStatus = "open" | "in_progress" | "resolved" | "cancelled";
-export type NotificationType = "high_value_lead" | "booking_inquiry" | "urgent_request" | "transfer_failed" | "callback_requested" | "unresolved_request" | "service_request" | "info";
+export type NotificationType = "high_value_lead" | "booking_inquiry" | "urgent_request" | "transfer_failed" | "callback_requested" | "unresolved_request" | "service_request" | "payment_approval" | "info";
 
 export interface SessionUser { id: string; name: string; email: string; role: Role }
 export interface SessionBusiness { id: string; name: string; type: BusinessType; onboardingComplete: boolean; isDemo: boolean }
@@ -26,6 +26,7 @@ export interface Business {
   phone: string;
   address: string;
   timezone: string;
+  language?: "en-US" | "es-US" | "fr-FR" | "de-DE" | "pt-BR";
   escalationPhone: string;
   ownerEmail: string;
   agentName: string;
@@ -46,6 +47,7 @@ export interface Knowledge {
   pricingInfo: string;
   policies: string;
   escalationContacts: { name: string; phone: string; role: string }[];
+  booking?: { taxRatePercent: number | null; depositPolicy: "none" | "after_booking" | "to_confirm"; depositPercent: number };
 }
 
 export interface PhoneConfig {
@@ -101,8 +103,18 @@ export interface Call {
     attempts?: { startedAt: string; number: string; status: TransferStatus; answeredAt?: string; reason?: string }[];
   };
   actions: CallAction[];
+  completion?: CallCompletion;
   recording?: { enabled: boolean; url?: string; durationSeconds?: number };
   isDemo: boolean;
+}
+
+export interface CallCompletion {
+  originalRequest: string;
+  status: "fulfilled" | "answered" | "needs_follow_up" | "handed_to_human" | "abandoned" | "failed";
+  attempted: { tool: string; result: "success" | "failed" | "incomplete"; detail: string }[];
+  outcomes: { type: string; ref: string; status: string; detail?: string }[];
+  failures: string[];
+  nextSteps: string[];
 }
 
 export interface TranscriptSegment { role: "agent" | "caller" | "system" | "tool"; text: string; at: string }
@@ -166,6 +178,14 @@ export interface DashboardMetrics {
     answeredByStaff: number;
     potentialOpportunityValue: number;
     verifiedRevenue: number;
+  };
+  /** Real (non-simulator, non-demo) AI-handled calls only. */
+  reliability: {
+    liveCalls: number; resolvedByAi: number; humanTransfers: number; reservationsConfirmed: number;
+    toolCalls: number; toolSuccessRate: number | null; failedActions: number; incompleteActions: number;
+    avgAgentLatencyMs: number | null; paymentApprovalsPending: number;
+    completion: { tracked: number; fulfilled: number; answered: number; needsFollowUp: number };
+    avgWebhookMs: number | null; recoveredErrors: number;
   };
   chart: { label: string; calls: number; aiHandled: number; abandoned: number }[];
   recentCalls: Pick<Call, "_id" | "callerName" | "callerNumber" | "intent" | "startedAt" | "outcome" | "status" | "handledBy" | "durationSeconds" | "provider" | "isDemo">[];

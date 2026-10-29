@@ -22,6 +22,7 @@ export const outcomeLabel: Record<Outcome, string> = {
   service_request_created: "Service request created",
   follow_up_created: "Follow-up created",
   transferred: "Transferred to staff",
+  reservation_confirmed: "Reservation confirmed",
   abandoned: "Abandoned",
   failed: "Failed",
 };

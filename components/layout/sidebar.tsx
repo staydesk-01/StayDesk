@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, ChevronsUpDown, LayoutGrid, ListChecks, LogOut, PhoneCall, PhoneForwarded, Settings, ShieldCheck, Target, AudioWaveform } from "lucide-react";
+import { BookOpen, ChevronsUpDown, LayoutGrid, ListChecks, LogOut, PhoneCall, PhoneForwarded, RadioTower, Settings, ShieldCheck, Target, AudioWaveform } from "lucide-react";
 import { Logo } from "@/components/common/logo";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useApi } from "@/hooks/use-api";
@@ -23,6 +23,7 @@ const groups = [
     items: [
       { href: "/business-knowledge", label: "Business knowledge", icon: BookOpen },
       { href: "/call-routing", label: "Call routing", icon: PhoneForwarded },
+      { href: "/telephony", label: "Telephony", icon: RadioTower },
       { href: "/test-agent", label: "Test your agent", icon: AudioWaveform, tag: "TRY" },
       { href: "/settings", label: "Settings", icon: Settings },
     ],

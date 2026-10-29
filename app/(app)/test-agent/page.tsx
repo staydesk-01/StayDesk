@@ -3,6 +3,7 @@ import * as React from "react";
 import Link from "next/link";
 import { Bot, CheckCircle2, CircleAlert, CircleDot, Mic, MicOff, Phone, PhoneOff, Send, Sparkles, UserRound, Volume2, VolumeX } from "lucide-react";
 import { IntentBadge, OutcomeBadge } from "@/components/common/badges";
+import { EvalSummary } from "@/components/test-agent/eval-summary";
 import { PageHeader } from "@/components/common/page-header";
 import { InlineError } from "@/components/common/states";
 import { Badge } from "@/components/ui/badge";
@@ -15,6 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { useApi } from "@/hooks/use-api";
 import { useSpeech } from "@/hooks/use-speech";
+import { useUpdateGuard } from "@/hooks/use-update-guard";
 import { api, errorMessage } from "@/lib/api";
 import { formatMoney, routingLabel } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -28,7 +30,12 @@ interface Status {
   integrations: { openai: boolean; twilio: boolean; email: boolean };
 }
 interface Snapshot { intent: Intent; status: CallStatus; outcome: Outcome; transferStatus: TransferStatus; actions: CallAction[]; endedAt?: string }
-interface Msg { role: "agent" | "caller" | "system"; text: string }
+/** `id` is stable (the message id sent to the server, or the stored segment id) and is used for both rendering and de-duplication. */
+interface Msg { id: string; role: "agent" | "caller" | "system"; text: string }
+const newId = () => (typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : `m${Date.now()}${Math.random().toString(36).slice(2)}`);
+const SESSION_KEY = "staydesk.testAgent.callId";
+/** Appends messages, skipping any whose id is already shown (a reloaded transcript and a live reply can never both add the same line). */
+const addMsgs = (list: Msg[], ...add: Msg[]) => [...list, ...add.filter((m) => !list.some((x) => x.id === m.id))];
 
 const SUGGESTIONS = [
   "Hi, I'd like to book a deluxe king room this Friday for two nights, two guests",
@@ -50,25 +57,29 @@ export default function TestAgentPage() {
   const [result, setResult] = React.useState<{ summary: CallSummary | null; opportunities: Opportunity[]; followUps: number } | null>(null);
   const [opts, setOpts] = React.useState({ callerNumber: "+15550100123", routingReason: "no_answer" as RoutingReason, simulateTransferAnswers: false });
   const [speakReplies, setSpeakReplies] = React.useState(false);
+  const sending = React.useRef(false); // synchronous guard: state updates are too late to stop a double submit
   const scroller = React.useRef<HTMLDivElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const send = React.useCallback(async (raw: string) => {
     const t = raw.trim();
-    if (!t || !callId || busy || ended) return;
-    setMsgs((m) => [...m, { role: "caller", text: t }]);
+    if (!t || !callId || busy || ended || sending.current) return;
+    sending.current = true;
+    const messageId = newId();
+    setMsgs((m) => addMsgs(m, { id: messageId, role: "caller", text: t }));
     setText("");
     setBusy(true);
     setError("");
     try {
-      const res = await api<{ reply: string; ended: boolean; call: Snapshot }>(`/test-agent/sessions/${callId}/message`, { method: "POST", body: { text: t } });
-      setMsgs((m) => [...m, { role: "agent", text: res.reply }]);
+      const res = await api<{ reply: string; responseId: string; ended: boolean; call: Snapshot }>(`/test-agent/sessions/${callId}/message`, { method: "POST", body: { text: t, messageId } });
+      setMsgs((m) => addMsgs(m, { id: res.responseId, role: "agent", text: res.reply }));
       setSnap(res.call);
       if (speakReplies) speech.speak(res.reply);
       if (res.ended) await finish(callId);
     } catch (e) {
       setError(errorMessage(e));
     } finally {
+      sending.current = false;
       setBusy(false);
       inputRef.current?.focus();
     }
@@ -87,7 +98,8 @@ export default function TestAgentPage() {
     try {
       const res = await api<{ callId: string; greeting: string }>("/test-agent/sessions", { method: "POST", body: opts });
       setCallId(res.callId);
-      setMsgs([{ role: "system", text: `Test call started · ${routingLabel[opts.routingReason]}` }, { role: "agent", text: res.greeting }]);
+      try { sessionStorage.setItem(SESSION_KEY, res.callId); } catch { /* optional */ }
+      setMsgs([{ id: `start-${res.callId}`, role: "system", text: `Test call started · ${routingLabel[opts.routingReason]}` }, { id: `greeting-${res.callId}`, role: "agent", text: res.greeting }]);
       setSnap(null);
       setEnded(false);
       setResult(null);
@@ -107,14 +119,35 @@ export default function TestAgentPage() {
       setSnap(res.call);
       setResult({ summary: detail.summary, opportunities: detail.opportunities, followUps: detail.followUps.length });
       setEnded(true);
-      setMsgs((m) => [...m, { role: "system", text: "Call ended" }]);
+      setMsgs((m) => addMsgs(m, { id: `end-${id}`, role: "system", text: "Call ended" }));
+      try { sessionStorage.removeItem(SESSION_KEY); } catch { /* optional */ }
     } catch (e) {
       setError(errorMessage(e));
     }
   }
 
+  // After a page reload, pick the unfinished test call back up from the server (its stored transcript is the source of truth).
+  React.useEffect(() => {
+    let id: string | null = null;
+    try { id = sessionStorage.getItem(SESSION_KEY); } catch { /* optional */ }
+    if (!id) return;
+    let cancelled = false;
+    api<{ callId: string; ended: boolean; segments: { id: string | null; role: Msg["role"]; text: string; at: string }[]; call: Snapshot }>(`/test-agent/sessions/${id}`)
+      .then((res) => {
+        if (cancelled) return;
+        if (res.ended) { try { sessionStorage.removeItem(SESSION_KEY); } catch { /* optional */ } return; }
+        setCallId(res.callId);
+        setSnap(res.call);
+        setMsgs((m) => addMsgs(m, ...res.segments.map((x, i) => ({ id: x.id ?? `${res.callId}-${i}`, role: x.role, text: x.text }))));
+      })
+      .catch(() => { try { sessionStorage.removeItem(SESSION_KEY); } catch { /* optional */ } });
+    return () => { cancelled = true; };
+  }, []);
+
   const s = status.data;
   const active = !!callId && !ended;
+  useUpdateGuard("call", active); // a live test call is never interrupted by an app update
+  useUpdateGuard("unsaved", active && text.trim().length > 0);
 
   return (
     <>
@@ -155,6 +188,7 @@ export default function TestAgentPage() {
               <Link href="/business-knowledge" className="inline-block text-sm font-semibold text-brand-700 hover:underline">Edit business knowledge →</Link>
             </CardContent>
           </Card>
+          <EvalSummary />
 
           <Card>
             <CardHeader><CardTitle>Test call</CardTitle></CardHeader>
@@ -196,10 +230,10 @@ export default function TestAgentPage() {
                 <div><span className="mx-auto mb-4 grid size-14 place-items-center rounded-2xl bg-brand-100 text-brand-700"><Bot className="size-7" /></span>
                   <p className="font-semibold">Ready when you are</p><p className="mt-1 max-w-xs text-sm text-muted">Press “Start test” and say hello, just as a customer would on the phone.</p></div>
               </div>
-            ) : msgs.map((m, i) => m.role === "system" ? (
-              <p key={i} className="text-center text-xs font-medium text-subtle">{m.text}</p>
+            ) : msgs.map((m) => m.role === "system" ? (
+              <p key={m.id} className="text-center text-xs font-medium text-subtle">{m.text}</p>
             ) : (
-              <div key={i} className={cn("flex gap-3", m.role === "caller" && "flex-row-reverse")}>
+              <div key={m.id} className={cn("flex gap-3", m.role === "caller" && "flex-row-reverse")}>
                 <span className={cn("mt-0.5 grid size-8 shrink-0 place-items-center rounded-full", m.role === "agent" ? "bg-brand-100 text-brand-700" : "bg-info-soft text-info")}>{m.role === "agent" ? <Bot className="size-4" /> : <UserRound className="size-4" />}</span>
                 <p className={cn("max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed", m.role === "agent" ? "rounded-tl-md bg-brand-50" : "rounded-tr-md bg-brand-600 text-white")}>{m.text}</p>
               </div>

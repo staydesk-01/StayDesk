@@ -30,6 +30,10 @@ export const createFollowUp = defineTool({
       }
     }
 
+    // Idempotency: an identical open follow-up for this call is returned instead of creating a second task.
+    const same = await FollowUp.findOne({ callId: call._id, businessId, reason: input.reason, status: { $in: ["open", "in_progress"] } });
+    if (same) return { followUpId: String(same._id), status: "open", duplicate: true, note: "Tell the caller someone will get back to them." };
+
     const followUp = await FollowUp.create({
       businessId,
       callId: call._id,

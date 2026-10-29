@@ -25,6 +25,7 @@ const outcomeTone: Record<Outcome, BadgeTone> = {
   service_request_created: "info",
   follow_up_created: "warning",
   transferred: "success",
+  reservation_confirmed: "success",
   abandoned: "danger",
   failed: "danger",
 };

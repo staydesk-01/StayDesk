@@ -6,6 +6,7 @@ import { Field } from "@/components/ui/label";
 import { Input, Textarea } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { InlineError } from "@/components/common/states";
+import { useUpdateGuard } from "@/hooks/use-update-guard";
 import { api, errorMessage } from "@/lib/api";
 import { priorityLabel } from "@/lib/format";
 import type { Priority } from "@/types";
@@ -16,6 +17,7 @@ export function NewFollowUpDialog({ open, onOpenChange, onCreated }: { open: boo
   const [form, setForm] = React.useState({ customerName: "", phone: "", reason: "", priority: "normal" as Priority, dueAt: "" });
   const [busy, setBusy] = React.useState(false);
   const [error, setError] = React.useState("");
+  useUpdateGuard("unsaved", open && !!(form.reason.trim() || form.customerName.trim() || form.phone.trim()));
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();

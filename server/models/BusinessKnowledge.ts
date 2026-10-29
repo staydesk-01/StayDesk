@@ -40,6 +40,13 @@ const knowledgeSchema = new Schema(
     ],
     pricingInfo: { type: String, default: "" },
     policies: { type: String, default: "" },
+    /** Reservation terms the agent may quote. Unset (null) means "not verified": the agent says so instead of guessing. */
+    booking: {
+      taxRatePercent: { type: Number, default: null, min: 0, max: 100 },
+      /** none: no payment asked. after_booking: reservation is made, then a deposit request goes to staff. to_confirm: nothing is confirmed until staff receive the deposit. */
+      depositPolicy: { type: String, enum: ["none", "after_booking", "to_confirm"], default: "none" },
+      depositPercent: { type: Number, default: 0, min: 0, max: 100 },
+    },
     escalationContacts: [
       {
         _id: false,

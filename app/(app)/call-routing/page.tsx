@@ -17,6 +17,7 @@ import { ToggleRow } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/toast";
 import { useApi } from "@/hooks/use-api";
 import { useSession } from "@/hooks/use-session";
+import { useUpdateGuard } from "@/hooks/use-update-guard";
 import { api, errorMessage } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import type { PhoneConfig, PhoneStatus, RoutingResponse } from "@/types";
@@ -47,6 +48,7 @@ function RoutingForm({ data }: { data: RoutingResponse }) {
   const [saving, setSaving] = React.useState(false);
 
   const dirty = JSON.stringify(draft) !== saved;
+  useUpdateGuard("unsaved", dirty);
   const set = (p: Partial<Draft>) => setDraft({ ...draft, ...p });
   const aiOnly = draft.aiOnly;
   const humanRules = !aiOnly && draft.mode === "new_twilio";

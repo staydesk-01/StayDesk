@@ -56,6 +56,8 @@ const callSchema = new Schema(
         tool: String,
         at: { type: Date, default: () => new Date() },
         ok: Boolean,
+        /** Technically succeeded but the business result was NOT achieved (room unavailable, identity not verified...). */
+        incomplete: Boolean,
         summary: String,
       },
     ],
@@ -70,6 +72,29 @@ const callSchema = new Schema(
       sid: String,
       durationSeconds: Number,
     },
+    /** Operational measurements for reliability reporting (see server/eval/metrics.ts for definitions). */
+    metrics: {
+      turns: { type: Number, default: 0 },
+      totalLatencyMs: { type: Number, default: 0 },
+      maxLatencyMs: { type: Number, default: 0 },
+      brainErrors: { type: Number, default: 0 },
+      toolCalls: { type: Number, default: 0 },
+      toolFailures: { type: Number, default: 0 },
+      /** tool call succeeded technically but the action was not completed (e.g. unavailable, identity not verified) */
+      incompleteActions: { type: Number, default: 0 },
+      guardrailTriggers: { type: Number, default: 0 },
+    },
+    /** Call-to-completion record, built when the call ends (see services/calls/completion.ts). */
+    completion: { type: Schema.Types.Mixed },
+    /** Webhook-turn timings, so the whole round trip (not just the agent's compute) is visible. */
+    voice: {
+      turns: { type: Number, default: 0 },
+      totalWebhookMs: { type: Number, default: 0 },
+      maxWebhookMs: { type: Number, default: 0 },
+      recoveredErrors: { type: Number, default: 0 },
+    },
+    /** inbound unless StayDesk placed the call (outbound reminders, callbacks). */
+    direction: { type: String, enum: ["inbound", "outbound"], default: "inbound" },
     isDemo: { type: Boolean, default: false },
   },
   { timestamps: true },

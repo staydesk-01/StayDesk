@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { logger } from "../../config/logger";
 import { env } from "../../config/env";
-import { FollowUp, Opportunity, ServiceRequest } from "../../models";
+import { FollowUp, Opportunity, PaymentApproval, Reservation, ServiceRequest } from "../../models";
 import type { CallDoc, Intent, TranscriptDoc } from "../../models";
 import { INTENTS } from "../../models";
 import { INTENT_LABELS } from "../ai/intent";
@@ -37,16 +37,18 @@ const aiSchema = z.object({
 });
 
 async function collectFacts(call: CallDoc) {
-  const [opps, reqs, followUps] = await Promise.all([
+  const [opps, reqs, followUps, reservations, payments] = await Promise.all([
     Opportunity.find({ callId: call._id }),
     ServiceRequest.find({ callId: call._id }),
     FollowUp.find({ callId: call._id }),
+    Reservation.find({ callId: call._id }),
+    PaymentApproval.find({ callId: call._id }),
   ]);
-  return { opps, reqs, followUps };
+  return { opps, reqs, followUps, reservations, payments };
 }
 
 export async function generateSummary(call: CallDoc, transcript: TranscriptDoc | null, businessName: string): Promise<SummaryDraft> {
-  const { opps, reqs, followUps } = await collectFacts(call);
+  const { opps, reqs, followUps, reservations, payments } = await collectFacts(call);
   const who = call.callerName || call.callerNumber || "An unknown caller";
 
   const keyDetails: SummaryDraft["keyDetails"] = [];
@@ -58,6 +60,8 @@ export async function generateSummary(call: CallDoc, transcript: TranscriptDoc |
   const nextAction = followUps.find((f) => f.status !== "completed")?.reason ?? "";
 
   const facts: string[] = [];
+  for (const r of reservations) facts.push(`Reservation ${r.confirmationCode} ${r.status}: ${r.roomTypeName}, ${r.checkIn} to ${r.checkOut}, ${r.guests} guest(s).`);
+  for (const p of payments) facts.push(`A ${p.kind} approval request${p.amount != null ? ` ($${p.amount})` : ""} is ${p.status}; no money moved until a human approves and the payment system confirms.`);
   if (opps.length) facts.push(`Captured ${opps.map((o) => `a ${OPP_LABEL[o.type] ?? o.type}`).join(", ")}.`);
   if (reqs.length) facts.push(`Created ${reqs.length === 1 ? "a service request" : `${reqs.length} service requests`}: ${reqs.map((r) => r.description).join("; ")}.`);
   if (call.transferAttempted) {

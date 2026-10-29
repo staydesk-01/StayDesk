@@ -66,6 +66,7 @@ export class TestClient {
   get = (url: string) => new Pending(this, "GET", url);
   post = (url: string) => new Pending(this, "POST", url);
   patch = (url: string) => new Pending(this, "PATCH", url);
+  put = (url: string) => new Pending(this, "PUT", url);
   delete = (url: string) => new Pending(this, "DELETE", url);
 
   async exec(method: string, url: string, headers: Record<string, string>, payload: unknown, form: boolean): Promise<TestResponse> {

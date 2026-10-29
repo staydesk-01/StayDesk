@@ -16,6 +16,7 @@ const icons: Record<NotificationType, typeof Bell> = {
   callback_requested: UserPlus,
   unresolved_request: TriangleAlert,
   service_request: CalendarCheck,
+  payment_approval: Sparkles,
   info: Bell,
 };
 

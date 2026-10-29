@@ -1,3 +1,5 @@
+import { flags } from "../../config/flags";
+import { resolveBusinessByDid } from "../telephony/core/numbers";
 import bcrypt from "bcryptjs";
 import type { Types } from "mongoose";
 import { env } from "../../config/env";
@@ -41,6 +43,11 @@ export async function createBusinessWithOwner(input: {
 export async function findBusinessByNumber(dialed: string): Promise<{ business: BusinessDoc; config: PhoneConfigDoc } | null> {
   const number = normalizePhone(dialed);
   if (!number) return null;
+  // Verified numbers from the telephony core take precedence when it is switched on.
+  if (flags.telephonyCore()) {
+    const r = await resolveBusinessByDid(number);
+    if (r?.numberId && r.config) return { business: r.business, config: r.config };
+  }
   const config = await PhoneConfiguration.findOne({ twilioNumber: number });
   if (!config) return null;
   const business = await Business.findById(config.businessId);

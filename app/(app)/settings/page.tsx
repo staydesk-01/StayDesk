@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/toast";
 import { useApi } from "@/hooks/use-api";
 import { useSession } from "@/hooks/use-session";
+import { useUpdateGuard } from "@/hooks/use-update-guard";
 import { api, errorMessage } from "@/lib/api";
 import type { Business, NotificationType, Role, TeamMember } from "@/types";
 
@@ -59,6 +60,7 @@ function SettingsView({ initial }: { initial: Business }) {
   const [memberError, setMemberError] = React.useState("");
 
   const dirty = JSON.stringify(b) !== JSON.stringify(base);
+  useUpdateGuard("unsaved", dirty);
   const setPrefs = (p: Partial<Business["notificationPrefs"]>) => setB({ ...b, notificationPrefs: { ...b.notificationPrefs, ...p } });
   const setPrivacy = (p: Partial<Business["privacy"]>) => setB({ ...b, privacy: { ...b.privacy, ...p } });
 

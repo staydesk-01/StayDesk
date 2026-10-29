@@ -40,9 +40,10 @@ export async function patchBusinessKnowledge(req: Request, res: Response) {
   const { businessId } = auth(req);
   const patch = knowledgePatch.parse(req.body);
   const knowledge = await getKnowledge(businessId);
-  const { hours, ...rest } = patch;
+  const { hours, booking, ...rest } = patch;
   knowledge.set(rest);
   if (hours) for (const [day, value] of Object.entries(hours)) knowledge.set(`hours.${day}`, value);
+  if (booking) for (const [k, v] of Object.entries(booking)) knowledge.set(`booking.${k}`, v);
   await knowledge.save();
   await audit(req, businessId, "knowledge.update", "knowledge", knowledge._id, { fields: Object.keys(patch) });
   res.json({ knowledge });

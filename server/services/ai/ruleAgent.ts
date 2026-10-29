@@ -3,7 +3,13 @@ import type { CallDoc } from "../../models";
 import { runTool } from "../../tools/registry";
 import { FAREWELL } from "./prompt";
 import { classifyIntent } from "./intent";
-import { matchServices, parsePrice } from "./knowledgeSearch";
+import { bestAnswer, matchServices, parsePrice, unknownTerms } from "./knowledgeSearch";
+import { getBookingProvider } from "../booking";
+import { extractName } from "./extract";
+import { handleWorkflows } from "./workflows";
+import { answerQuestions, looksLikeQuestion, splitQuestions } from "./questions";
+import type { Wf } from "./workflows";
+export { extractName };
 import type { AgentBrain, AgentTurnResult, BrainInput } from "./types";
 
 type Flow = "booking" | "appointment" | "lead" | "service" | "complaint" | "callback";
@@ -14,31 +20,21 @@ export interface RuleState {
   awaiting?: Awaiting;
   slots: { name?: string; details?: string; location?: string; urgent?: boolean };
   nameRetries?: number;
+  /** A question we could not verify has already been queued for staff on this call (never queue the same kind of follow-up repeatedly). */
+  unverifiedNoted?: boolean;
+  /** The caller said they do not want a callback: never offer or promise one again on this call. */
+  callbackDeclined?: boolean;
+  lastUnverified?: string;
   simulateTransferAnswers?: boolean;
   silentTurns?: number;
+  /** Active multi-step workflow (reservation, payment …), see workflows.ts */
+  wf?: Wf;
+  voice?: { language?: string; hints?: string };
 }
 
-const NOT_NAMES = new Set("looking calling interested trying just not here wondering hoping having need needing wanting want would calling from in at the a an and so um uh yes yeah no sure okay ok please".split(" "));
-const TRAILING = new Set("and calling from i looking need would want in at for to with about because".split(" "));
 const YES = /\b(yes|yeah|yep|yup|sure|please|okay|ok|absolutely|definitely|that would be great|go ahead)\b/i;
 const NO = /\b(no|nope|nah|not now|don'?t|no thanks?|no thank you)\b/i;
 const BYE = /\b(bye|goodbye|good-bye|that'?s (all|it)|nothing( else)?|i'?m (good|done|all set)|all set|have a (good|great|nice))\b/i;
-
-const cap = (s: string) => s.replace(/\b([a-z])/g, (c) => c.toUpperCase());
-
-export function extractName(text: string, strict = false): string | undefined {
-  const m = text.match(/\b(?:my name is|my name's|name is|this is|i am|i'm|it's|its|call me)\s+([A-Za-z][A-Za-z'’-]*(?:\s+[A-Za-z][A-Za-z'’-]*){0,2})/i);
-  let candidate = m?.[1];
-  if (!candidate && strict) {
-    const words = text.replace(/[.,!?]/g, "").trim().split(/\s+/);
-    if (words.length <= 3 && !/\d/.test(text)) candidate = words.join(" ");
-  }
-  if (!candidate) return undefined;
-  const parts = candidate.split(/\s+/);
-  while (parts.length && TRAILING.has(parts[parts.length - 1].toLowerCase())) parts.pop();
-  if (!parts.length || NOT_NAMES.has(parts[0].toLowerCase())) return undefined;
-  return cap(parts.slice(0, 2).join(" ").toLowerCase());
-}
 
 const hasDateHint = (t: string) =>
   /\b(mon|tues?|wed(nes)?|thu(rs)?|fri|sat(ur)?|sun)(day)?\b|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b|\btomorrow|tonight|today|next week|weekend|\d{1,2}(st|nd|rd|th)\b|\d+\s*nights?|\d{1,2}\/\d{1,2}/i.test(t);
@@ -61,6 +57,16 @@ function categoryFor(t: string): string {
   if (/\b(towel|pillow|blanket|clean|housekeeping|sheet|linen|toiletr)/i.test(t)) return "housekeeping";
   if (/\b(broken|leak|toilet|shower|air|heat|a\/c|light|tv|remote|wifi|clog|repair|fix|not working)/i.test(t)) return "maintenance";
   return "general";
+}
+
+/** Live room rates, or [] if the booking system is down: answering questions must never depend on it. */
+async function safeRooms(businessId: CallDoc["businessId"]) {
+  try {
+    const prov = await getBookingProvider(businessId);
+    return prov ? await prov.listRoomTypes(businessId) : [];
+  } catch {
+    return [];
+  }
 }
 
 export class RuleBrain implements AgentBrain {
@@ -93,14 +99,19 @@ export class RuleBrain implements AgentBrain {
       const type = flow === "lead" ? "sales_lead" : flow;
       const r = await runTool("create_booking_or_lead", ctx, { type, customerName: name, details, estimatedValue });
       if (!r.ok) return more("I'm sorry, I had trouble saving that, so I've asked the team to call you back.");
-      await runTool("create_follow_up", ctx, {
-        customerName: name,
-        reason: `Confirm ${type.replace("_", " ")} inquiry for ${name}: ${details}`,
-        priority: estimatedValue && estimatedValue >= (business.notificationPrefs?.highValueThreshold ?? 500) ? "high" : "normal",
-        type: "other",
-      });
+      // The inquiry is already saved for staff. A callback is only promised if the caller wants one AND the task really exists.
+      const fu = state.callbackDeclined
+        ? null
+        : await runTool("create_follow_up", ctx, {
+            customerName: name,
+            reason: `Confirm ${type.replace("_", " ")} inquiry for ${name}: ${details}`,
+            priority: estimatedValue && estimatedValue >= (business.notificationPrefs?.highValueThreshold ?? 500) ? "high" : "normal",
+            type: "other",
+          });
       const what = flow === "booking" ? "booking request" : flow === "appointment" ? "appointment request" : "inquiry";
-      return more(`Thank you, ${first(name)}. I've passed your ${what} to our team and they'll call you back at this number to confirm.`);
+      const tail = flow === "booking" || flow === "appointment" ? " I can't confirm it myself, so it is not confirmed yet." : "";
+      if (!fu) return more(`Thank you, ${first(name)}. I've recorded your ${what} for our team.${tail}`);
+      return more(fu.ok ? `Thank you, ${first(name)}. I've passed your ${what} to our team and they'll call you back at this number to confirm.${tail}` : `Thank you, ${first(name)}. I've recorded your ${what} for our team, but I couldn't schedule the callback.${tail}`);
     };
 
     const completeService = async () => {
@@ -177,26 +188,73 @@ export class RuleBrain implements AgentBrain {
       return say("I'm sorry, nobody on our team is available right now. May I take your name so they can call you back?", { awaiting: "name", flow: "callback" });
     };
 
+    /** Queues ONE follow-up per call for questions we cannot verify. Returns true only if the backend confirmed it. */
+    const queueUnverified = async (unanswered: string[]): Promise<boolean> => {
+      if (state.callbackDeclined) return false;
+      if (state.unverifiedNoted) return true;
+      const r = await runTool("create_follow_up", ctx, { customerName: state.slots.name || undefined, reason: `Question the AI could not verify: "${unanswered.join("; ")}"`, priority: "normal", type: "callback" });
+      if (r.ok) state.unverifiedNoted = true;
+      return r.ok;
+    };
+
+    /** Adds one honest sentence for questions with no verified answer; claims a follow-up only if one was really created. */
+    const withUnverifiedNote = async (spoken: string, unanswered: string[]): Promise<string> => {
+      if (!unanswered.length) return spoken;
+      const queued = await queueUnverified(unanswered);
+      return `${spoken} I don't have the rest verified${queued ? ", so I've asked our team to follow up on it" : ""}.`.trim();
+    };
+
     const answerQuestion = async (): Promise<AgentTurnResult> => {
-      if (intent === "business_hours") {
+      const rooms = await safeRooms(call.businessId);
+
+      // 0. Several questions in one message: answer each from verified data, and flag only the ones that are not.
+      if (splitQuestions(t).length > 1) {
+        const found = answerQuestions(t, knowledge, rooms);
+        if (found.answered.length) return more(await withUnverifiedNote(found.answered.map((a) => a.answer).join(" "), found.unanswered));
+      }
+
+      // 1. A verified statement that actually covers what was asked (FAQ, service, policy, live room rate).
+      const hit = bestAnswer(t, knowledge, rooms);
+      if (hit) return more(hit.source === "room" ? `${hit.answer} The total for your dates is confirmed when you book.` : hit.source === "service" && /\bprice|cost|how much|rate\b/i.test(t) ? `${hit.answer} Final pricing can be confirmed by our team.` : hit.answer);
+
+      // 2. Opening hours: only when hours were actually asked about.
+      if (/\b(hours?|open|opens|opening|close|closes|closing)\b/i.test(t)) {
         const i = await info("hours");
-        return more(`Our hours are ${i.hours}. ${i.openNow === false ? "We're currently closed." : ""}`.trim());
+        if (i.hours) return more(`Our hours are ${i.hours}. ${i.openNow === false ? "We're currently closed." : ""}`.trim());
       }
-      if (intent === "pricing_question") {
-        const i = await info("pricing", t);
-        const hit = (i.servicePrices as { name: string; price: string }[] | undefined)?.find((s) => matchServices(knowledge, t).some((m) => m.name === s.name));
-        if (hit) return more(`${hit.name}: ${hit.price}. Final pricing can be confirmed by our team.`);
-        if (i.pricing) return more(`${i.pricing}`);
+
+      // 3. General pricing: never answer a question about something we have no verified price for (e.g. "what does the spa cost?") with some other price.
+      if (intent === "pricing_question" || /\b(price|prices|pricing|rates?|cost|how much)\b/i.test(t)) {
+        if (unknownTerms(t, knowledge, rooms.map((r) => r.name)).length === 0) {
+          if (/\b(rooms?|stay|night)\b/i.test(t) && rooms.length) return more(`Our rooms: ${rooms.map((r) => `${r.name} at $${r.nightlyRate} per night`).join(", ")}.`);
+          const i = await info("pricing", t);
+          if (i.pricing) return more(`${i.pricing}`);
+        }
       }
-      const i = await info("faqs", t);
-      const faq = (i.faqs as { question: string; answer: string }[] | undefined)?.[0];
-      if (faq) return more(faq.answer);
-      if (/\b(where|address|located|location|directions)\b/i.test(t) && business.address) return more(`We're located at ${business.address}.`);
-      const svc = matchServices(knowledge, t)[0];
-      if (svc) return more(`${svc.name}${svc.description ? `: ${svc.description}` : ""}${svc.price ? ` (${svc.price})` : ""}.`);
+
+      // 4. Location.
+      if (/\b(where|address|located|location|directions)\b/i.test(t) && business.address && unknownTerms(t, null, [business.address, business.name]).length === 0) return more(`We're located at ${business.address}.`);
+
+      // 5. Not a question at all ("Maria Gomez", "ok", an email): say what we can do, never "I don't have that verified".
+      if (!looksLikeQuestion(t) && (intent === "unknown" || intent === "general_question")) {
+        return say(`I'm not sure what you'd like me to do with that. I can answer questions about ${business.name} or help with a reservation. What would you like?`);
+      }
+      // 6. Honest decline. Offer a callback once; never after it was declined, and never the same words twice in a row.
+      const repeated = state.lastUnverified === t.toLowerCase();
+      state.lastUnverified = t.toLowerCase();
+      if (state.callbackDeclined || repeated) return more(repeated ? "I still don't have that verified, and I don't want to guess." : "I don't have that verified.");
       state.slots = { details: `Question the AI couldn't answer: "${t}"` };
       return say("I don't have that information verified. Would you like me to have someone from our team call you back?", { awaiting: "offer_callback" });
     };
+
+    // ---- tool-backed multi-step workflows (reservations, payments …) take priority when they apply ----------
+    {
+      const wfResult = await handleWorkflows({ call, business, knowledge, state: state as never, text: t, intent });
+      if (wfResult) return wfResult;
+      if (call.agentState && (call.agentState as RuleState).wf && !state.wf) {
+        // a workflow was abandoned (human request / urgent): fall through to the normal handler below
+      }
+    }
 
     // ---- interrupts that apply anywhere ---------------------------------------
     if (intent === "urgent_request" && state.awaiting !== "name") {
@@ -209,6 +267,26 @@ export class RuleBrain implements AgentBrain {
       );
     }
     if (intent === "human_request") return transfer();
+
+    // ---- the caller asked something instead of answering: answer it, keep the unfinished request, then resume ----------
+    if ((state.awaiting === "name" || state.awaiting === "details" || state.awaiting === "location") && looksLikeQuestion(t) && !["complaint"].includes(intent)) {
+      const found = answerQuestions(t, knowledge, await safeRooms(call.businessId));
+      const given = extractName(t); // "My name is John, and what time is check-out?"
+      if (given && state.awaiting === "name") state.slots.name = given;
+      let spoken = found.answered.map((a) => a.answer).join(" ");
+      if (found.unanswered.length) {
+        if (found.answered.length) spoken = await withUnverifiedNote(spoken, found.unanswered);
+        else spoken = `I don't have that verified${(await queueUnverified(found.unanswered)) ? ", so I've asked our team to follow up on it" : ""}.`;
+      }
+      if (spoken) {
+        const pending = state.awaiting;
+        if (pending === "name" && state.slots.name) state.awaiting = undefined;
+        const next = await askNext();
+        // Resume the booking naturally, in different words than the first time.
+        const resumed = state.awaiting === "name" ? "And may I have your name for it?" : state.awaiting === "location" ? "And which room or location is this for?" : next.reply;
+        return { ...next, reply: `${spoken} ${resumed}`.trim() };
+      }
+    }
 
     // ---- answer to an outstanding question --------------------------------------
     switch (state.awaiting) {
@@ -237,7 +315,11 @@ export class RuleBrain implements AgentBrain {
           state.flow = "callback";
           return say("Certainly. May I have your name?", { awaiting: "name" });
         }
-        return more("No problem.");
+        if (NO.test(t) || BYE.test(t)) {
+          state.callbackDeclined = true;
+          return more("No problem.");
+        }
+        break; // neither yes nor no (e.g. a new question): treat it as a fresh request, the offer simply lapses
       case "more":
         if (BYE.test(t) || (NO.test(t) && intent === "unknown")) return say(FAREWELL(business), {}, { end: true });
         if (YES.test(t) && intent === "unknown") return say("Of course. What can I help you with?", { awaiting: undefined });
@@ -248,6 +330,18 @@ export class RuleBrain implements AgentBrain {
 
     // ---- route a fresh request -------------------------------------------------
     state.awaiting = undefined;
+
+    // Info first: a question that verified data answers ("how much notice to reschedule?", "do you allow dogs?") must never
+    // be mistaken for a booking / appointment / lead request just because it contains a trigger word.
+    if ((/\?\s*$/.test(t) || /^(what|when|where|which|who|how|do|does|did|is|are|can|could|will|would)\b/i.test(t)) && !["urgent_request", "human_request", "complaint", "service_request", "existing_customer_question"].includes(intent)) {
+      const rooms = await safeRooms(call.businessId);
+      if (splitQuestions(t).length > 1) {
+        const found = answerQuestions(t, knowledge, rooms);
+        if (found.answered.length) return more(await withUnverifiedNote(found.answered.map((a) => a.answer).join(" "), found.unanswered));
+      }
+      const hit = bestAnswer(t, knowledge, rooms);
+      if (hit) return more(hit.source === "room" ? `${hit.answer} The total for your dates is confirmed when you book.` : hit.answer);
+    }
     switch (intent) {
       case "booking_inquiry":
         return startFlow("booking", t);

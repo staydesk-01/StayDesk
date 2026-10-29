@@ -3,6 +3,7 @@ import * as React from "react";
 import { ClipboardCheck, Plus } from "lucide-react";
 import { FollowUpCard } from "@/components/follow-ups/follow-up-card";
 import { NewFollowUpDialog } from "@/components/follow-ups/new-follow-up-dialog";
+import { PaymentApprovals } from "@/components/payments/payment-approvals";
 import { PageHeader } from "@/components/common/page-header";
 import { EmptyState, ErrorState } from "@/components/common/states";
 import { Button } from "@/components/ui/button";
@@ -45,6 +46,8 @@ export default function FollowUpsPage() {
         description="Work that came out of your calls: callbacks to make, bookings to confirm, questions to answer."
         actions={<Button size="lg" onClick={() => setCreating(true)}><Plus /> New follow-up</Button>}
       />
+
+      <PaymentApprovals />
 
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <Segmented label="Follow-up status" value={view} onChange={setView} options={options} />

@@ -18,7 +18,7 @@ export function redact(value: unknown, depth = 0): unknown {
 
 type Level = "debug" | "info" | "warn" | "error";
 function log(level: Level, msg: string, meta?: unknown) {
-  if (env.isTest && level !== "error") return;
+  if ((env.isTest || process.env.LOG_LEVEL === "error") && level !== "error") return;
   const line = `${new Date().toISOString()} ${level.toUpperCase()} ${msg}`;
   const fn = level === "error" ? console.error : level === "warn" ? console.warn : console.log;
   if (meta === undefined) fn(line);

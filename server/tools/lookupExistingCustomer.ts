@@ -12,7 +12,11 @@ export const lookupExistingCustomer = defineTool({
   description:
     "Check whether this caller (by phone) has contacted the business before and whether they have open requests. Returns limited info only; no reservation or payment details are available by phone.",
   schema: lookupExistingCustomerInput,
-  async handler({ businessId, call }, input) {
+  async handler({ businessId, call, business }, input) {
+    // Healthcare: patient information is never disclosed by phone through the AI (identity can't be verified here).
+    if (business.type === "medical") {
+      return { found: false, privacy: true, message: "For patient privacy, no information about existing patients is shared on this call. Offer to have a staff member call them back." };
+    }
     const phone = normalizePhone(input.phone) || call.callerNumber;
     if (!phone) return { found: false, message: "No phone number to look up." };
     const [calls, opportunities, requests] = await Promise.all([

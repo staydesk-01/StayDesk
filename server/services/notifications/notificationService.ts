@@ -23,7 +23,9 @@ export async function notify(input: NotifyInput) {
   const business = await Business.findById(input.businessId);
   if (!business) return null;
   const prefs = business.notificationPrefs!; // nested paths always exist (schema defaults)
-  if (!prefs.events.includes(input.type) && input.type !== "info") return null;
+  // Payment approvals are security-relevant: they are never silenced by event preferences.
+  const alwaysOn = input.type === "info" || input.type === "payment_approval";
+  if (!prefs.events.includes(input.type) && !alwaysOn) return null;
   if (!prefs.inApp && !prefs.email) return null;
 
   if (input.callId) {

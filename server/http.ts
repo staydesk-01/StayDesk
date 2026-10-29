@@ -23,6 +23,8 @@ export interface Request {
   cookies: Record<string, string>;
    
   body: any;
+  /** Exact request body text (needed to verify webhook signatures). */
+  rawBody?: string;
   query: Record<string, string>;
   params: Record<string, string>;
   header(name: string): string | undefined;
@@ -136,9 +138,11 @@ async function buildRequest(request: NextRequest, params: Record<string, string>
 
    
   let body: any = {};
+  let rawBody = "";
   if (!["GET", "HEAD", "DELETE"].includes(request.method)) {
     const type = headers["content-type"] ?? "";
     const text = await request.text();
+    rawBody = text;
     if (text) {
       if (type.includes("application/x-www-form-urlencoded")) body = Object.fromEntries(new URLSearchParams(text));
       else {
@@ -159,6 +163,7 @@ async function buildRequest(request: NextRequest, params: Record<string, string>
     headers,
     cookies,
     body,
+    rawBody,
     query: Object.fromEntries(url.searchParams),
     params,
     header: (name: string) => headers[name.toLowerCase()],
