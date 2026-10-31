@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mongodb:
-        image: mongo:8
+        # mongo:8.0.5+ cannot start on GitHub runners (Linux kernel 6.19+,
+        # MongoDB SERVER-121912). 8.0.4 is the last 8.x release that boots.
+        image: mongo:8.0.4
         ports:
           - 27017:27017
     steps:
