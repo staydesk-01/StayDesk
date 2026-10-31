@@ -7,7 +7,10 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # ubuntu-latest runners moved to kernel 6.19+ in Oct 2026, which mongod
+    # (TCMalloc bug, SERVER-121912) refuses to start on. Pin to 22.04 until
+    # the runner images ship kernel 7.0.14+.
+    runs-on: ubuntu-22.04
     services:
       mongodb:
         # mongo:8.0.5+ cannot start on GitHub runners (Linux kernel 6.19+,
