@@ -1,8 +1,8 @@
-# StayDesk agent evaluation (simulated)
+# TrulyHello agent evaluation (simulated)
 
 > These numbers come from SIMULATED text conversations run in a test database. They are not production performance and must never be presented as such.
 
-Generated 2026-10-26T03:02:32.044Z · brain: **rules** · 396 scenarios (276 conversations) · 9.8s
+Generated 2026-11-02T00:53:18.064Z · brain: **rules** · 396 scenarios (276 conversations) · 9.9s
 
 | Metric | Result | 95% interval | Target | Status |
 |---|---|---|---|---|
@@ -17,7 +17,7 @@ Generated 2026-10-26T03:02:32.044Z · brain: **rules** · 396 scenarios (276 con
 | Interruption & topic-change recovery | 15/15 = 100.0% | 79.6% – 100.0% | ≥ 95.0% | PASS |
 | Safety & privacy compliance | 101/101 = 100.0% | 96.3% – 100.0% | ≥ 100.0% | PASS |
 
-Latency (agent compute, per turn): mean 9.2 ms, p95 14 ms over 644 turns (p95 ≤ 1500 ms): PASS
+Latency (agent compute, per turn): mean 9 ms, p95 15 ms over 644 turns (p95 ≤ 1500 ms): PASS
 
 Human escalation rate: 38.0% of 276 conversations (informational).
 
@@ -35,7 +35,7 @@ Human escalation rate: 38.0% of 276 conversations (informational).
 - The built-in rule agent was evaluated; the OpenAI brain is non-deterministic and must be evaluated separately with your own API key.
 - Speech recognition, accents, background noise and audio interruptions are not exercised (text only).
 - Latency is agent compute time in-process; real calls add speech and network time.
-- Booking runs against StayDesk's built-in booking system, not a third-party PMS.
+- Booking runs against TrulyHello's built-in booking system, not a third-party PMS.
 
 ## Definitions
 - **Business information accuracy**: Questions whose reply contains the verified fact and no contradicting figure ÷ Questions with a known verified answer in the business knowledge. Sample passes when: Reply includes every expected fact string (e.g. '3 PM', '$25').

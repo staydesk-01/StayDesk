@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { setStage } from "../services/calls/liveSession";
 import { ZodError } from "zod";
 import { logger } from "../config/logger";
 import { Business, BusinessKnowledge, Call, PhoneConfiguration } from "../models";
@@ -88,7 +89,9 @@ export async function runTool(name: string, ctx: ToolContext, rawInput: unknown)
   }
 
   try {
+    await setStage(ctx.callId, "executing_tool");
     const data = await def.handler({ ...ctx, call, business, knowledge, config }, parsed.data);
+    await setStage(ctx.callId, "processing");
     // Handlers may return a ToolResult directly (e.g. fail("limit_reached")).
     const result: ToolResult = data && typeof data === "object" && "ok" in data && typeof (data as ToolResult).ok === "boolean" ? (data as ToolResult) : ok(data);
     const incomplete = result.ok && typeof result.data === "object" && result.data !== null && ((result.data as { done?: boolean }).done === false || (result.data as { confirmed?: boolean }).confirmed === false);

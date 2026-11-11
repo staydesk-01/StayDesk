@@ -4,7 +4,7 @@ import { defineModel } from "./_define";
 const phoneConfigSchema = new Schema(
   {
     businessId: { type: Schema.Types.ObjectId, ref: "Business", required: true, unique: true },
-    /** new_twilio: callers dial the StayDesk number directly. existing_number: carrier forwards busy/no-answer calls to it. */
+    /** new_twilio: callers dial the TrulyHello number directly. existing_number: carrier forwards busy/no-answer calls to it. */
     mode: { type: String, enum: ["new_twilio", "existing_number"], default: "new_twilio" },
     /** The Twilio number (E.164). Incoming calls are matched to the business by this value. */
     twilioNumber: { type: String, trim: true, unique: true, sparse: true, default: undefined },

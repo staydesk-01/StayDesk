@@ -27,3 +27,8 @@ export async function audit(
     logger.error("Audit log write failed", { message: (e as Error).message });
   }
 }
+
+/** For access to recordings and other sensitive data: if the access cannot be logged, it does not happen. */
+export async function auditRequired(req: Request | null, businessId: Types.ObjectId, action: string, entity: string, entityId: unknown, meta?: Record<string, unknown>) {
+  await AuditLog.create({ businessId, actorType: "user", actorId: req?.auth?.userId, action, entity, entityId: String(entityId), meta, ip: req?.ip });
+}

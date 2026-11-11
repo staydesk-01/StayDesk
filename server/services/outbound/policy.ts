@@ -4,8 +4,8 @@ import { flags } from "../../config/flags";
 import { normalizePhone } from "../../utils/phone";
 
 /**
- * Decides whether StayDesk may place ONE automated call. Everything is denied unless every rule passes, and every
- * denial says why. This encodes StayDesk's own conservative defaults: it is NOT legal advice, and laws differ by
+ * Decides whether TrulyHello may place ONE automated call. Everything is denied unless every rule passes, and every
+ * denial says why. This encodes TrulyHello's own conservative defaults: it is NOT legal advice, and laws differ by
  * country and state (consent, calling hours, caller-ID, AI-voice disclosure). The business remains responsible for
  * compliance; the owner records their jurisdiction note and decides which purposes to approve.
  */

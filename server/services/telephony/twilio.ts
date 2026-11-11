@@ -1,11 +1,14 @@
 import twilio from "twilio";
 import { env } from "../../config/env";
 import { logger } from "../../config/logger";
+import { pollyVoice, type VoiceGender } from "../voice/voices";
 import type { CallInstruction, TelephonyProvider } from "./provider";
 
-// Speech recognition language + Amazon Polly voice per supported language.
-const VOICES: Record<string, string> = { "en-US": "Polly.Joanna", "es-US": "Polly.Lupe", "fr-FR": "Polly.Lea", "de-DE": "Polly.Vicki", "pt-BR": "Polly.Camila" };
-const voiceFor = (language = "en-US") => ({ voice: (VOICES[language] ?? VOICES["en-US"]) as "Polly.Joanna", language: (VOICES[language] ? language : "en-US") as "en-US" });
+// Speech recognition language + the standard Amazon Polly voice (used when no ElevenLabs audio is supplied or it failed).
+const voiceFor = (language = "en-US", gender: VoiceGender = "female") => {
+  const v = pollyVoice(language, gender);
+  return { voice: v.voice as "Polly.Joanna", language: v.language as "en-US" };
+};
 
 export class TwilioProvider implements TelephonyProvider {
   readonly name: "twilio" | "telnyx" = "twilio";
@@ -34,15 +37,19 @@ export class TwilioProvider implements TelephonyProvider {
           actionOnEmptyResult: true,
           timeout: instruction.noInputSeconds ?? 6,
         });
-        gather.say(voiceFor(instruction.language), instruction.say);
+        // ElevenLabs audio when available (callers can still interrupt it); otherwise the standard voice.
+        if (instruction.audioUrl) gather.play(instruction.audioUrl);
+        else gather.say(voiceFor(instruction.language, instruction.voiceGender), instruction.say);
         break;
       }
       case "say_hangup":
-        if (instruction.say) response.say(voiceFor(instruction.language), instruction.say);
+        if (instruction.audioUrl) response.play(instruction.audioUrl);
+        else if (instruction.say) response.say(voiceFor(instruction.language, instruction.voiceGender), instruction.say);
         response.hangup();
         break;
       case "dial": {
-        if (instruction.say) response.say(voiceFor(), instruction.say);
+        if (instruction.audioUrl) response.play(instruction.audioUrl);
+        else if (instruction.say) response.say(voiceFor("en-US", instruction.voiceGender), instruction.say);
         const dial = response.dial({
           timeout: instruction.ringSeconds,
           action: instruction.actionUrl,

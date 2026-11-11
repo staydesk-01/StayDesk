@@ -16,7 +16,7 @@ const event = z.discriminatedUnion("type", [
   z.object({ type: z.literal("dtmf"), providerCallId: id, digits: z.string().min(1).max(64) }),
   z.object({ type: z.literal("quality"), providerCallId: id, jitterMs: z.number().min(0).optional(), packetLossPct: z.number().min(0).max(100).optional(), rttMs: z.number().min(0).optional(), mos: z.number().min(1).max(5).optional() }),
   z.object({ type: z.literal("latency"), providerCallId: id, turnMs: z.number().min(0).max(120000) }),
-  z.object({ type: z.literal("heartbeat"), activeCalls: z.number().int().min(0).optional() }),
+  z.object({ type: z.literal("heartbeat"), activeCalls: z.number().int().min(0).optional(), worker: z.object({ workerId: z.string().min(1).max(64), capacity: z.number().int().min(1).max(1000), active: z.number().int().min(0).optional(), draining: z.boolean().optional(), cpuPct: z.number().min(0).max(100).optional(), memMb: z.number().min(0).optional() }).optional() }),
 ]);
 const body = z.object({ events: z.array(event).min(1).max(50) });
 

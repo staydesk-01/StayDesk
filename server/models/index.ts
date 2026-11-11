@@ -18,3 +18,5 @@ export { PaymentApproval, type PaymentApprovalDoc } from "./PaymentApproval";
 export { CustomerProfile, type CustomerProfileDoc } from "./CustomerProfile";
 export { ProcessedMessage } from "./ProcessedMessage";
 export * from "./telephony";
+export * from "./Security";
+export { VoiceClip, type VoiceClipDoc } from "./VoiceClip";

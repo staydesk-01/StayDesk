@@ -29,7 +29,7 @@ export function BackendStatus() {
   return (
     <div role="alert" className="flex items-center gap-2.5 bg-danger px-4 py-2.5 text-sm font-semibold text-white">
       <TriangleAlert className="size-4 shrink-0" />
-      The StayDesk API or database is not responding. Check that MongoDB is running (<code className="rounded bg-white/20 px-1.5">docker compose up -d</code>) and that <code className="rounded bg-white/20 px-1.5">npm run dev</code> is still running.
+      The TrulyHello API or database is not responding. Check that MongoDB is running (<code className="rounded bg-white/20 px-1.5">docker compose up -d</code>) and that <code className="rounded bg-white/20 px-1.5">npm run dev</code> is still running.
     </div>
   );
 }

@@ -1,17 +1,17 @@
 import type { PaymentApprovalDoc } from "../../models";
 
 /**
- * The system that actually moves money (Stripe, Square, a hotel's POS, …). StayDesk never charges anything itself:
+ * The system that actually moves money (Stripe, Square, a hotel's POS, …). TrulyHello never charges anything itself:
  * a human approves, then an authorized payment system carries it out, and only ITS confirmation marks a payment "paid".
  */
 export interface PaymentProvider {
   readonly id: string;
-  /** true: StayDesk calls `process` right after approval. false: staff complete it in their own system and record the reference. */
+  /** true: TrulyHello calls `process` right after approval. false: staff complete it in their own system and record the reference. */
   readonly automatic: boolean;
   process(approval: PaymentApprovalDoc): Promise<{ ok: true; reference: string } | { ok: false; error: string }>;
 }
 
-/** Default: staff process the payment in their existing POS/processor and record the reference in StayDesk. */
+/** Default: staff process the payment in their existing POS/processor and record the reference in TrulyHello. */
 export const manualPaymentProvider: PaymentProvider = {
   id: "manual",
   automatic: false,

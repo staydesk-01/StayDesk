@@ -5,6 +5,7 @@ import { ArrowRight, ArrowUpRight, BadgeDollarSign, Clock, ListChecks, Play, Pho
 import { Dot, PageHeader } from "@/components/common/page-header";
 import { StatCard } from "@/components/common/stat-card";
 import { ActivityChart } from "@/components/overview/activity-chart";
+import { ConcurrencyCard } from "@/components/overview/concurrency-card";
 import { RecentCalls } from "@/components/overview/recent-calls";
 import { VoiceAgentCard } from "@/components/overview/voice-agent-card";
 import { Button } from "@/components/ui/button";
@@ -100,7 +101,7 @@ export default function OverviewPage() {
         <>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <StatCard loading={loading} label="Calls received" value={m?.callsReceived} hint={`Across your line ${rangeText[range]}`} icon={PhoneIncoming} />
-            <StatCard loading={loading} label="AI overflow calls" value={m?.aiOverflowCalls} hint="Answered by StayDesk when staff couldn’t" icon={Sparkles} tone="brand" />
+            <StatCard loading={loading} label="AI overflow calls" value={m?.aiOverflowCalls} hint="Answered by TrulyHello when staff couldn’t" icon={Sparkles} tone="brand" />
             <StatCard loading={loading} label="Opportunities captured" value={m?.opportunitiesCaptured} hint="Bookings, leads and service inquiries" icon={Target} tone="success" />
             <StatCard loading={loading} label="Needs follow-up" value={m?.needsFollowUp} hint="Open or in progress" icon={ListChecks} tone="warning" />
             <StatCard loading={loading} label="Average call length" value={m ? formatDuration(m.averageCallSeconds) : ""} hint="AI-handled conversations" icon={Clock} tone="info" />
@@ -145,8 +146,10 @@ export default function OverviewPage() {
           </CardHeader>
           <CardContent>{loading ? <Skeleton className="h-64 w-full" /> : data ? <ActivityChart data={data.chart} /> : <p className="py-16 text-center text-sm text-muted">Activity will appear here once data loads.</p>}</CardContent>
         </Card>
-        <VoiceAgentCard active={routing.data?.config.agentActive ?? true} phoneConnected={!!routing.data?.status.phoneConnected} agentName={agent.data?.agentName ?? "StayDesk"} />
+        <VoiceAgentCard active={routing.data?.config.agentActive ?? true} phoneConnected={!!routing.data?.status.phoneConnected} agentName={agent.data?.agentName ?? "TrulyHello"} />
       </div>
+
+      <ConcurrencyCard canEdit />
 
       <Card className="mt-5">
         <CardHeader>

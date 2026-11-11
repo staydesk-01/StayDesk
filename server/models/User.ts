@@ -12,6 +12,15 @@ const userSchema = new Schema(
     /** Reserved for Clerk: map a Clerk user id to this user when auth is swapped. */
     clerkId: { type: String, index: true, sparse: true },
     active: { type: Boolean, default: true },
+    /** Time-based one-time-password second factor. The secret is stored encrypted; recovery codes only as hashes. */
+    mfa: {
+      enabled: { type: Boolean, default: false },
+      secretCipher: { type: String, select: false },
+      pendingSecretCipher: { type: String, select: false },
+      recoveryHashes: { type: [String], default: [], select: false },
+      lastUsedStep: { type: Number, default: 0, select: false },
+      enrolledAt: Date,
+    },
   },
   { timestamps: true },
 );

@@ -74,7 +74,7 @@ export async function generateSummary(call: CallDoc, transcript: TranscriptDoc |
   if (followUps.length) facts.push(`A follow-up was created: ${followUps[0].reason}`);
 
   const template: SummaryDraft = {
-    summary: `${who} called ${businessName}; the call reached StayDesk AI because ${REASON_TEXT[call.routingReason] ?? "of routing rules"}. Topic: ${INTENT_LABELS[call.intent as Intent].toLowerCase()}. ${facts.join(" ") || "The AI answered the caller's questions; no follow-up action was needed."}`,
+    summary: `${who} called ${businessName}; the call reached TrulyHello because ${REASON_TEXT[call.routingReason] ?? "of routing rules"}. Topic: ${INTENT_LABELS[call.intent as Intent].toLowerCase()}. ${facts.join(" ") || "The AI answered the caller's questions; no follow-up action was needed."}`,
     intent: call.intent as Intent,
     nextAction: nextAction || "No action needed.",
     keyDetails,
@@ -84,7 +84,7 @@ export async function generateSummary(call: CallDoc, transcript: TranscriptDoc |
   if (call.handledBy === "human") {
     return {
       ...template,
-      summary: `${who} called ${businessName} and was answered by staff. StayDesk AI was not needed.`,
+      summary: `${who} called ${businessName} and was answered by staff. TrulyHello was not needed.`,
       nextAction: "No action needed.",
     };
   }

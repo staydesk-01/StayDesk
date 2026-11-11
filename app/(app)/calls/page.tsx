@@ -60,7 +60,7 @@ export default function CallsPage() {
 
   return (
     <>
-      <PageHeader title="Call activity" description="Every call StayDesk handled: who called, what they needed, and what happened next." />
+      <PageHeader title="Call activity" description="Every call TrulyHello handled: who called, what they needed, and what happened next." />
 
       <Card>
         <div className="flex flex-col gap-4 border-b border-border p-5 sm:p-6">

@@ -165,7 +165,7 @@ export default function CallDetailPage({ params }: PageProps<"/calls/[id]">) {
                           {s.role === "agent" ? <Bot className="size-4" /> : <UserRound className="size-4" />}
                         </span>
                         <div className={cn("max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed", s.role === "agent" ? "rounded-tl-md bg-brand-50" : "rounded-tr-md bg-info-soft/70")}>
-                          <p className="mb-0.5 text-[11px] font-bold tracking-wide text-muted uppercase">{s.role === "agent" ? "StayDesk AI" : "Caller"} · {formatTime(s.at)}</p>
+                          <p className="mb-0.5 text-[11px] font-bold tracking-wide text-muted uppercase">{s.role === "agent" ? "TrulyHello" : "Caller"} · {formatTime(s.at)}</p>
                           {s.text}
                         </div>
                       </li>
@@ -180,7 +180,7 @@ export default function CallDetailPage({ params }: PageProps<"/calls/[id]">) {
         <div className="space-y-5">
           <CompletionCard completion={call.completion} />
           <Card>
-            <CardHeader><CardTitle>Actions taken</CardTitle><CardDescription>Everything the agent did through StayDesk’s backend tools.</CardDescription></CardHeader>
+            <CardHeader><CardTitle>Actions taken</CardTitle><CardDescription>Everything the agent did through TrulyHello’s backend tools.</CardDescription></CardHeader>
             <CardContent>
               {!call.actions.length ? <p className="text-sm text-muted">No tools were used on this call.</p> : (
                 <ol className="space-y-3">
@@ -267,7 +267,7 @@ export default function CallDetailPage({ params }: PageProps<"/calls/[id]">) {
           <Card>
             <CardHeader><CardTitle className="flex items-center gap-2"><ShieldAlert className="size-[18px] text-brand-600" /> Recording</CardTitle></CardHeader>
             <CardContent>
-              <p className="text-sm text-muted">{call.recording?.url ? `A recording was saved (${formatDuration(call.recording.durationSeconds)}).` : call.recording?.enabled ? "Recording was enabled; the file isn’t available yet." : "Call recording was off for this call."}</p>
+              <p className="text-sm text-muted">{call.recording?.recordingId ? `A recording was saved (${formatDuration(call.recording.durationSeconds)}). Open it under Recordings.` : call.recording?.enabled ? "Recording was enabled; the file isn’t available yet." : "Call recording was off for this call."}</p>
             </CardContent>
           </Card>
         </div>

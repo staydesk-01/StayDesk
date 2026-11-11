@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
-  Business, BusinessPhoneNumber, Call, CallRecoveryTask, CallSession, FollowUp, Notification, OutboundCallRequest, OutboundConsent, Reservation, SipTrunk, SuppressionEntry, TelephonyConnection, TelephonyHealthEvent,
+  Business, BusinessPhoneNumber, Call, CallRecoveryTask, CallSession, ConcurrencyGate, FollowUp, Notification, OutboundCallRequest, OutboundConsent, Reservation, SipTrunk, SuppressionEntry, TelephonyConnection, TelephonyHealthEvent,
 } from "../server/models";
 import { __setSipFetchForTest, signPayload, verifySignature, controlUrlProblem } from "../server/services/telephony/core/adapters/sipGateway";
 import { __setTwilioRestForTest } from "../server/services/telephony/core/adapters/twilio";
@@ -332,13 +332,18 @@ describe("SIP gateway events", () => {
     await SipTrunk.create({ businessId: biz.business._id, name: "main", host: "sip.carrier.test", maxConcurrentCalls: 3, allowedIps: ["203.0.113.10"] });
     const results = await Promise.all([1, 2, 3, 4, 5].map((n) => signedPost(id, incoming(`par${n}`))));
     const decisions = results.map((r) => r.body.decisions[0]);
-    // Parallel requests race on the count, so assert the guarantees that must hold regardless of interleaving:
-    expect(decisions.filter((d) => d.action === "answer").length).toBeGreaterThanOrEqual(3);
-    expect(new Set(decisions.filter((d) => d.action === "answer").map((d) => d.callId)).size).toBe(decisions.filter((d) => d.action === "answer").length);
-    expect(await CallSession.countDocuments()).toBe(decisions.filter((d) => d.action === "answer").length);
+    // Admission is atomic: exactly the limit is answered however the requests interleave, and the rest are recorded as overflow.
+    const answeredNow = decisions.filter((d) => d.action === "answer");
+    expect(answeredNow).toHaveLength(3);
+    expect(new Set(answeredNow.map((d) => d.callId)).size).toBe(3);
+    expect(await CallSession.countDocuments({ lifecycle: { $ne: "failed" } })).toBe(3);
+    expect(await CallSession.countDocuments({ failureCause: "overflow:callback" })).toBe(2);
     // Sequential calls beyond the limit are rejected for sure.
     await CallSession.deleteMany({});
     await Call.deleteMany({});
+    await CallRecoveryTask.deleteMany({});
+    await FollowUp.deleteMany({});
+    await ConcurrencyGate.deleteMany({});
     for (const n of [1, 2, 3]) expect((await signedPost(id, incoming(`seq${n}`))).body.decisions[0].action).toBe("answer");
     const fourth = await signedPost(id, incoming("seq4"));
     expect(fourth.body.decisions[0]).toMatchObject({ action: "reject", reason: "capacity" });
@@ -662,7 +667,7 @@ describe("outbound requests and dispatch", () => {
 });
 
 // ------------------------------------------------------------------------------------------------------------------
-describe("voice turn endpoint (worker → StayDesk agent)", () => {
+describe("voice turn endpoint (worker → TrulyHello agent)", () => {
   async function liveCall() {
     const biz = await makeBusiness({ name: "Voice Hotel" });
     const { id } = await saveSipConnection(biz);

@@ -10,6 +10,8 @@ import type { CallInstruction } from "../telephony";
 import { publish } from "../realtime";
 import { normalizePhone } from "../../utils/phone";
 import { appendTranscript, createCallSession, finalizeCall } from "./callService";
+import { admitAi, endSession, openSession, sessionActive, setStage } from "./liveSession";
+import { registerRecording } from "../recordings/recordingService";
 import { decideRouting, reasonForDialFailure } from "./routingService";
 import { runTurnOnce } from "../ai/turnGuard";
 import { OPT_OUT, onOutboundCallEnded, recordOptOut } from "../outbound/service";
@@ -63,6 +65,7 @@ export async function handleIncoming(p: { callSid: string; from: string; to: str
       businessId: business._id, provider: "twilio", providerCallId: p.callSid, callerNumber: from,
       businessNumber: config.twilioNumber ?? p.to, routingReason: "direct_ai", handledBy: "human",
     });
+    await openSession(call, p.to);
     return number
       ? { kind: "dial", number: normalizePhone(number), ringSeconds: config.ringSeconds, actionUrl: hook("dial-result", call._id) }
       : { kind: "say_hangup", say: "We're unable to take your call right now. Please try again later. Goodbye." };
@@ -76,6 +79,8 @@ export async function handleIncoming(p: { callSid: string; from: string; to: str
       businessId: business._id, provider: "twilio", providerCallId: p.callSid, callerNumber: from,
       businessNumber: config.twilioNumber ?? p.to, routingReason: "direct_ai", handledBy: "human", status: "ringing",
     });
+    await openSession(call, p.to);
+    await setStage(call._id, "waiting_human");
     return { kind: "dial", number: decision.number, ringSeconds: decision.ringSeconds, actionUrl: hook("dial-result", call._id) };
   }
 
@@ -83,10 +88,17 @@ export async function handleIncoming(p: { callSid: string; from: string; to: str
     businessId: business._id, provider: "twilio", providerCallId: p.callSid, callerNumber: from,
     businessNumber: config.twilioNumber ?? p.to, routingReason: decision.reason, handledBy: "ai", status: "ringing",
   });
+  await openSession(call, p.to);
   return startAiSession(call, business, config);
 }
 
 export async function startAiSession(call: CallDoc, business: BusinessDoc, config: PhoneConfigDoc): Promise<CallInstruction> {
+  const admitted = await admitAi(call, business);
+  if (!admitted.ok) {
+    call.status = "abandoned";
+    await call.save();
+    return admitted.instruction;
+  }
   call.status = "ai_answered";
   call.handledBy = "ai";
   call.answeredAt = new Date();
@@ -115,6 +127,8 @@ export async function startAiSession(call: CallDoc, business: BusinessDoc, confi
   await Call.updateOne({ _id: call._id }, { $set: { "agentState.voice": voice, ...(memory ? { "agentState.memory": memory } : {}) } });
   call.agentState = { ...(call.agentState ?? {}), voice, ...(memory ? { memory } : {}) };
   const say = await agentEngine.greet(call);
+  await sessionActive(call._id);
+  await setStage(call._id, "speaking");
   return listen(call, say);
 }
 
@@ -161,6 +175,7 @@ export async function handleDialResult(callId: string, p: { dialStatus: string; 
     call.status = "completed";
     call.handledBy = "human";
     await call.save();
+    await sessionActive(call._id);
     publish(call.businessId, "call.updated", { id: String(call._id) });
     return { kind: "empty" };
   }
@@ -246,7 +261,9 @@ async function gatherTurn(callId: string, p: { speech?: string }): Promise<CallI
 
   const turns = (state.turns ?? 0) + 1;
   await Call.updateOne({ _id: call._id }, { $set: { "agentState.silentTurns": 0, "agentState.turns": turns } });
+  await setStage(call._id, "processing");
   const result = await agentEngine.respond(call._id, speech);
+  await setStage(call._id, result.transfer ? "transferring" : "speaking");
 
   if (turns >= MAX_TURNS && !result.end) return { kind: "say_hangup", say: `${result.reply} Thank you for calling. Goodbye.` };
   if (result.end) return { kind: "say_hangup", say: result.reply };
@@ -282,16 +299,19 @@ export async function handleStatus(p: { callSid: string; callStatus: string; dur
   switch (p.callStatus) {
     case "completed":
       await finalizeCall(call._id, { durationSeconds: p.duration && p.duration > 0 ? p.duration : undefined });
+      await endSession(p.callSid, { ok: true });
       await finish("completed");
       break;
     case "busy":
     case "failed":
     case "no-answer":
       await finalizeCall(call._id, { forceStatus: "failed" });
+      await endSession(p.callSid, { ok: false, cause: p.callStatus });
       await finish(p.callStatus);
       break;
     case "canceled":
       await finalizeCall(call._id, { forceStatus: "abandoned" });
+      await endSession(p.callSid, { ok: true, cause: "canceled" });
       await finish("canceled");
       break;
     default:
@@ -300,11 +320,5 @@ export async function handleStatus(p: { callSid: string; callStatus: string; dur
 }
 
 export async function handleRecording(p: { callSid: string; url?: string; sid?: string; duration?: number }): Promise<void> {
-  const call = await Call.findOne({ provider: "twilio", providerCallId: p.callSid });
-  if (!call) return;
-  const business = await Business.findById(call.businessId).select("privacy");
-  // Never keep a recording for a business that has not enabled recording.
-  if (!business?.privacy?.recordingEnabled) return;
-  call.recording = { enabled: true, url: p.url, sid: p.sid, durationSeconds: p.duration } as CallDoc["recording"];
-  await call.save();
+  await registerRecording(p);
 }

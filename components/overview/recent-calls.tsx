@@ -7,7 +7,7 @@ import type { DashboardMetrics } from "@/types";
 
 export function RecentCalls({ calls }: { calls: DashboardMetrics["recentCalls"] }) {
   if (!calls.length)
-    return <EmptyState icon={PhoneCall} title="No calls yet" description="Calls handled by StayDesk will show up here the moment they happen. Try a test call to see it in action." />;
+    return <EmptyState icon={PhoneCall} title="No calls yet" description="Calls handled by TrulyHello will show up here the moment they happen. Try a test call to see it in action." />;
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[640px] text-left text-sm">

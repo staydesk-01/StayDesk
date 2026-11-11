@@ -8,6 +8,7 @@ import { toObjectId } from "../utils/id";
 import { normalizePhone } from "../utils/phone";
 import { businessPatch, knowledgePatch, routingPatch, teamCreateBody, teamUpdateBody } from "../validators/api";
 import { env } from "../config/env";
+import { findCatalogVoice } from "../services/voice/voices";
 
 export async function getBusiness(req: Request, res: Response) {
   const business = await Business.findById(auth(req).businessId);
@@ -21,12 +22,23 @@ export async function patchBusiness(req: Request, res: Response) {
   const business = await Business.findById(businessId);
   if (!business) throw AppError.notFound("Business not found");
 
-  const { notificationPrefs, privacy, ...flat } = patch;
+  const { notificationPrefs, privacy, voice, ...flat } = patch;
   if (flat.phone !== undefined) flat.phone = normalizePhone(flat.phone) || flat.phone;
   if (flat.escalationPhone !== undefined) flat.escalationPhone = normalizePhone(flat.escalationPhone);
   business.set(flat);
   if (notificationPrefs) for (const [k, v] of Object.entries(notificationPrefs)) business.set(`notificationPrefs.${k}`, v);
   if (privacy) for (const [k, v] of Object.entries(privacy)) business.set(`privacy.${k}`, v);
+  if (voice) {
+    for (const [k, v] of Object.entries(voice)) business.set(`voice.${k}`, v);
+    // The saved gender can never disagree with the voice that is spoken.
+    const chosen = findCatalogVoice(business.voice?.voiceId);
+    if (voice.voiceId) {
+      if (chosen) business.set("voice.gender", chosen.gender);
+    } else if (chosen && chosen.gender !== business.voice?.gender) {
+      // Switched gender without picking a new voice: drop the old voice so the default of the new gender is used.
+      business.set("voice.voiceId", "");
+    }
+  }
   await business.save();
   await audit(req, businessId, "business.update", "business", businessId, { fields: Object.keys(patch) });
   res.json({ business });
@@ -53,6 +65,7 @@ function integrations() {
   return {
     twilio: !!(env.TWILIO_ACCOUNT_SID && env.TWILIO_AUTH_TOKEN),
     openai: !!env.OPENAI_API_KEY,
+    elevenlabs: !!env.ELEVENLABS_API_KEY,
     email: !!env.RESEND_API_KEY,
     voiceProvider: env.VOICE_PROVIDER,
     telephonyProvider: env.TELEPHONY_PROVIDER,

@@ -2,7 +2,7 @@
   "name": "staydesk-ai",
   "version": "0.1.0",
   "private": true,
-  "description": "StayDesk AI: human-first AI phone overflow for businesses (single Next.js app)",
+  "description": "TrulyHello: human-first AI phone overflow for businesses (single Next.js app)",
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",

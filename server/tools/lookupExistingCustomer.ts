@@ -4,7 +4,7 @@ import { normalizePhone } from "../utils/phone";
 import { defineTool } from "./types";
 
 /**
- * Looks only at this business's own StayDesk history. It deliberately returns minimal data
+ * Looks only at this business's own TrulyHello history. It deliberately returns minimal data
  * (first name, counts, request statuses) – no reservation, payment or other personal details.
  */
 export const lookupExistingCustomer = defineTool({

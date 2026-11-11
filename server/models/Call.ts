@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { Schema, InferSchemaType, HydratedDocument } from "mongoose";
 import { defineModel } from "./_define";
 import {
@@ -15,6 +16,8 @@ const callSchema = new Schema(
     businessId: { type: Schema.Types.ObjectId, ref: "Business", required: true, index: true },
     provider: { type: String, enum: CALL_PROVIDERS, required: true },
     providerCallId: { type: String, required: true },
+    /** Non-guessable public identifier for this call (shown to users, used in search and exports). */
+    callUuid: { type: String, default: () => randomUUID(), index: { unique: true, sparse: true } },
     callerNumber: { type: String, default: "" },
     callerName: { type: String, default: "" },
     businessNumber: { type: String, default: "" },
@@ -68,9 +71,11 @@ const callSchema = new Schema(
 
     recording: {
       enabled: { type: Boolean, default: false },
-      url: String,
+      /** Legacy: raw provider URL. Never returned by the API; new recordings live in the Recording collection. */
+      url: { type: String, select: false },
       sid: String,
       durationSeconds: Number,
+      recordingId: String,
     },
     /** Operational measurements for reliability reporting (see server/eval/metrics.ts for definitions). */
     metrics: {
@@ -93,7 +98,7 @@ const callSchema = new Schema(
       maxWebhookMs: { type: Number, default: 0 },
       recoveredErrors: { type: Number, default: 0 },
     },
-    /** inbound unless StayDesk placed the call (outbound reminders, callbacks). */
+    /** inbound unless TrulyHello placed the call (outbound reminders, callbacks). */
     direction: { type: String, enum: ["inbound", "outbound"], default: "inbound" },
     isDemo: { type: Boolean, default: false },
   },

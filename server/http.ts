@@ -47,6 +47,8 @@ export interface Response {
   status(code: number): Response;
   json(body: unknown): Response;
   send(body: string): Response;
+  /** Raw bytes (e.g. an audio file). Always sent `no-store`; callers add content-disposition etc. through `headers`. */
+  sendBinary(body: ArrayBuffer | Uint8Array, contentType: string, headers?: Record<string, string>): Response;
   sendStatus(code: number): Response;
   type(contentType: string): Response;
   cookie(name: string, value: string, options?: CookieOptions): Response;
@@ -57,6 +59,8 @@ class ResponseBuilder implements Response {
   code = 200;
   contentType = "application/json";
   payload: string | null = null;
+  binary: ArrayBuffer | Uint8Array | null = null;
+  extraHeaders: Record<string, string> = {};
   cookies: { name: string; value: string; options: CookieOptions }[] = [];
   sent = false;
 
@@ -79,6 +83,13 @@ class ResponseBuilder implements Response {
     this.sent = true;
     return this;
   }
+  sendBinary(body: ArrayBuffer | Uint8Array, contentType: string, headers: Record<string, string> = {}) {
+    this.binary = body;
+    this.contentType = contentType;
+    this.extraHeaders = headers;
+    this.sent = true;
+    return this;
+  }
   sendStatus(code: number) {
     this.code = code;
     this.payload = null;
@@ -94,6 +105,10 @@ class ResponseBuilder implements Response {
     return this;
   }
   toNextResponse() {
+    if (this.binary) {
+      const res = new NextResponse(this.binary as BodyInit, { status: this.code, headers: { "content-type": this.contentType, "cache-control": "private, no-store", "x-content-type-options": "nosniff", ...this.extraHeaders } });
+      return res;
+    }
     const noBody = this.payload === null || this.code === 204;
     const res = new NextResponse(noBody ? null : this.payload, { status: this.code, headers: noBody ? {} : { "content-type": this.contentType } });
     for (const c of this.cookies) {

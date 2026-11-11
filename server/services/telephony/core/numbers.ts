@@ -39,7 +39,7 @@ export async function addNumber(input: AddNumberInput): Promise<{ id: string; de
     verification: { status: "pending", codeHash: hash(code), expiresAt: new Date(Date.now() + CODE_TTL_MS), attempts: 0 },
   });
   const from = process.env.TWILIO_PHONE_NUMBER;
-  const delivery = from ? await getTelephony().sendSms({ from, to: e164, body: `Your StayDesk verification code is ${code}. It expires in 15 minutes.` }) : ("skipped" as const);
+  const delivery = from ? await getTelephony().sendSms({ from, to: e164, body: `Your TrulyHello verification code is ${code}. It expires in 15 minutes.` }) : ("skipped" as const);
   return { id: String(doc._id), delivery };
 }
 

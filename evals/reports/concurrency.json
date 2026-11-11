@@ -1,0 +1,73 @@
+{
+  "generatedAt": "2026-11-10T12:32:12.078Z",
+  "kind": "automated_simulated",
+  "warning": "Run through the real webhook handlers with simulated Twilio requests against a local database. This is NOT a test with real Twilio calls, audio, speech recognition or text-to-speech.",
+  "results": [
+    {
+      "id": "single",
+      "name": "One caller, full conversation",
+      "status": "pass",
+      "detail": "incoming → greeting → FAQ answer → completed; slot released"
+    },
+    {
+      "id": "sim-2",
+      "name": "2 simultaneous callers",
+      "status": "pass",
+      "detail": "2 isolated transcripts, 2 sessions completed, 0 slots left"
+    },
+    {
+      "id": "sim-5",
+      "name": "5 simultaneous callers",
+      "status": "pass",
+      "detail": "5 isolated transcripts, 5 sessions completed, 0 slots left"
+    },
+    {
+      "id": "sim-10",
+      "name": "10 simultaneous callers",
+      "status": "pass",
+      "detail": "10 isolated transcripts, 10 sessions completed, 0 slots left"
+    },
+    {
+      "id": "diff-10",
+      "name": "Ten different conversations across two businesses",
+      "status": "pass",
+      "detail": "answers matched each request; business and caller number per call correct"
+    },
+    {
+      "id": "rec-book-10",
+      "name": "Ten recordings, transcripts and booking requests",
+      "status": "pass",
+      "detail": "10 distinct recordings and transcripts; ≤1 follow-up per call despite duplicate webhooks"
+    },
+    {
+      "id": "transfer-isolated",
+      "name": "Human transfer while other AI sessions stay active",
+      "status": "pass",
+      "detail": "only the requesting call transferred"
+    },
+    {
+      "id": "one-fails",
+      "name": "One session failing while others continue",
+      "status": "pass",
+      "detail": "victim recovered with an honest retry prompt; 4 others answered normally"
+    },
+    {
+      "id": "capacity",
+      "name": "Calls arriving at configured capacity",
+      "status": "pass",
+      "detail": "3 served, 2 given callback fallback + tasks; capacity reused after a call ended"
+    },
+    {
+      "id": "dup-events",
+      "name": "Webhook retries and duplicate events",
+      "status": "pass",
+      "detail": "same call/session/slot; slot freed once"
+    },
+    {
+      "id": "lost-end",
+      "name": "Network interruption: end event never arrives",
+      "status": "pass",
+      "detail": "stale session reaped, slot freed once, callback queued"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
-# StayDesk AI
+# TrulyHello
 
-**Human staff answer when available. When they're busy or unavailable, StayDesk takes over the live call, so important customer calls never go to voicemail.**
+**Human staff answer when available. When they're busy or unavailable, TrulyHello takes over the live call, so important customer calls never go to voicemail.**
 
 One full-stack **Next.js** application: dashboard UI, API routes, Twilio webhooks, AI agent tools and MongoDB, all served from **http://localhost:3000** by a single `npm run dev`.
 
@@ -24,7 +24,7 @@ npm run dev
 ```
 
 Open **http://localhost:3000** → "Try the demo" (owner `owner@sunrisehotel.demo` / `Demo1234!`).
-Health check: **http://localhost:3000/api/health** → `{"status":"ok","service":"StayDesk AI","database":"connected"}`
+Health check: **http://localhost:3000/api/health** → `{"status":"ok","service":"TrulyHello","database":"connected"}`
 
 Expected terminal output: `Ready`, `Local: http://localhost:3000`, `MongoDB connected`.
 No other port is used. With **no API keys** everything works: a built-in rule agent answers when `OPENAI_API_KEY` is empty.
@@ -76,6 +76,7 @@ Local development needs only `MONGODB_URI` and `NEXT_PUBLIC_APP_URL` (already in
 | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_PHONE_NUMBER` | real calls | Webhook verification, REST calls; seed attaches the number to the demo business |
 | `PUBLIC_BASE_URL` | rarely | Override if Twilio reaches a different URL than `NEXT_PUBLIC_APP_URL` |
 | `RESEND_API_KEY`, `EMAIL_FROM` | optional | Email alerts |
+| `ELEVENLABS_API_KEY` (+ `ELEVENLABS_MODEL`, `ELEVENLABS_TTS_TIMEOUT_MS`, `ELEVENLABS_CLIP_TTL_MINUTES`) | optional | Natural AI voice on calls; see [docs/VOICE.md](docs/VOICE.md) |
 | `AGENT_TOOL_SECRET`, `VOICE_*`, `RETELL_API_KEY`, `VAPI_WEBHOOK_SECRET` | optional | External voice agents (experimental) |
 
 Secrets are read server-side only; only `NEXT_PUBLIC_*` values reach the browser. MongoDB is only touched from server code.
@@ -121,7 +122,7 @@ Vercel (or any Node host) runs this single app; use MongoDB Atlas. Set `MONGODB_
 
 ## Update notifications
 
-When a newer deployment goes live, signed-in users see a small bottom-right notice ("StayDesk Update Available") with **Update & Restart**, **Later** and a close button.
+When a newer deployment goes live, signed-in users see a small bottom-right notice ("TrulyHello Update Available") with **Update & Restart**, **Later** and a close button.
 
 - **Detection is real.** Each build is stamped with a deployment id at build time: `APP_BUILD_ID`, else `VERCEL_GIT_COMMIT_SHA`, `RAILWAY_GIT_COMMIT_SHA`, `RAILWAY_DEPLOYMENT_ID` or `SOURCE_VERSION`, else a unique per-build stamp. It is baked into both the browser bundle and the server. `GET /api/app-version` (public, uncached, no database) returns `{ version, buildId }`. A tab compares the build it loaded with the server's every 60 s and when it regains focus (never more than once per 15 s); failed checks are ignored.
 - **Update & Restart** reloads the current page (same route, same session cookie). It never restarts a server. It is blocked while a call is live (test console), and asks for confirmation when a form has unsaved edits.
@@ -153,7 +154,7 @@ Latest run (rule agent, simulated, 276 conversations): business information 91/9
 
 Flags are in `.env.example`; every one can be switched off to return to the previous behaviour.
 
-- **Caller memory** (`FEATURE_CUSTOMER_MEMORY`): after a call, StayDesk stores a per-business profile keyed by the caller's number (call count, last intents/outcomes, a redacted first request). A phone number is not proof of identity, so the agent only learns "this number has called before": no name or past details are read back, and reservation details still need the code + last name. `FEATURE_RETURNING_GREETING` (off by default) adds "Welcome back". Medical businesses store no free text, no name and never get the greeting. Owners/admins can list (`GET /api/customers`) and erase (`DELETE /api/customers/:id`, add `?optOut=true` to stop remembering that number). Profiles never cross businesses.
+- **Caller memory** (`FEATURE_CUSTOMER_MEMORY`): after a call, TrulyHello stores a per-business profile keyed by the caller's number (call count, last intents/outcomes, a redacted first request). A phone number is not proof of identity, so the agent only learns "this number has called before": no name or past details are read back, and reservation details still need the code + last name. `FEATURE_RETURNING_GREETING` (off by default) adds "Welcome back". Medical businesses store no free text, no name and never get the greeting. Owners/admins can list (`GET /api/customers`) and erase (`DELETE /api/customers/:id`, add `?optOut=true` to stop remembering that number). Profiles never cross businesses.
 - **Call-to-completion tracking** (`FEATURE_COMPLETION_TRACKING`): each call gets a record of the original request, every tool attempt (success / failed / incomplete), the real records created (reservation, payment approval, follow-up, service request, opportunity, transfer), failures, next steps, and a status (completed, answered, needs follow-up, handed to staff, abandoned, failed). It is built from stored data, not from what the agent said. Shown on the call page ("Request to result") and counted in the Overview reliability section.
 - **Turn reliability** (`FEATURE_RESILIENT_TURNS`): an unexpected error in a turn now gets "could you say that again?" instead of a dropped call; after three errors the caller is told a human will call back and a high-priority follow-up is created. Each turn's full server time is recorded.
 - **Speech timing** (`FEATURE_VOICE_TUNING`, off): lets you set `VOICE_SPEECH_TIMEOUT` (`auto` or 1-10 s of silence) and `VOICE_NO_INPUT_SECONDS`. Whether a value feels better can only be judged on a real call.
@@ -172,11 +173,21 @@ New **Telephony** page (owners/admins). Provider-independent adapters (Twilio, V
 ### Remaining roadmap (not built yet)
 Phase 2: automatic overflow/missed-call recovery (outbound callbacks) and technical fallback routing. Phase 3: reusable PMS / POS / CRM / scheduling adapter interfaces (the booking provider interface already exists). Phase 4: missed-opportunity recovery automation, appointment execution for non-hotel businesses. Phase 5: multi-location businesses. Phase 6: multilingual testing on real audio. Voice barge-in and turn-taking improvements need live-call testing.
 
+## Voice: ElevenLabs on Twilio (male / female)
+
+Twilio supplies the phone number and listens (speech recognition); **ElevenLabs speaks**. Each AI reply is turned into audio, stored briefly, and played to the caller through a signed, 15-minute link. Callers can still interrupt. Owners/admins pick **Female or Male**, a specific voice, and hear a **Preview** in **Settings → Voice**. If ElevenLabs has no key, is slow (default 3 s) or fails, the call carries on with the standard Polly voice of the same gender. After 3 failures in a row ElevenLabs is skipped for a minute. Read [docs/VOICE.md](docs/VOICE.md) for the design, setup and what is and is not verified. LiveKit is not used.
+
 ## Known limitations
 
+- **ElevenLabs voice is unverified on a live call.** It is tested with a fake ElevenLabs client only; each reply adds ElevenLabs generation time before Twilio can play it, so replies are slower than the standard voice. Measure on a real call.
 - **Live voice is unverified.** Speech-to-text, text-to-speech, barge-in, accents and noise were not exercised: that needs real calls through your Twilio account. The evaluation feeds text only.
 - The OpenAI brain is non-deterministic and has not been evaluated; only the built-in rule agent was.
-- Bookings run against StayDesk's built-in inventory, not a third-party PMS. Payments are manual (staff process them in their own system); no payment processor is integrated.
+- Bookings run against TrulyHello's built-in inventory, not a third-party PMS. Payments are manual (staff process them in their own system); no payment processor is integrated.
 - Four simulated scenarios still fail (a parking question escalating unnecessarily, one noisy-audio booking, and two escalation edge cases); they are listed in the report.
 - Built-in auth (JWT), not Clerk; the swap point is `server/middleware/auth.ts`. No password reset yet.
 - No push updates (polling). SMS alerts not exposed. Telnyx is a stub. Call recording stores a reference only.
+
+
+## Concurrent calls
+
+One number can carry many independent AI calls with per-business limits, overflow policy, worker pool and live metrics. See [docs/CONCURRENCY.md](docs/CONCURRENCY.md) for design, measured results and what is not verified.

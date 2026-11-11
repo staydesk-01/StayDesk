@@ -8,6 +8,7 @@ import {
   ROLES,
   SERVICE_REQUEST_STATUSES,
 } from "../models/enums";
+import { findCatalogVoice } from "../services/voice/voices";
 
 const hhmm = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$|^24:00$/, "Use HH:mm");
 const str = (max = 200) => z.string().trim().max(max);
@@ -51,6 +52,13 @@ export const businessPatch = z
     agentName: str(60).min(1),
     language: z.enum(["en-US", "es-US", "fr-FR", "de-DE", "pt-BR"]),
     onboardingComplete: z.boolean(),
+    voice: z
+      .object({
+        provider: z.enum(["elevenlabs", "polly"]),
+        gender: z.enum(["female", "male"]),
+        voiceId: z.union([z.literal(""), z.string().refine((id) => !!findCatalogVoice(id), "Unknown voice")]),
+      })
+      .partial(),
     notificationPrefs: z
       .object({
         inApp: z.boolean(),

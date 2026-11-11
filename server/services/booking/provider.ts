@@ -61,7 +61,7 @@ export class BookingError extends Error {
 }
 
 /**
- * A system of record for reservations. StayDesk only tells a caller something is booked after
+ * A system of record for reservations. TrulyHello only tells a caller something is booked after
  * `createReservation` succeeded AND `findReservation` reads the same data back.
  */
 export interface BookingProvider {

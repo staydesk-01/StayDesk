@@ -1,7 +1,7 @@
 import type { Request } from "../http";
 import jwt from "jsonwebtoken";
 import { env } from "../config/env";
-import { User } from "../models";
+import { Business, User } from "../models";
 import type { Role } from "../models";
 import { AppError } from "../utils/errors";
 
@@ -39,6 +39,11 @@ export async function authenticate(req: Request): Promise<void> {
   }
   const user = await User.findById(sub);
   if (!user || !user.active) throw AppError.unauthorized();
+  // Business policy: owners/admins must enrol an authenticator before using anything except sign-in/MFA endpoints.
+  if ((user.role === "owner" || user.role === "admin") && !user.mfa?.enabled && !req.path.startsWith("/api/auth/")) {
+    const biz = await Business.findById(user.businessId).select("security");
+    if (biz?.security?.requireMfa) throw new AppError(403, "Your business requires two-step sign-in. Set it up under Security & Privacy.", "mfa_setup_required");
+  }
   req.auth = {
     userId: String(user._id),
     businessId: user.businessId,

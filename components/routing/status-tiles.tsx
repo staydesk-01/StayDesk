@@ -3,8 +3,8 @@ import type { PhoneStatus } from "@/types";
 import { cn } from "@/lib/utils";
 
 const tiles: { key: keyof PhoneStatus; label: string; ok: string; todo: string }[] = [
-  { key: "phoneConnected", label: "Phone connected", ok: "A StayDesk number is attached", todo: "Add your Twilio number below" },
-  { key: "forwardingConfigured", label: "Forwarding configured", ok: "Calls reach StayDesk", todo: "Set up carrier forwarding" },
+  { key: "phoneConnected", label: "Phone connected", ok: "A TrulyHello number is attached", todo: "Add your Twilio number below" },
+  { key: "forwardingConfigured", label: "Forwarding configured", ok: "Calls reach TrulyHello", todo: "Set up carrier forwarding" },
   { key: "agentActive", label: "Agent active", ok: "Answering overflow calls", todo: "Turn the agent on and connect a number" },
   { key: "humanFallbackConfigured", label: "Human fallback configured", ok: "Transfers ring your team", todo: "Add a human transfer number" },
 ];

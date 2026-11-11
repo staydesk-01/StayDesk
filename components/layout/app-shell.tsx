@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { ChevronRight, Menu } from "lucide-react";
 import { useSession } from "@/hooks/use-session";
@@ -18,14 +18,21 @@ const titles: Record<string, string> = {
   "/telephony": "Telephony",
   "/test-agent": "Test your agent",
   "/settings": "Settings",
+  "/recordings": "Recordings",
+  "/live-calls": "Live calls",
+  "/concurrent-testing": "Concurrent testing",
+  "/security": "Security & privacy",
 };
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = React.useState(false);
   const pathname = usePathname();
   const { session } = useSession();
+  const router = useRouter();
+  // The business requires two-step sign-in and this user has not set it up: the only page that works is Security.
+  React.useEffect(() => { if (session.mfa?.setupRequired && pathname !== "/security") router.replace("/security"); }, [session.mfa?.setupRequired, pathname, router]);
   const base = "/" + pathname.split("/")[1];
-  const title = titles[base] ?? "StayDesk";
+  const title = titles[base] ?? "TrulyHello";
   const initials = session.user.name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase();
 
   return (

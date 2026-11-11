@@ -17,6 +17,7 @@ import { useToast } from "@/components/ui/toast";
 import { useApi } from "@/hooks/use-api";
 import { useSession } from "@/hooks/use-session";
 import { useUpdateGuard } from "@/hooks/use-update-guard";
+import { VoiceCard } from "@/components/settings/voice-card";
 import { api, errorMessage } from "@/lib/api";
 import type { Business, NotificationType, Role, TeamMember } from "@/types";
 
@@ -67,8 +68,8 @@ function SettingsView({ initial }: { initial: Business }) {
   async function save() {
     setSaving(true);
     try {
-      const { name, agentName, ownerEmail, notificationPrefs, privacy } = b;
-      const res = await api<{ business: Business }>("/business", { method: "PATCH", body: { name, agentName, ownerEmail, notificationPrefs, privacy } });
+      const { name, agentName, ownerEmail, notificationPrefs, privacy, voice } = b;
+      const res = await api<{ business: Business }>("/business", { method: "PATCH", body: { name, agentName, ownerEmail, notificationPrefs, privacy, ...(voice ? { voice } : {}) } });
       setBase(res.business);
       setB(res.business);
       toast("Settings saved");
@@ -110,6 +111,7 @@ function SettingsView({ initial }: { initial: Business }) {
         <TabsList aria-label="Settings sections">
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="privacy">Privacy & recording</TabsTrigger>
+          <TabsTrigger value="voice">Voice</TabsTrigger>
           <TabsTrigger value="team">Team</TabsTrigger>
           <TabsTrigger value="profile">Profile</TabsTrigger>
         </TabsList>
@@ -117,7 +119,7 @@ function SettingsView({ initial }: { initial: Business }) {
         <TabsContent value="notifications">
           <fieldset disabled={!canManage} className="min-w-0 border-0 p-0">
             <Card>
-              <CardHeader><CardTitle>Owner alerts</CardTitle><CardDescription>How and when StayDesk tells you about calls that need attention.</CardDescription></CardHeader>
+              <CardHeader><CardTitle>Owner alerts</CardTitle><CardDescription>How and when TrulyHello tells you about calls that need attention.</CardDescription></CardHeader>
               <CardContent className="divide-y divide-border">
                 <ToggleRow title="In-app notifications" description="Shown in the bell at the top of the dashboard, live." checked={b.notificationPrefs.inApp} onCheckedChange={(v) => setPrefs({ inApp: v })} />
                 <ToggleRow title="Email" description={`Sent to ${b.ownerEmail || "the owner email below"}. Requires RESEND_API_KEY on the server.`} checked={b.notificationPrefs.email} onCheckedChange={(v) => setPrefs({ email: v })} />
@@ -147,10 +149,10 @@ function SettingsView({ initial }: { initial: Business }) {
         <TabsContent value="privacy">
           <fieldset disabled={!canManage} className="min-w-0 border-0 p-0">
             <Card>
-              <CardHeader><CardTitle className="flex items-center gap-2"><ShieldCheck className="size-[18px] text-brand-600" /> Recording & retention</CardTitle><CardDescription>You’re in control of what StayDesk keeps about your callers.</CardDescription></CardHeader>
+              <CardHeader><CardTitle className="flex items-center gap-2"><ShieldCheck className="size-[18px] text-brand-600" /> Recording & retention</CardTitle><CardDescription>You’re in control of what TrulyHello keeps about your callers.</CardDescription></CardHeader>
               <CardContent className="space-y-2 divide-y divide-border">
                 <div>
-                  <ToggleRow title="Record calls" description="Off by default. When on, StayDesk plays the disclosure below at the start of each AI call and saves a recording reference." checked={b.privacy.recordingEnabled} onCheckedChange={(v) => setPrivacy({ recordingEnabled: v })} />
+                  <ToggleRow title="Record calls" description="Off by default. When on, TrulyHello plays the disclosure below at the start of each AI call and saves a recording reference." checked={b.privacy.recordingEnabled} onCheckedChange={(v) => setPrivacy({ recordingEnabled: v })} />
                   {b.privacy.recordingEnabled && (
                     <div className="mb-4 flex items-start gap-2.5 rounded-xl bg-warning-soft p-3.5 text-[13px] text-warning" role="note">
                       <AlertTriangle className="mt-0.5 size-4 shrink-0" />
@@ -191,6 +193,17 @@ function SettingsView({ initial }: { initial: Business }) {
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="voice">
+          {canManage ? (
+            <>
+              <VoiceCard value={b.voice} onChange={(voice) => setB({ ...b, voice })} />
+              <SaveBar visible dirty={dirty} saving={saving} onSave={save} onDiscard={() => setB(base)} />
+            </>
+          ) : (
+            <Card><CardContent className="pt-6 text-sm text-muted">Only owners and admins can change the agent’s voice.</CardContent></Card>
+          )}
         </TabsContent>
 
         <TabsContent value="profile">

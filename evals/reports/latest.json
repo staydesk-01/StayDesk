@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T03:02:32.044Z",
+  "generatedAt": "2026-11-02T00:53:18.064Z",
   "kind": "simulated-evaluation",
   "warning": "These numbers come from SIMULATED text conversations run in a test database. They are not production performance and must never be presented as such.",
   "brain": "rules",
@@ -286,9 +286,9 @@
   ],
   "latency": {
     "turns": 644,
-    "meanMs": 9.2,
-    "p95Ms": 14,
-    "maxMs": 25,
+    "meanMs": 9,
+    "p95Ms": 15,
+    "maxMs": 27,
     "target": "p95 ≤ 1500 ms",
     "pass": true
   },
@@ -350,7 +350,7 @@
     "The built-in rule agent was evaluated; the OpenAI brain is non-deterministic and must be evaluated separately with your own API key.",
     "Speech recognition, accents, background noise and audio interruptions are not exercised (text only).",
     "Latency is agent compute time in-process; real calls add speech and network time.",
-    "Booking runs against StayDesk's built-in booking system, not a third-party PMS."
+    "Booking runs against TrulyHello's built-in booking system, not a third-party PMS."
   ],
-  "durationSeconds": 9.8
+  "durationSeconds": 9.9
 }

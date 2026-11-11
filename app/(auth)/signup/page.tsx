@@ -39,7 +39,7 @@ export default function SignupPage() {
   return (
     <>
       <h1 className="text-3xl font-extrabold tracking-tight">Create your workspace</h1>
-      <p className="mt-2 text-muted">Set up StayDesk in a few minutes. You’ll be the workspace owner.</p>
+      <p className="mt-2 text-muted">Set up TrulyHello in a few minutes. You’ll be the workspace owner.</p>
       <form onSubmit={submit} className="mt-8 space-y-5">
         <InlineError message={error} />
         <Field label="Business name" htmlFor="businessName" error={fieldErrors.businessName?.[0]}>

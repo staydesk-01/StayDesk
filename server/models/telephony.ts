@@ -63,7 +63,7 @@ const numberSchema = new Schema(
     mode: { type: String, enum: NUMBER_MODES, default: "forwarding" },
     connectionId: { type: Schema.Types.ObjectId, ref: "TelephonyConnection" },
     trunkId: { type: Schema.Types.ObjectId, ref: "SipTrunk" },
-    /** all_calls: StayDesk answers first. overflow: only when staff do not answer (existing behaviour). */
+    /** all_calls: TrulyHello answers first. overflow: only when staff do not answer (existing behaviour). */
     answerMode: { type: String, enum: ["all_calls", "overflow"], default: "overflow" },
     verification: {
       status: { type: String, enum: ["pending", "verified", "failed"], default: "pending" },
@@ -79,6 +79,11 @@ const numberSchema = new Schema(
 );
 export const BusinessPhoneNumber = defineModel("BusinessPhoneNumber", numberSchema);
 
+export const LIFECYCLE_STATES = ["incoming", "initializing", "active", "completing", "completed", "failed"] as const;
+export type Lifecycle = (typeof LIFECYCLE_STATES)[number];
+/** What the call is doing right now. Speech recognition and synthesis run inside Twilio's <Gather>/<Say>, so they are not separate observable stages. */
+export const SESSION_STAGES = ["incoming", "initializing", "listening", "processing", "executing_tool", "speaking", "waiting_human", "transferring", "completed", "failed"] as const;
+export type SessionStage = (typeof SESSION_STAGES)[number];
 export const SESSION_STATUSES = ["ringing", "answered", "in_progress", "completed", "failed", "no_answer", "busy", "canceled", "abandoned"] as const;
 const sessionSchema = new Schema(
   {
@@ -101,6 +106,23 @@ const sessionSchema = new Schema(
     /** Time from end of caller speech to first agent audio, as measured by the voice worker (null = not measured). */
     latency: { turns: { type: Number, default: 0 }, totalMs: { type: Number, default: 0 }, maxMs: { type: Number, default: 0 } },
     isTest: { type: Boolean, default: false },
+    /** Opaque identifier used for media-room names, worker assignment and logs, so no phone number is ever needed for them. */
+    sessionKey: { type: String, index: true, sparse: true },
+    lifecycle: { type: String, enum: LIFECYCLE_STATES, default: "incoming" },
+    roomName: String,
+    workerId: String,
+    stage: { type: String, enum: SESSION_STAGES, default: "incoming" },
+    stageAt: Date,
+    /** pending: deciding; admitted: holds a concurrency slot; overflow: refused for capacity (see failureCause). */
+    admission: { type: String, enum: ["pending", "admitted", "overflow"] },
+    overflowTransferTried: { type: Boolean, default: false },
+    /** Snapshot reference of the business configuration the session started with (not a published-prompt version: prompt versioning is not built). */
+    configRef: String,
+    /** True while this session holds a concurrency slot and a worker slot. Released exactly once. */
+    slotHeld: { type: Boolean, default: false },
+    failureCause: String,
+    /** When the session reached each lifecycle state. `setupMs` = incoming → active. */
+    timings: { initializingAt: Date, activeAt: Date, completingAt: Date, setupMs: Number },
   },
   { timestamps: true },
 );
@@ -226,3 +248,35 @@ const recoverySchema = new Schema(
 );
 recoverySchema.index({ businessId: 1, key: 1 }, { unique: true });
 export const CallRecoveryTask = defineModel("CallRecoveryTask", recoverySchema);
+
+/** One row per business: an atomic counter so concurrent arrivals can never exceed the configured limit. */
+const gateSchema = new Schema(
+  {
+    businessId: { type: Schema.Types.ObjectId, ref: "Business", required: true, unique: true },
+    active: { type: Number, default: 0, min: 0 },
+    peak: { type: Number, default: 0 },
+    overflowed: { type: Number, default: 0 },
+  },
+  { timestamps: true },
+);
+export const ConcurrencyGate = defineModel("ConcurrencyGate", gateSchema);
+
+/** Voice/AI worker pool member. Workers announce capacity and load through signed heartbeats. */
+const workerSchema = new Schema(
+  {
+    /** Pools are per business: one tenant can never occupy, or see, another tenant's workers. */
+    businessId: { type: Schema.Types.ObjectId, ref: "Business", required: true, index: true },
+    workerId: { type: String, required: true },
+    /** Calls this worker can run at once (measured by the operator, not assumed). */
+    capacity: { type: Number, required: true, min: 1 },
+    active: { type: Number, default: 0, min: 0 },
+    status: { type: String, enum: ["up", "draining", "down"], default: "up" },
+    lastHeartbeatAt: { type: Date, default: () => new Date() },
+    cpuPct: Number,
+    memMb: Number,
+  },
+  { timestamps: true },
+);
+workerSchema.index({ businessId: 1, workerId: 1 }, { unique: true });
+workerSchema.index({ status: 1, lastHeartbeatAt: 1 });
+export const VoiceWorker = defineModel("VoiceWorker", workerSchema);

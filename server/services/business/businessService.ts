@@ -39,7 +39,7 @@ export async function createBusinessWithOwner(input: {
   return { business, user };
 }
 
-/** Finds the business that owns a dialled number (matched against the StayDesk/Twilio number). */
+/** Finds the business that owns a dialled number (matched against the TrulyHello/Twilio number). */
 export async function findBusinessByNumber(dialed: string): Promise<{ business: BusinessDoc; config: PhoneConfigDoc } | null> {
   const number = normalizePhone(dialed);
   if (!number) return null;

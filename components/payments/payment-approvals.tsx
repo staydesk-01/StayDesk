@@ -19,7 +19,7 @@ const tone: Record<Approval["status"], BadgeTone> = { pending: "warning", approv
 
 /**
  * Human approval queue for payments, refunds and adjustments requested during calls.
- * The AI can only create requests; only owners/admins can decide. StayDesk never handles card numbers: "Mark paid" records
+ * The AI can only create requests; only owners/admins can decide. TrulyHello never handles card numbers: "Mark paid" records
  * a reference from whichever payment system your team used.
  */
 export function PaymentApprovals() {
@@ -47,7 +47,7 @@ export function PaymentApprovals() {
     <Card className="mb-6">
       <CardHeader>
         <CardTitle className="flex items-center gap-2"><CreditCard className="size-5" /> Payment approvals</CardTitle>
-        <CardDescription>The AI never approves or takes payments. {canManage ? "Review each request below." : "An owner or admin must decide these."} Card numbers are never collected by StayDesk.</CardDescription>
+        <CardDescription>The AI never approves or takes payments. {canManage ? "Review each request below." : "An owner or admin must decide these."} Card numbers are never collected by TrulyHello.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         {data.approvals.map((a) => (

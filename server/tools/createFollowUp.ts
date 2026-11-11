@@ -20,7 +20,7 @@ export const createFollowUp = defineTool({
       if (existing) {
         if (input.customerName && !existing.customerName) existing.customerName = input.customerName;
         if (PRIORITY_RANK[input.priority] > PRIORITY_RANK[existing.priority]) existing.priority = input.priority;
-        existing.notes.push({ text: `Caller asked for a callback: ${input.reason}`, authorName: "StayDesk AI", at: new Date() });
+        existing.notes.push({ text: `Caller asked for a callback: ${input.reason}`, authorName: "TrulyHello", at: new Date() });
         await existing.save();
         const set: Record<string, unknown> = { followUpRequired: true };
         if (input.customerName && !call.callerName) set.callerName = input.customerName;

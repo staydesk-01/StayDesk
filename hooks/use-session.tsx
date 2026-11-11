@@ -57,7 +57,7 @@ export function SessionProvider({ children, requireOnboarded = true }: { childre
       <div className="grid min-h-dvh place-items-center px-5">
         <div role="alert" className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 text-center shadow-card">
           <Logo className="mb-6" />
-          <h1 className="text-xl font-bold">Unable to load StayDesk</h1>
+          <h1 className="text-xl font-bold">Unable to load TrulyHello</h1>
           <p className="mt-2 text-sm text-muted">We couldn’t reach the service. Please try again in a moment.</p>
           {process.env.NODE_ENV !== "production" && <p className="mt-4 rounded-xl bg-danger-soft px-3 py-2 text-left text-xs text-danger">Development detail: {error}</p>}
           <Button className="mt-6" onClick={() => { setError(null); setAttempt((n) => n + 1); }}>Retry</Button>

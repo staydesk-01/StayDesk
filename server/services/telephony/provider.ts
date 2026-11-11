@@ -4,9 +4,9 @@
  * so adding Telnyx later means implementing `render`, not touching routing logic.
  */
 export type CallInstruction =
-  | { kind: "say_listen"; say: string; actionUrl: string; /** BCP-47, e.g. "es-US" */ language?: string; /** comma-separated phrases that improve speech recognition (service names, room types…) */ hints?: string; /** "auto" or seconds of silence that end the caller's turn */ speechTimeout?: "auto" | number; /** seconds to wait for the caller to start speaking */ noInputSeconds?: number }
-  | { kind: "say_hangup"; say?: string; language?: string }
-  | { kind: "dial"; say?: string; number: string; ringSeconds: number; actionUrl: string }
+  | { kind: "say_listen"; say: string; /** Pre-generated speech (ElevenLabs) played instead of `say`; `say` stays as the fallback text. */ audioUrl?: string; /** Gender of the standard fallback voice */ voiceGender?: "female" | "male"; actionUrl: string; /** BCP-47, e.g. "es-US" */ language?: string; /** comma-separated phrases that improve speech recognition (service names, room types…) */ hints?: string; /** "auto" or seconds of silence that end the caller's turn */ speechTimeout?: "auto" | number; /** seconds to wait for the caller to start speaking */ noInputSeconds?: number }
+  | { kind: "say_hangup"; say?: string; language?: string; audioUrl?: string; voiceGender?: "female" | "male" }
+  | { kind: "dial"; say?: string; audioUrl?: string; voiceGender?: "female" | "male"; number: string; ringSeconds: number; actionUrl: string }
   | { kind: "sip"; uri: string }
   | { kind: "empty" };
 

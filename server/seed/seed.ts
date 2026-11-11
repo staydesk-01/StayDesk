@@ -7,7 +7,7 @@ async function main() {
   console.log(`\nSeeded demo business "${business.name}" (sample data, flagged isDemo).`);
   console.log(`  Owner login: ${DEMO_OWNER.email} / ${DEMO_OWNER.password}`);
   console.log(`  Staff login: ${DEMO_STAFF.email} / ${DEMO_STAFF.password}`);
-  console.log(`  StayDesk number on file: ${DEMO_STAYDESK_NUMBER}  (replace with your real Twilio number on the Call Routing page)\n`);
+  console.log(`  TrulyHello number on file: ${DEMO_STAYDESK_NUMBER}  (replace with your real Twilio number on the Call Routing page)\n`);
   await dbDisconnect();
 }
 

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, ChevronsUpDown, LayoutGrid, ListChecks, LogOut, PhoneCall, PhoneForwarded, RadioTower, Settings, ShieldCheck, Target, AudioWaveform } from "lucide-react";
+import { BookOpen, ChevronsUpDown, LayoutGrid, ListChecks, LogOut, PhoneCall, PhoneForwarded, RadioTower, Settings, ShieldCheck, Target, AudioWaveform, Mic, Lock, Activity, FlaskConical } from "lucide-react";
 import { Logo } from "@/components/common/logo";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useApi } from "@/hooks/use-api";
@@ -13,7 +13,9 @@ const groups = [
     label: "Workspace",
     items: [
       { href: "/overview", label: "Overview", icon: LayoutGrid },
+      { href: "/live-calls", label: "Live calls", icon: Activity },
       { href: "/calls", label: "Call activity", icon: PhoneCall },
+      { href: "/recordings", label: "Recordings", icon: Mic },
       { href: "/follow-ups", label: "Follow-ups", icon: ListChecks, badge: "followups" as const },
       { href: "/opportunities", label: "Opportunities", icon: Target },
     ],
@@ -24,6 +26,8 @@ const groups = [
       { href: "/business-knowledge", label: "Business knowledge", icon: BookOpen },
       { href: "/call-routing", label: "Call routing", icon: PhoneForwarded },
       { href: "/telephony", label: "Telephony", icon: RadioTower },
+      { href: "/concurrent-testing", label: "Concurrent testing", icon: FlaskConical },
+      { href: "/security", label: "Security & privacy", icon: Lock },
       { href: "/test-agent", label: "Test your agent", icon: AudioWaveform, tag: "TRY" },
       { href: "/settings", label: "Settings", icon: Settings },
     ],
@@ -40,7 +44,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <div className="flex h-full flex-col gap-6 px-5 py-6">
-      <Link href="/overview" onClick={onNavigate} aria-label="StayDesk home" className="px-1">
+      <Link href="/overview" onClick={onNavigate} aria-label="TrulyHello home" className="px-1">
         <Logo />
       </Link>
 

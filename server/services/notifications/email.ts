@@ -18,14 +18,14 @@ export async function sendEmail(opts: { to: string; subject: string; text: strin
     return "skipped";
   }
   const linkHtml = opts.link
-    ? `<p><a href="${escapeHtml(opts.link)}" style="background:#6d4bd1;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">Open in StayDesk</a></p>`
+    ? `<p><a href="${escapeHtml(opts.link)}" style="background:#6d4bd1;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none">Open in TrulyHello</a></p>`
     : "";
   try {
     const { error } = await resend.emails.send({
       from: env.EMAIL_FROM,
       to: opts.to,
       subject: opts.subject,
-      html: `<div style="font-family:Arial,sans-serif;max-width:520px"><h2 style="color:#3b1d78">${escapeHtml(opts.subject)}</h2><p style="white-space:pre-line">${escapeHtml(opts.text)}</p>${linkHtml}<p style="color:#888;font-size:12px">Sent by StayDesk AI</p></div>`,
+      html: `<div style="font-family:Arial,sans-serif;max-width:520px"><h2 style="color:#3b1d78">${escapeHtml(opts.subject)}</h2><p style="white-space:pre-line">${escapeHtml(opts.text)}</p>${linkHtml}<p style="color:#888;font-size:12px">Sent by TrulyHello</p></div>`,
       text: opts.text,
     });
     if (error) {

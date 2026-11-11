@@ -3,7 +3,7 @@ import { ArrowRight, Bot, PhoneForwarded, Phone, Smartphone } from "lucide-react
 const steps = [
   { icon: Smartphone, title: "Existing carrier number", text: "The number customers already call" },
   { icon: PhoneForwarded, title: "Busy / no-answer forwarding", text: "Set on your phone provider" },
-  { icon: Phone, title: "Twilio StayDesk number", text: "Receives forwarded calls" },
+  { icon: Phone, title: "Twilio TrulyHello number", text: "Receives forwarded calls" },
   { icon: Bot, title: "AI agent", text: "Answers, captures, notifies" },
 ];
 

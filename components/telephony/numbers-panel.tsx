@@ -12,9 +12,9 @@ import { api, errorMessage } from "@/lib/api";
 import { type Overview, StatusPill } from "./shared";
 
 const MODES = [
-  { value: "forwarding", label: "Existing number, forwarded to StayDesk" },
+  { value: "forwarding", label: "Existing number, forwarded to TrulyHello" },
   { value: "sip_direct", label: "Direct SIP / PBX routing" },
-  { value: "ported", label: "Ported to StayDesk's carrier" },
+  { value: "ported", label: "Ported to TrulyHello's carrier" },
   { value: "provider_number", label: "Number bought from a provider" },
 ];
 
@@ -36,7 +36,7 @@ export function NumbersPanel({ data, refetch }: { data: Overview; refetch: () =>
   return (
     <div className="space-y-5">
       <Card>
-        <CardHeader><CardTitle>Existing number connection</CardTitle><CardDescription>A number only receives calls here after you prove you control it with a code. “All calls” makes StayDesk answer first; “overflow” keeps your staff first.</CardDescription></CardHeader>
+        <CardHeader><CardTitle>Existing number connection</CardTitle><CardDescription>A number only receives calls here after you prove you control it with a code. “All calls” makes TrulyHello answer first; “overflow” keeps your staff first.</CardDescription></CardHeader>
         <CardContent className="space-y-3">
           {data.numbers?.map((n) => (
             <div key={n._id} className="flex flex-wrap items-center gap-3 rounded-xl border border-border p-3 text-sm">
@@ -56,8 +56,8 @@ export function NumbersPanel({ data, refetch }: { data: Overview; refetch: () =>
           ))}
           <div className="grid gap-3 sm:grid-cols-2">
             <Field label="Phone number"><Input placeholder="+14155550123" value={number} onChange={(e) => setNumber(e.target.value)} /></Field>
-            <Field label="How callers reach StayDesk"><Select value={mode} onValueChange={setMode} options={MODES} aria-label="Connection mode" /></Field>
-            <Field label="Who answers"><Select value={answerMode} onValueChange={setAnswerMode} aria-label="Answer mode" options={[{ value: "overflow", label: "Staff first, StayDesk on no answer" }, { value: "all_calls", label: "StayDesk answers all calls" }]} /></Field>
+            <Field label="How callers reach TrulyHello"><Select value={mode} onValueChange={setMode} options={MODES} aria-label="Connection mode" /></Field>
+            <Field label="Who answers"><Select value={answerMode} onValueChange={setAnswerMode} aria-label="Answer mode" options={[{ value: "overflow", label: "Staff first, TrulyHello on no answer" }, { value: "all_calls", label: "TrulyHello answers all calls" }]} /></Field>
             <Field label="Use for"><Select value={role} onValueChange={setRole} aria-label="Number role" options={[{ value: "inbound", label: "Inbound calls" }, { value: "both", label: "Inbound + outbound caller ID" }, { value: "outbound_caller_id", label: "Outbound caller ID only" }]} /></Field>
           </div>
           <Button loading={busy === "add"} onClick={() => run("add", () => api("/telephony/numbers", { method: "POST", body: { number, mode, answerMode, role } }).then(() => setNumber("")), "Number added. Enter the verification code to finish.")}>Add number</Button>

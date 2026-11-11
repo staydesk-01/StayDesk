@@ -8,9 +8,9 @@ import { redactSensitive } from "../safety/sensitive";
 /**
  * Provider-independent voice pipeline:
  *
- *   audio in → SpeechToText → ConversationEngine (StayDesk agent + approved business tools) → TextToSpeech → audio out
+ *   audio in → SpeechToText → ConversationEngine (TrulyHello agent + approved business tools) → TextToSpeech → audio out
  *
- * StayDesk owns the middle step. Speech recognition and synthesis (and the audio/turn-taking loop around them) run in
+ * TrulyHello owns the middle step. Speech recognition and synthesis (and the audio/turn-taking loop around them) run in
  * the voice worker (see staydesk-voice-agent) and are replaceable behind these contracts. This module is the single
  * place the worker asks "what should the agent say next?", so every provider gets the same memory, knowledge,
  * tool verification, idempotency, redaction and timeout handling.
@@ -29,7 +29,7 @@ export interface ConversationEngine {
   turn(input: { callId: Types.ObjectId | string; messageId: string; text: string }): Promise<TurnResult>;
 }
 
-/** The existing StayDesk agent as the conversation engine. */
+/** The existing TrulyHello agent as the conversation engine. */
 export const stayDeskEngine: ConversationEngine = {
   id: "staydesk-agent",
   turn: ({ callId, messageId, text }) => agentEngine.respond(callId, text, { messageId }),

@@ -45,9 +45,17 @@ const schema = z.object({
   /** Shared secret that external voice agents (Retell/Vapi/custom) send as x-agent-secret to /api/agent/tool/*. */
   AGENT_TOOL_SECRET: z.string().optional(),
 
+  // ElevenLabs voice (text-to-speech). Optional: without a key, calls use the standard Polly voice.
+  ELEVENLABS_API_KEY: z.string().optional(),
+  ELEVENLABS_MODEL: z.string().default("eleven_flash_v2_5"),
+  /** How long a call waits for ElevenLabs before falling back to the standard voice. */
+  ELEVENLABS_TTS_TIMEOUT_MS: z.coerce.number().int().min(500).max(15000).default(3000),
+  /** How long generated speech is kept so repeated phrases are not paid for twice. Must outlive the 15-minute audio link. */
+  ELEVENLABS_CLIP_TTL_MINUTES: z.coerce.number().int().min(15).max(1440).default(120),
+
   // Email
   RESEND_API_KEY: z.string().optional(),
-  EMAIL_FROM: z.string().default("StayDesk <alerts@staydesk.local>"),
+  EMAIL_FROM: z.string().default("TrulyHello <alerts@staydesk.local>"),
 });
 
 // A blank `KEY=` line (as in .env.example) means "not set": drop it so defaults apply.

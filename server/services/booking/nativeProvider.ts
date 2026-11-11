@@ -82,7 +82,7 @@ const option = (rt: RoomTypeDoc, used: number): RoomOption => ({
   available: Math.max(0, rt.totalUnits - used),
 });
 
-/** StayDesk's built-in booking system, backed by MongoDB (RoomType + Reservation), scoped per business. */
+/** TrulyHello's built-in booking system, backed by MongoDB (RoomType + Reservation), scoped per business. */
 export const nativeBookingProvider: BookingProvider = {
   id: "native",
 

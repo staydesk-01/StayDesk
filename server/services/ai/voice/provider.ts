@@ -8,8 +8,8 @@ export type VoiceEvent =
 
 /**
  * An external voice-agent provider (Retell, Vapi, later OpenAI Realtime) that owns the audio loop.
- * StayDesk stays the system of record: the provider calls our tool endpoint and reports the finished call.
- * `callRef` is the StayDesk Call id, passed to the provider as metadata / a SIP header when the call is handed off.
+ * TrulyHello stays the system of record: the provider calls our tool endpoint and reports the finished call.
+ * `callRef` is the TrulyHello Call id, passed to the provider as metadata / a SIP header when the call is handed off.
  */
 export interface VoiceProvider {
   readonly name: "retell" | "vapi";

@@ -64,7 +64,7 @@ export async function checkConnection(businessId: Types.ObjectId, kind: Connecti
     await recordHealth(kind, "check_failed", err.message, { businessId });
     if (conn.status === "offline" && before !== "offline") {
       await recordHealth(kind, "alert", `${kind} is offline: ${err.message}`, { businessId });
-      await notify({ businessId, type: "info", title: `Phone connection offline: ${kind}`, body: `${err.message}. Calls may not reach StayDesk until this is fixed.`, link: "/telephony" }).catch(() => undefined);
+      await notify({ businessId, type: "info", title: `Phone connection offline: ${kind}`, body: `${err.message}. Calls may not reach TrulyHello until this is fixed.`, link: "/telephony" }).catch(() => undefined);
     }
   }
   conn.lastCheckedAt = new Date();

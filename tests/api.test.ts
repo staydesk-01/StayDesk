@@ -250,6 +250,6 @@ describe("agent chat API (text test mode)", () => {
 describe("health", () => {
   it("reports database connectivity", async () => {
     const res = await request().get("/api/health");
-    expect(res.body).toEqual({ status: "ok", service: "StayDesk AI", database: "connected" });
+    expect(res.body).toEqual({ status: "ok", service: "TrulyHello", database: "connected" });
   });
 });

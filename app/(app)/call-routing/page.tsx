@@ -26,8 +26,8 @@ const KEYS = ["mode", "twilioNumber", "existingNumber", "voiceProvider", "humanF
 type Draft = Pick<PhoneConfig, (typeof KEYS)[number]>;
 
 const modes = [
-  { value: "new_twilio" as const, tag: "Mode A", title: "New Twilio number", text: "Callers dial a new StayDesk number directly. StayDesk rings your team first, then the AI. Best for testing." },
-  { value: "existing_number" as const, tag: "Mode B", title: "Existing business number", text: "Keep your public number. Your carrier forwards busy / unanswered calls to a StayDesk number. Best for pilots." },
+  { value: "new_twilio" as const, tag: "Mode A", title: "New Twilio number", text: "Callers dial a new TrulyHello number directly. TrulyHello rings your team first, then the AI. Best for testing." },
+  { value: "existing_number" as const, tag: "Mode B", title: "Existing business number", text: "Keep your public number. Your carrier forwards busy / unanswered calls to a TrulyHello number. Best for pilots." },
 ];
 
 const toDraft = (config: PhoneConfig) => Object.fromEntries(KEYS.map((k) => [k, config[k] ?? (k === "twilioNumber" ? "" : undefined)])) as unknown as Draft;
@@ -71,7 +71,7 @@ function RoutingForm({ data }: { data: RoutingResponse }) {
 
   return (
     <>
-      <PageHeader title="Call routing" description="Choose how calls reach StayDesk and when your team or the AI should pick up." />
+      <PageHeader title="Call routing" description="Choose how calls reach TrulyHello and when your team or the AI should pick up." />
 
       <StatusTiles status={status} />
 
@@ -79,7 +79,7 @@ function RoutingForm({ data }: { data: RoutingResponse }) {
 
       <fieldset disabled={!canManage} className="mt-8 min-w-0 space-y-6 border-0 p-0">
         <section aria-labelledby="mode-h">
-          <h2 id="mode-h" className="mb-3 text-lg font-bold">How do calls reach StayDesk?</h2>
+          <h2 id="mode-h" className="mb-3 text-lg font-bold">How do calls reach TrulyHello?</h2>
           <div className="grid gap-4 md:grid-cols-2" role="radiogroup" aria-label="Connection mode">
             {modes.map((m) => {
               const on = draft.mode === m.value;
@@ -96,11 +96,11 @@ function RoutingForm({ data }: { data: RoutingResponse }) {
         </section>
 
         <Card>
-          <CardHeader><CardTitle className="flex items-center gap-2"><PhoneCall className="size-[18px] text-brand-600" /> {draft.mode === "new_twilio" ? "Your Twilio number" : "StayDesk number & existing number"}</CardTitle>
+          <CardHeader><CardTitle className="flex items-center gap-2"><PhoneCall className="size-[18px] text-brand-600" /> {draft.mode === "new_twilio" ? "Your Twilio number" : "TrulyHello number & existing number"}</CardTitle>
             <CardDescription>Buy or choose a voice-capable number in the Twilio Console, then enter it here in international format. Incoming calls are matched to your business by this number.</CardDescription></CardHeader>
           <CardContent className="space-y-6">
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="Twilio / StayDesk number" htmlFor="r-twilio" hint="e.g. +14155550123"><Input id="r-twilio" type="tel" value={draft.twilioNumber ?? ""} onChange={(e) => set({ twilioNumber: e.target.value })} placeholder="+1 415 555 0123" /></Field>
+              <Field label="Twilio / TrulyHello number" htmlFor="r-twilio" hint="e.g. +14155550123"><Input id="r-twilio" type="tel" value={draft.twilioNumber ?? ""} onChange={(e) => set({ twilioNumber: e.target.value })} placeholder="+1 415 555 0123" /></Field>
               {draft.mode === "existing_number" && <Field label="Your existing business number" htmlFor="r-existing" hint="The number customers already call."><Input id="r-existing" type="tel" value={draft.existingNumber} onChange={(e) => set({ existingNumber: e.target.value })} placeholder="+1 805 555 0100" /></Field>}
             </div>
 
@@ -111,9 +111,9 @@ function RoutingForm({ data }: { data: RoutingResponse }) {
                   <p className="font-bold">Set up conditional call forwarding on your existing line</p>
                   <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-muted">
                     <li>Sign in to your phone provider (or dial the codes from your business phone).</li>
-                    <li>Forward <b className="text-foreground">busy</b> and <b className="text-foreground">no-answer</b> calls to your StayDesk number{draft.twilioNumber ? <> (<b className="text-foreground">{draft.twilioNumber}</b>)</> : ""}. Optionally forward <b className="text-foreground">unreachable</b> too.</li>
+                    <li>Forward <b className="text-foreground">busy</b> and <b className="text-foreground">no-answer</b> calls to your TrulyHello number{draft.twilioNumber ? <> (<b className="text-foreground">{draft.twilioNumber}</b>)</> : ""}. Optionally forward <b className="text-foreground">unreachable</b> too.</li>
                     <li>Set the ring time to roughly the “ring human for” seconds below, so staff get first chance.</li>
-                    <li>Call your business number from another phone and let it ring, then confirm StayDesk answers.</li>
+                    <li>Call your business number from another phone and let it ring, then confirm TrulyHello answers.</li>
                   </ol>
                   <p className="mt-4 rounded-lg bg-surface px-3.5 py-2.5 font-mono text-[12.5px] text-muted">
                     Common GSM codes: busy <b className="text-foreground">**67*NUMBER#</b> · no-answer <b className="text-foreground">**61*NUMBER#</b> · unreachable <b className="text-foreground">**62*NUMBER#</b> · cancel all <b className="text-foreground">##002#</b>
@@ -128,10 +128,10 @@ function RoutingForm({ data }: { data: RoutingResponse }) {
 
         <Card>
           <CardHeader><CardTitle className="flex items-center gap-2"><Settings2 className="size-[18px] text-brand-600" /> Routing rules</CardTitle>
-            <CardDescription>{draft.mode === "existing_number" ? "Your carrier decides when to forward, and every forwarded call goes to the AI. Human transfer settings below still apply." : "Your team gets the first chance to answer. StayDesk takes over when they can’t."}</CardDescription></CardHeader>
+            <CardDescription>{draft.mode === "existing_number" ? "Your carrier decides when to forward, and every forwarded call goes to the AI. Human transfer settings below still apply." : "Your team gets the first chance to answer. TrulyHello takes over when they can’t."}</CardDescription></CardHeader>
           <CardContent className="divide-y divide-border">
             <ToggleRow title="Agent active" description="Turn off to make this number behave like a plain phone line (rings your team only)." checked={draft.agentActive} onCheckedChange={(v) => set({ agentActive: v })} />
-            <ToggleRow title="AI-only mode" description="Skip the human-first ring. StayDesk answers every call immediately." checked={draft.aiOnly} onCheckedChange={(v) => set({ aiOnly: v })} />
+            <ToggleRow title="AI-only mode" description="Skip the human-first ring. TrulyHello answers every call immediately." checked={draft.aiOnly} onCheckedChange={(v) => set({ aiOnly: v })} />
             <div className={cn("divide-y divide-border", !humanRules && "pointer-events-none opacity-50")} aria-disabled={!humanRules}>
               <ToggleRow title="Human-first" description="Ring your team before the AI answers." checked={draft.humanFirst} onCheckedChange={(v) => set({ humanFirst: v })} />
               <div className="flex flex-wrap items-center justify-between gap-3 py-3">
@@ -153,7 +153,7 @@ function RoutingForm({ data }: { data: RoutingResponse }) {
               <Field label="Human transfer destination" htmlFor="r-human" hint="Rung first (human-first) and used when a caller asks for a person. Leave blank to use the business escalation number."><Input id="r-human" type="tel" value={draft.humanNumber} onChange={(e) => set({ humanNumber: e.target.value })} placeholder="+1 805 555 0100" /></Field>
               <Field label="Voice agent provider" hint={draft.voiceProvider === "twilio_gather" ? "Built in: speech-to-text on the call, then your AI. Works with just Twilio + OpenAI." : "External provider (experimental). Needs VOICE_SIP_URI and webhooks configured. See the README."}>
                 <Select value={draft.voiceProvider} onValueChange={(v) => set({ voiceProvider: v as Draft["voiceProvider"] })} aria-label="Voice provider"
-                  options={[{ value: "twilio_gather", label: "StayDesk built-in (Twilio speech)" }, { value: "retell", label: "Retell AI (experimental)" }, { value: "vapi", label: "Vapi (experimental)" }]} />
+                  options={[{ value: "twilio_gather", label: "TrulyHello built-in (Twilio speech)" }, { value: "retell", label: "Retell AI (experimental)" }, { value: "vapi", label: "Vapi (experimental)" }]} />
               </Field>
             </div>
           </CardContent>

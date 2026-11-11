@@ -13,7 +13,7 @@ export type TelephonyEvent =
   | { type: "dtmf"; providerCallId: string; digits: string }
   | { type: "quality"; providerCallId: string; jitterMs?: number; packetLossPct?: number; rttMs?: number; mos?: number }
   | { type: "latency"; providerCallId: string; turnMs: number }
-  | { type: "heartbeat"; activeCalls?: number };
+  | { type: "heartbeat"; activeCalls?: number; worker?: { workerId: string; capacity: number; active?: number; draining?: boolean; cpuPct?: number; memMb?: number } };
 
 export interface AdapterCapabilities {
   inbound: boolean;
@@ -41,7 +41,7 @@ export interface HealthResult {
 export interface OutboundRequest {
   from: string;
   to: string;
-  /** StayDesk Call id: lets the provider hand events back to the right call. */
+  /** TrulyHello Call id: lets the provider hand events back to the right call. */
   callId: string;
   /** Where the provider should send call-progress events. */
   statusCallbackUrl: string;

@@ -34,7 +34,7 @@ export function OutboundPanel({ data, refetch }: { data: Overview; refetch: () =
   return (
     <div className="space-y-5">
       <Card>
-        <CardHeader><CardTitle>Outbound calling</CardTitle><CardDescription>Off until you turn it on and approve each purpose. Calls are only made to people with a recorded consent or their own request, never to numbers on the do-not-call list, and only in the hours below at the recipient’s local time. StayDesk’s rules are conservative defaults, not legal advice: you are responsible for the laws that apply to you.</CardDescription></CardHeader>
+        <CardHeader><CardTitle>Outbound calling</CardTitle><CardDescription>Off until you turn it on and approve each purpose. Calls are only made to people with a recorded consent or their own request, never to numbers on the do-not-call list, and only in the hours below at the recipient’s local time. TrulyHello’s rules are conservative defaults, not legal advice: you are responsible for the laws that apply to you.</CardDescription></CardHeader>
         <CardContent className="space-y-3">
           <ToggleRow title="Allow outbound calls" description="Master switch for this business." checked={!!s?.enabled} onCheckedChange={(v) => save({ enabled: v })} />
           {PURPOSES.map(([k, label]) => (

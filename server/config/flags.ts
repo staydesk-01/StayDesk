@@ -23,6 +23,8 @@ export const flags = {
   sipGateway: () => read("FEATURE_SIP_GATEWAY", false),
   /** Outbound calling. Off by default; each business must also enable it and each purpose must be approved. */
   outboundCalling: () => read("FEATURE_OUTBOUND_CALLING", false),
+  /** Speak with ElevenLabs when a key is configured and the business chose it. Off switch: FEATURE_ELEVENLABS_VOICE=false. */
+  elevenLabsVoice: () => read("FEATURE_ELEVENLABS_VOICE", true),
   /** Apply VOICE_SPEECH_TIMEOUT / VOICE_NO_INPUT_SECONDS to the speech recogniser. Off by default; effect needs a live call to judge. */
   voiceTuning: () => read("FEATURE_VOICE_TUNING", false),
 };

@@ -3,7 +3,7 @@ import type { ConnectionContext, HealthResult, TelephonyAdapter, OutboundRequest
 import { TelephonyError, withTimeout } from "../types";
 
 /**
- * Control-plane adapter for a self-managed SIP gateway (LiveKit SIP + the voice worker). StayDesk never touches
+ * Control-plane adapter for a self-managed SIP gateway (LiveKit SIP + the voice worker). TrulyHello never touches
  * SIP/RTP itself: it sends signed commands to the gateway's control API and receives signed events back.
  * Signature = HMAC-SHA256(secret, `${timestamp}.${body}`), accepted for 5 minutes (replay protection).
  */

@@ -11,10 +11,22 @@ const businessSchema = new Schema(
     timezone: { type: String, default: "America/New_York" },
     /** Number the AI dials when a caller asks for a person. */
     escalationPhone: { type: String, trim: true, default: "" },
+    /** Simultaneous AI calls allowed for this business (also capped by the carrier trunk) and what happens beyond that. */
+    concurrency: {
+      maxConcurrentCalls: { type: Number, default: 10, min: 1, max: 1000 },
+      overflowPolicy: { type: String, enum: ["callback", "transfer", "voicemail"], default: "callback" },
+    },
     ownerEmail: { type: String, trim: true, lowercase: true, default: "" },
-    agentName: { type: String, default: "StayDesk assistant" },
+    agentName: { type: String, default: "TrulyHello assistant" },
     /** BCP-47 language the voice agent listens for and speaks (speech recognition + voice). */
     language: { type: String, enum: ["en-US", "es-US", "fr-FR", "de-DE", "pt-BR"], default: "en-US" },
+    /** How the AI sounds on calls. ElevenLabs when configured; the standard Polly voice of the same gender otherwise. */
+    voice: {
+      provider: { type: String, enum: ["elevenlabs", "polly"], default: "elevenlabs" },
+      gender: { type: String, enum: ["female", "male"], default: "female" },
+      /** An id from the curated catalog (server/services/voice/voices.ts). Empty = the default for the gender. */
+      voiceId: { type: String, default: "" },
+    },
     notificationPrefs: {
       inApp: { type: Boolean, default: true },
       email: { type: Boolean, default: true },
@@ -54,6 +66,14 @@ const businessSchema = new Schema(
         default: "This call may be recorded to help us serve you better.",
       },
       transcriptRetentionDays: { type: Number, default: 90, min: 1, max: 3650 },
+      recordingRetentionDays: { type: Number, default: 90, min: 1, max: 3650 },
+    },
+    security: {
+      /** When on, owners and admins must enrol an authenticator app before using the dashboard. */
+      requireMfa: { type: Boolean, default: false },
+      /** Owner-configurable staff permissions. Off by default (least privilege). */
+      staffCanListen: { type: Boolean, default: false },
+      staffCanSeePhone: { type: Boolean, default: false },
     },
     onboardingComplete: { type: Boolean, default: false },
     isDemo: { type: Boolean, default: false },

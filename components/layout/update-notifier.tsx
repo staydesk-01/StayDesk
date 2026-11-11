@@ -114,7 +114,7 @@ export function UpdateNotifier() {
           <RefreshCw className="size-3.5" />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-[13px] leading-tight font-bold text-foreground">StayDesk Update Available</p>
+          <p className="text-[13px] leading-tight font-bold text-foreground">TrulyHello Update Available</p>
           <p className="mt-1 text-[12px] leading-snug text-muted">A new version is ready. Update now to get the latest improvements.</p>
           {label && <p className="mt-1 text-[11px] font-semibold text-subtle">{label}</p>}
         </div>

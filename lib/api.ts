@@ -33,7 +33,7 @@ export async function api<T>(path: string, { method = "GET", body, signal, timeo
     });
   } catch (e) {
     const timedOut = (e as Error).name === "AbortError";
-    throw new ApiError(0, timedOut ? "The StayDesk API took too long to respond." : "Cannot reach the StayDesk API. Is the backend running?");
+    throw new ApiError(0, timedOut ? "The TrulyHello API took too long to respond." : "Cannot reach the TrulyHello API. Is the backend running?");
   } finally {
     clearTimeout(timer);
   }
@@ -52,7 +52,7 @@ export async function api<T>(path: string, { method = "GET", body, signal, timeo
           window.location.href = target;
         });
     }
-    const message = data?.error?.message ?? (res.status >= 500 ? "The StayDesk API is unavailable (is the backend or MongoDB down?)." : `Request failed (${res.status})`);
+    const message = data?.error?.message ?? (res.status >= 500 ? "The TrulyHello API is unavailable (is the backend or MongoDB down?)." : `Request failed (${res.status})`);
     throw new ApiError(res.status, message, data?.error?.details);
   }
   return data as T;

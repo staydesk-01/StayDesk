@@ -4,7 +4,7 @@ import { defineModel } from "./_define";
 
 /**
  * A payment-related request that a HUMAN must approve. By design this model has no field for card numbers,
- * CVV, bank details or any other raw payment data: those never enter StayDesk transcripts or records.
+ * CVV, bank details or any other raw payment data: those never enter TrulyHello transcripts or records.
  */
 const paymentApprovalSchema = new Schema(
   {

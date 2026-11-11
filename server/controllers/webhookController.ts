@@ -14,6 +14,7 @@ import {
   handleTransferResult,
 } from "../services/calls/callFlow";
 import { getTelephony } from "../services/telephony";
+import { applyVoice } from "../services/voice/applyVoice";
 import type { CallInstruction } from "../services/telephony";
 import { runTool } from "../tools/registry";
 import { AppError } from "../utils/errors";
@@ -34,6 +35,12 @@ function callControl(fn: (req: Request) => Promise<CallInstruction>): Handler {
     } catch (e) {
       logger.error(`Webhook ${req.path} failed`, { message: (e as Error).message, stack: (e as Error).stack });
       instruction = TECH_DIFFICULTIES;
+    }
+    // Pick the business's voice (ElevenLabs audio if available). Never allowed to break the call: on any problem the plain instruction is used.
+    try {
+      instruction = await applyVoice(instruction, str(req.body?.CallSid));
+    } catch (e) {
+      logger.warn("Could not apply the business voice; using the standard voice", { message: (e as Error).message });
     }
     res.status(200).type("text/xml").send(getTelephony().render(instruction));
   };

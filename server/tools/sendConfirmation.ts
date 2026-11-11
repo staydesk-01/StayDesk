@@ -24,7 +24,7 @@ export const sendConfirmation = defineTool({
     const to = normalizePhone(input.to);
     const telephony = getTelephony();
     const cfg = await PhoneConfiguration.findOne({ businessId: business._id });
-    if (!cfg?.twilioNumber) return { channel: "sms", status: "skipped", note: "No StayDesk number to send from." };
+    if (!cfg?.twilioNumber) return { channel: "sms", status: "skipped", note: "No TrulyHello number to send from." };
     const status = await telephony.sendSms({ from: cfg.twilioNumber, to, body });
     return { channel: "sms", status };
   },

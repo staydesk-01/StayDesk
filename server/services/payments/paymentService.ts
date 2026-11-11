@@ -20,7 +20,7 @@ export interface RequestApprovalInput {
 }
 
 /**
- * Step 1-2 of the approval workflow: StayDesk PREPARES the request and tells staff. Nothing is charged or refunded here.
+ * Step 1-2 of the approval workflow: TrulyHello PREPARES the request and tells staff. Nothing is charged or refunded here.
  * A follow-up is created too, so the request is visible (and not lost) even if no approver is online right now.
  */
 export async function requestPaymentApproval(input: RequestApprovalInput): Promise<PaymentApprovalDoc> {
@@ -40,7 +40,7 @@ export async function requestPaymentApproval(input: RequestApprovalInput): Promi
     customerName: input.customerName ?? "",
     customerPhone: input.customerPhone ?? "",
     processor: getPaymentProvider().id,
-    history: [{ at: new Date(), action: "requested", by: "StayDesk AI", note: "Waiting for human approval" }],
+    history: [{ at: new Date(), action: "requested", by: "TrulyHello", note: "Waiting for human approval" }],
     isDemo: input.isDemo ?? false,
   });
 

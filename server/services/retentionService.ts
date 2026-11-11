@@ -1,5 +1,6 @@
 import { Business, Call, CallTranscript } from "../models";
 import { logger } from "../config/logger";
+import { purgeExpiredRecordings } from "./recordings/recordingService";
 
 /** Deletes transcripts older than each business's configured retention window. */
 export async function purgeExpiredTranscripts() {
@@ -23,5 +24,6 @@ let lastRun = 0;
 export function maybePurgeExpiredTranscripts() {
   if (process.env.NODE_ENV === "test" || Date.now() - lastRun < 6 * 3600_000) return;
   lastRun = Date.now();
+  void purgeExpiredRecordings().catch((e) => logger.error("Recording retention failed", { message: (e as Error).message }));
   void purgeExpiredTranscripts().catch((e) => logger.error("Retention job failed", { message: (e as Error).message }));
 }

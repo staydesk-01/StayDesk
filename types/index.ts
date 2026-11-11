@@ -17,7 +17,7 @@ export type NotificationType = "high_value_lead" | "booking_inquiry" | "urgent_r
 
 export interface SessionUser { id: string; name: string; email: string; role: Role }
 export interface SessionBusiness { id: string; name: string; type: BusinessType; onboardingComplete: boolean; isDemo: boolean }
-export interface Session { user: SessionUser; business: SessionBusiness }
+export interface Session { user: SessionUser; business: SessionBusiness; mfa?: { enabled: boolean; setupRequired: boolean } }
 
 export interface Business {
   _id: string;
@@ -34,6 +34,7 @@ export interface Business {
   isDemo: boolean;
   notificationPrefs: { inApp: boolean; email: boolean; sms: boolean; events: NotificationType[]; highValueThreshold: number };
   privacy: { recordingEnabled: boolean; recordingConsentMessage: string; transcriptRetentionDays: number };
+  voice?: { provider: "elevenlabs" | "polly"; gender: "female" | "male"; voiceId: string };
 }
 
 export interface DayHours { closed: boolean; open: string; close: string }
@@ -104,7 +105,7 @@ export interface Call {
   };
   actions: CallAction[];
   completion?: CallCompletion;
-  recording?: { enabled: boolean; url?: string; durationSeconds?: number };
+  recording?: { enabled: boolean; recordingId?: string; durationSeconds?: number };
   isDemo: boolean;
 }
 

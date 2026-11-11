@@ -60,7 +60,7 @@ export default function LoginPage() {
         </button>
       )}
       <p className="mt-8 text-center text-sm text-muted">
-        New to StayDesk?{" "}
+        New to TrulyHello?{" "}
         <Link href="/signup" className="font-semibold text-brand-700 hover:underline">
           Create an account
         </Link>

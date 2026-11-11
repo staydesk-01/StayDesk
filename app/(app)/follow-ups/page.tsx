@@ -67,7 +67,7 @@ export default function FollowUpsPage() {
           <EmptyState
             icon={ClipboardCheck}
             title={view === "active" ? "You’re all caught up" : "Nothing here yet"}
-            description={view === "active" ? "No open follow-ups. When StayDesk takes a message or a booking that needs confirming, it will land here." : "Try another filter."}
+            description={view === "active" ? "No open follow-ups. When TrulyHello takes a message or a booking that needs confirming, it will land here." : "Try another filter."}
             action={<Button variant="outline" onClick={() => setCreating(true)}><Plus /> Create one manually</Button>}
           />
         </Card>

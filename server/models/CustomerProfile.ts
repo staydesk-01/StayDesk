@@ -2,7 +2,7 @@ import { Schema, InferSchemaType, HydratedDocument } from "mongoose";
 import { defineModel } from "./_define";
 
 /**
- * What StayDesk remembers about a returning caller, per business (never shared across businesses).
+ * What TrulyHello remembers about a returning caller, per business (never shared across businesses).
  * Keyed by the caller's phone number, which is NOT proof of identity: details are never read back to the caller
  * until they verify (e.g. reservation code + last name). Medical businesses keep only counts and intents, no free text.
  */

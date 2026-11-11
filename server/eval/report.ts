@@ -151,7 +151,7 @@ export async function runSuite(scenarios: Scenario[], opts: { onProgress?: (done
       "The built-in rule agent was evaluated; the OpenAI brain is non-deterministic and must be evaluated separately with your own API key.",
       "Speech recognition, accents, background noise and audio interruptions are not exercised (text only).",
       "Latency is agent compute time in-process; real calls add speech and network time.",
-      "Booking runs against StayDesk's built-in booking system, not a third-party PMS.",
+      "Booking runs against TrulyHello's built-in booking system, not a third-party PMS.",
     ],
     durationSeconds: Math.round((Date.now() - started) / 100) / 10,
   };
@@ -160,7 +160,7 @@ export async function runSuite(scenarios: Scenario[], opts: { onProgress?: (done
 const pct = (v: number | null) => (v === null ? "n/a" : `${(v * 100).toFixed(1)}%`);
 export function toMarkdown(r: Report): string {
   const lines: string[] = [];
-  lines.push(`# StayDesk agent evaluation (simulated)\n`);
+  lines.push(`# TrulyHello agent evaluation (simulated)\n`);
   lines.push(`> ${r.warning}\n`);
   lines.push(`Generated ${r.generatedAt} · brain: **${r.brain}** · ${r.scenarios} scenarios (${r.conversations} conversations) · ${r.durationSeconds}s\n`);
   lines.push(`| Metric | Result | 95% interval | Target | Status |\n|---|---|---|---|---|`);

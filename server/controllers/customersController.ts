@@ -9,7 +9,7 @@ import { AppError } from "../utils/errors";
 const listQuery = z.object({ limit: z.coerce.number().int().min(1).max(200).default(50) });
 const forgetQuery = z.object({ optOut: z.enum(["true", "false"]).default("false") });
 
-/** What StayDesk remembers about returning callers of THIS business (owners/admins only: it is personal data). */
+/** What TrulyHello remembers about returning callers of THIS business (owners/admins only: it is personal data). */
 export async function listCustomers(req: Request, res: Response) {
   const { businessId } = auth(req);
   const { limit } = listQuery.parse(req.query);

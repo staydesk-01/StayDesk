@@ -36,7 +36,7 @@ export const statusLabel: Record<CallStatus, string> = {
   abandoned: "Abandoned",
 };
 
-export const handledByLabel: Record<HandledBy, string> = { ai: "StayDesk AI", human: "Staff", ai_and_human: "AI → Staff" };
+export const handledByLabel: Record<HandledBy, string> = { ai: "TrulyHello", human: "Staff", ai_and_human: "AI → Staff" };
 
 export const routingLabel: Record<RoutingReason, string> = {
   direct_ai: "AI-first routing",

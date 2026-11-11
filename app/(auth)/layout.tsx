@@ -2,7 +2,7 @@ import { AudioWaveform, PhoneIncoming, ShieldCheck, Sparkles } from "lucide-reac
 import { Logo } from "@/components/common/logo";
 
 const points = [
-  { icon: PhoneIncoming, title: "Human first", text: "Your team answers when they can. StayDesk steps in only when they can’t." },
+  { icon: PhoneIncoming, title: "Human first", text: "Your team answers when they can. TrulyHello steps in only when they can’t." },
   { icon: Sparkles, title: "Never lose a lead", text: "Bookings, requests and callbacks are captured and waiting on your dashboard." },
   { icon: ShieldCheck, title: "Only verified answers", text: "The agent speaks only from the business information you approve." },
 ];

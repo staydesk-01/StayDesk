@@ -16,7 +16,7 @@ const body = z.object({
   turnMs: z.number().min(0).max(120000).optional(),
 });
 
-/** POST /api/voice/turn: the voice worker asks the StayDesk agent what to say. Signed like the gateway events. */
+/** POST /api/voice/turn: the voice worker asks the TrulyHello agent what to say. Signed like the gateway events. */
 export async function voiceTurn(req: Request, res: Response) {
   if (!flags.telephonyCore() || !flags.sipGateway()) throw AppError.notFound("Not found");
   let conn;
