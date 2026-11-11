@@ -1,0 +1,12 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "793e184cd1239bd8385bcbaf76e892eadcc4ba1b",
+  "prompts": {},
+  "humans": {
+    "h_4d31bb87ed0600": {
+      "author": "Sai Karthik Gutha <saikarthikgutha@Guthas-MacBook-Air.local>"
+    }
+  }
+}
