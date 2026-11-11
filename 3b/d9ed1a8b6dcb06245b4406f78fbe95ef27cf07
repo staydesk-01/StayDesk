@@ -1,0 +1,292 @@
+app/(auth)/layout.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 5
+server/services/telephony/core/health.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 67
+server/tools/registry.ts
+  s_6a9b8c060717ac::t_058a2494c10cd2 2,92,94
+server/services/calls/summaryService.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 77,87
+tests/telephony.test.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 670
+  s_1b724daaafbcdb::t_c7b3e5c84fa5ce 4,335-340,344-346
+types/index.ts
+  s_1b724daaafbcdb::t_fa7f7126bed8fd 20,37,108
+app/globals.css
+  s_1b724daaafbcdb::t_6340aabed2cd8e 14
+README.md
+  s_1b724daaafbcdb::t_6340aabed2cd8e 1,3,27,79,125,157,176-179,182,185
+  s_1b724daaafbcdb::t_59195f14108fef 189-193
+server/http.ts
+  s_1b724daaafbcdb::t_e5062d1d6f61ee 50-51,62-63,86-92,108-111
+server/services/telephony/core/types.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 44
+  s_1b724daaafbcdb::t_ae5a7d20943c32 16
+server/models/Business.ts
+  s_1b724daaafbcdb::t_657af049daa6a3 74-76
+  s_1b724daaafbcdb::t_6340aabed2cd8e 20
+  s_1b724daaafbcdb::t_365cbbe7c36767 14-18
+  s_1b724daaafbcdb::t_e5062d1d6f61ee 29,69-73
+  s_1b724daaafbcdb::t_e119d7a93299bc 26-28
+server/services/auditService.ts
+  s_1b724daaafbcdb::t_d7ed527d6eef67 30-34
+server/services/telephony/core/adapters/sipGateway.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 6
+server/controllers/customersController.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 12
+server/controllers/voiceTurnController.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 19
+components/layout/update-notifier.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 117
+components/layout/sidebar.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 47
+  s_6a9b8c060717ac::t_eecf06ecf1029e 4,16,29
+  s_1b724daaafbcdb::t_fa7f7126bed8fd 18,30
+server/services/telephony/core/sessions.ts
+  s_1b724daaafbcdb::t_6ca092d5bacb3d 65,67,83,94,98,112,118,202
+  s_1b724daaafbcdb::t_6ef03b14b1be60 3,10,21-22,25-31,34-35,37-39,46-47,49-50,52,55-64,66,68-82,84-93,95-97,99-102,105-111
+  s_1b724daaafbcdb::t_ae5a7d20943c32 9,11,153-158,197-201,203-218,220-221
+server/services/booking/nativeProvider.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 85
+lib/api.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 36,55
+package.json
+  s_1b724daaafbcdb::t_6340aabed2cd8e 5
+.claude/launch.json
+  s_1b724daaafbcdb::t_c4f4a3d4b0c991 6,8-11,13
+server/services/business/businessService.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 42
+components/payments/payment-approvals.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 22,50
+server/services/calls/callFlow.ts
+  s_1b724daaafbcdb::t_d7ed527d6eef67 14,323
+  s_6a9b8c060717ac::t_8351d3af8a87dd 13,68,82-83,91,96-101,130-131,178,264,266,302,309,314
+app/(auth)/login/page.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 63
+server/services/voice/orchestrator.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 11,13,32
+server/services/retentionService.ts
+  s_1b724daaafbcdb::t_d7ed527d6eef67 3,27
+app/api/health/route.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 12,14
+server/models/Call.ts
+  s_1b724daaafbcdb::t_e5062d1d6f61ee 1,19-20,74-75,78
+  s_1b724daaafbcdb::t_6340aabed2cd8e 101
+server/services/telephony/core/numbers.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 42
+docs/TELEPHONY.md
+  s_1b724daaafbcdb::t_6340aabed2cd8e 1,14,20,47-48,50,66,69,78
+server/models/index.ts
+  s_1b724daaafbcdb::t_e5062d1d6f61ee 21
+  s_1b724daaafbcdb::t_133631d7ec7ec0 22
+server/services/payments/paymentService.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 23,43
+server/eval/report.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 154,163
+server/models/telephony.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 66
+  s_1b724daaafbcdb::t_365cbbe7c36767 82-83,109-113,121-125,251-266,270-279,281-282
+  s_1b724daaafbcdb::t_6ca092d5bacb3d 267-269,280
+  s_6a9b8c060717ac::t_1ec42e77760f81 84-86,114-120
+server/models/Reservation.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 9
+components/telephony/numbers-panel.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 15,17,39,59-60
+server/services/outbound/policy.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 7-8
+server/services/payments/provider.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 4,9,14
+tests/api.test.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 253
+components/layout/backend-status.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 32
+server/config/env.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 58
+server/middleware/auth.ts
+  s_1b724daaafbcdb::t_e11914b7b45ff8 4,42-46
+server/tools/sendConfirmation.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 27
+app/(app)/calls/[id]/page.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 168,183
+  s_1b724daaafbcdb::t_fa7f7126bed8fd 270
+server/controllers/sipGatewayController.ts
+  s_1b724daaafbcdb::t_ae5a7d20943c32 19
+app/layout.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 8-9
+server/controllers/authController.ts
+  s_1b724daaafbcdb::t_e11914b7b45ff8 6-9,28,48-53,57-72,77-133
+  s_1b724daaafbcdb::t_278cd568475391 134
+evals/reports/latest.md
+  s_1b724daaafbcdb::t_83f55cca989146 1,5,20,38
+app/(auth)/signup/page.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 42
+hooks/use-session.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 60
+app/(app)/overview/page.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 104,149
+  s_1b724daaafbcdb::t_107acba481f4ec 8,152
+  s_1b724daaafbcdb::t_4f027e5a839a04 153
+lib/format.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 39
+server/services/notifications/email.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 21,28
+components/telephony/outbound-panel.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 37
+app/(app)/calls/page.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 63
+components/overview/recent-calls.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 10
+server/models/User.ts
+  s_1b724daaafbcdb::t_e5062d1d6f61ee 15-23
+evals/reports/latest.json
+  s_1b724daaafbcdb::t_83f55cca989146 2,289-291,353,355
+server/models/PaymentApproval.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 7
+components/layout/app-shell.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 35
+  s_6a9b8c060717ac::t_eecf06ecf1029e 22-23
+  s_1b724daaafbcdb::t_fed61ee66a1298 3,21,24,31-33
+app/(app)/settings/page.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 122,152,155
+.env.example
+  s_1b724daaafbcdb::t_9946b536235ac3 94-98
+  s_1b724daaafbcdb::t_6340aabed2cd8e 2,43-55,58
+server/services/ai/voice/provider.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 11-12
+components/routing/forwarding-diagram.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 6
+components/routing/status-tiles.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 6-7
+server/models/PhoneConfiguration.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 7
+server/models/CustomerProfile.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 5
+server/seed/seed.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 10
+server/services/booking/provider.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 64
+components/common/logo.tsx
+  s_1b724daaafbcdb::t_ddef77f7216a4d 21
+app/(app)/call-routing/page.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 29-30,74,82,99,103,114,116,131,134,156
+app/(app)/follow-ups/page.tsx
+  s_1b724daaafbcdb::t_6340aabed2cd8e 70
+tsconfig.tsbuildinfo
+  s_6a9b8c060717ac::t_eeda9d682fc908 1
+server/tools/createFollowUp.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 23
+server/tools/lookupExistingCustomer.ts
+  s_1b724daaafbcdb::t_6340aabed2cd8e 7
+app/(app)/concurrent-testing/page.tsx
+  s_6a9b8c060717ac::t_37e747e5483299 1-73
+app/(app)/live-calls/page.tsx
+  s_6a9b8c060717ac::t_8fe528d56c38e2 1-118
+app/(app)/recordings/page.tsx
+  s_1b724daaafbcdb::t_91e778e9831a19 1-75
+app/(app)/security/page.tsx
+  s_1b724daaafbcdb::t_067be7e04bdbd0 1-114
+app/api/auth/mfa/disable/route.ts
+  s_1b724daaafbcdb::t_00e77aa1eb1dca 1-4
+app/api/auth/mfa/enable/route.ts
+  s_1b724daaafbcdb::t_78faf24be4ba14 1-4
+app/api/auth/mfa/setup/route.ts
+  s_1b724daaafbcdb::t_e527fb4339ecc0 1-4
+app/api/calls/live/route.ts
+  s_6a9b8c060717ac::t_207edc75a11039 1-4
+app/api/qa/concurrency/[id]/route.ts
+  s_6a9b8c060717ac::t_d818c3cca0aa32 1-4
+app/api/qa/concurrency/route.ts
+  s_6a9b8c060717ac::t_1b3d2e847b4521 1-4
+app/api/recordings/[id]/audio/route.ts
+  s_1b724daaafbcdb::t_7a960e9ac74a08 1-4
+app/api/recordings/[id]/link/route.ts
+  s_1b724daaafbcdb::t_65838aa6c38d3b 1-4
+app/api/recordings/[id]/route.ts
+  s_1b724daaafbcdb::t_5719c7e5ad93c8 1-6
+app/api/recordings/route.ts
+  s_1b724daaafbcdb::t_37bf1c6b67e35d 1-4
+app/api/security/route.ts
+  s_1b724daaafbcdb::t_6f14c3927a74c0 1-4
+app/api/security/settings/route.ts
+  s_1b724daaafbcdb::t_ac4173df2c5317 1-4
+app/api/telephony/concurrency/route.ts
+  s_1b724daaafbcdb::t_ab93c7a1a408ad 1-5
+app/api/telephony/twilio-check/route.ts
+  s_6a9b8c060717ac::t_49675cb02095d0 1-4
+components/overview/concurrency-card.tsx
+  s_1b724daaafbcdb::t_679722ba3fde11 1-75
+components/recordings/recording-detail.tsx
+  s_1b724daaafbcdb::t_735a0815658454 1-89
+components/security/mfa-panel.tsx
+  s_1b724daaafbcdb::t_4346aba1fa9582 1-57
+docs/CONCURRENCY.md
+  s_6a9b8c060717ac::t_ca20c4b61166b5 1-124
+docs/UPGRADE_PLAN.md
+  s_1b724daaafbcdb::t_32106867aaa26d 1-53
+evals/reports/concurrency.json
+  s_6a9b8c060717ac::t_49726d26c2a40e 1-73
+server/controllers/concurrencyController.ts
+  s_1b724daaafbcdb::t_cfa6d8c14297cd 1-21
+server/controllers/liveCallsController.ts
+  s_6a9b8c060717ac::t_a3423b1804540a 1-90
+server/controllers/qaController.ts
+  s_6a9b8c060717ac::t_4a871efc5c7697 1-65
+server/controllers/recordingsController.ts
+  s_1b724daaafbcdb::t_cdc0d8de4a2929 1-140
+server/controllers/securityController.ts
+  s_1b724daaafbcdb::t_d4d7bcea0b38b1 1-79
+server/models/Security.ts
+  s_6a9b8c060717ac::t_05c6a6603fbfe7 1-68
+server/services/calls/liveSession.ts
+  s_6a9b8c060717ac::t_2ae73a2b1a68ad 1-116
+server/services/recordings/recordingService.ts
+  s_1b724daaafbcdb::t_d8a309efae4cef 1-92
+server/services/security/loginGuard.ts
+  s_1b724daaafbcdb::t_63076755829ead 1-22
+server/services/telephony/concurrency/metrics.ts
+  s_1b724daaafbcdb::t_6ca21fe3c64889 1-61
+server/services/telephony/concurrency/sessionManager.ts
+  s_6a9b8c060717ac::t_2df885becd7c9f 1-111
+server/services/telephony/concurrency/workers.ts
+  s_1b724daaafbcdb::t_0e9f23ea76de74 1-59
+server/services/telephony/twilioAccount.ts
+  s_6a9b8c060717ac::t_9421e47e69eb0a 1-59
+server/utils/totp.ts
+  s_1b724daaafbcdb::t_055bbdbabd355c 1-51
+tests/concurrency.bench.test.ts
+  s_1b724daaafbcdb::t_a2f219209436ba 1-31
+tests/concurrency.test.ts
+  s_1b724daaafbcdb::t_7350a7aae6b548 1-328
+tests/live-sessions.test.ts
+  s_6a9b8c060717ac::t_cb5b1d5dbdeea9 1-358
+tests/security.test.ts
+  s_1b724daaafbcdb::t_3a26bba3e6010a 1-302
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3bd9ed1a8b6dcb06245b4406f78fbe95ef27cf07",
+  "prompts": {},
+  "humans": {
+    "h_4d31bb87ed0600": {
+      "author": "Sai Karthik Gutha <saikarthikgutha@Guthas-MacBook-Air.local>"
+    }
+  },
+  "sessions": {
+    "s_1b724daaafbcdb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d292db3-7991-46b7-9b29-4b009acf842e",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Sai Karthik Gutha <saikarthikgutha@Guthas-MacBook-Air.local>"
+    },
+    "s_6a9b8c060717ac": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "64e232c1-da47-46fb-a07b-8a357392ea18",
+        "model": "claude-sonnet-5-5"
+      },
+      "human_author": "Sai Karthik Gutha <saikarthikgutha@Guthas-MacBook-Air.local>"
+    }
+  }
+}
