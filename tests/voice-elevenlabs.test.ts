@@ -160,6 +160,7 @@ describe("ElevenLabs voice on calls", () => {
     expect(ok.calls[0].voiceId).toBe(BRIAN);
 
     __setTtsClientForTest(fakeTts("fail").client);
+    await VoiceClip.deleteMany({}); // the ok call above cached a clip; clear it so the forced failure actually exercises the Polly fallback
     const res = await twilioPost(INCOMING, incomingParams(biz));
     expect(res.text).toContain('voice="Polly.Matthew"');
   });
